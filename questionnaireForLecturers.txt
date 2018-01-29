@@ -1,0 +1,30 @@
+Questionnnaire For Lecturers
+
+1. How are your classes and tutorials usually (re)scheduled?
+- by lecturer alone
+- by class rep alone
+- mutual agreement
+- other
+
+2. how are your lecture materials and other necessary course materials delivered?
+- by lecturer
+- by class rep
+- by TA
+
+3. do your students give feedback to you on their level of understanding of certain topics?
+- yes
+- no
+
+if (answerTo3 == yes)
+{
+3.[b] how is that achieved?
+- in class
+- after class
+- through class rep
+- other
+}
+
+4. when classes are rescheduled, how do they handle venue conflicts?
+- cancel class
+- wait till venue found
+- other

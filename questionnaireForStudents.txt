@@ -1,0 +1,37 @@
+Questionnaire For Students
+
+1. How are your classes and tutorials usually (re)scheduled?
+- by lecturer alone
+- by class rep alone
+- mutual agreement
+- other
+
+2. how involved is the class when these changes are being made?
+Scale of 0 to 5
+
+3. how are your lecture materials and other necessary course materials delivered?
+- by lecturer
+- by class rep
+- by TA
+- personal efforts
+
+4. do you give feedback to lecturers on your level of understanding of certain topics?
+- yes
+- no
+
+if (answerTo4 == yes)
+{
+4.[b] how is that achieved?
+- in class
+- after class
+- through class rep
+- other
+}
+
+5. when classes are rescheduled, how do they handle venue conflicts?
+- cancel class
+- wait till venue found
+- other
+
+6. how effective is your class rep?
+Scale of 0 to 5
