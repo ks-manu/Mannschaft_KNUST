@@ -1,7 +1,7 @@
 Design Specifications
 
 - User profiles for both lecturers and students
-- Bulletin boards for each cours (with file sharing capabilities)
+- Bulletin boards for each course (with file sharing capabilities)
 - Automated group creation based on course and semester. Credentials as authorisation method
 - View Current Course Allocation (CCA = Timetable)
 - Reschedule courses and update CCA as required
@@ -11,7 +11,7 @@ EXTRAS (Everyone should please update with any idea/s)
 Kwaku suggests:
 {
 - Resolve venue conflicts
-- Vote on proposed topic for discussion (done buy lecturers)
+- Vote on proposed topic for discussion (done by lecturers)
 - Report level of understanding on various topics (done by students)
 }
 
@@ -38,7 +38,7 @@ Jamal suggests:
 
 Sarah suggests:
 {
-- 
-- 
+-Please let's not forget the sing up feature we talked about  
+-
 - 
 }
