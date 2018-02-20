@@ -1,8 +1,0 @@
-- set up static IP and identify listening port
-- set up DNS forwarding to machine IP & port and test:
-    access
-    navigation
-    changes
-
-- run api and perform non remote queries
-- test api and perform queries
