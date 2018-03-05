@@ -1,0 +1,26 @@
+OVERVIEW
+- all authentication activity has to be done on the server side
+- the client will send me credentials in JSON format and i will compare them with values in the database
+
+METHODOLOGY
+- i will store a crypt of the credentials in the database and test submitted credentials
+
+-----------------
+|   sign in     |
+-----------------
+- client submits credentials in plain text JSON format
+- i then subject the credentials to the crypt algorithm and compare with database records
+- return a status message based on whether authentication was successful or not
+- if successful, proceed to grant access to services
+
+-----------------
+|   sign up     |
+-----------------
+- client submits credentials in plain text JSON format
+- i then subject the credentials to the crypt function
+- store the credentials along with the crypt
+- return status message based on whether sign up success successful or not
+
+ADVANCED
+- provide the client with session key to grant access as long as key is valid; if invalid/expired, disconnect
+- i will check for malformed input when signing up to protect database from attacks [client side should also be able to perform such validatory activities as well]

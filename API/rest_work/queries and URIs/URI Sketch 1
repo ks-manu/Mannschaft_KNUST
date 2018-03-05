@@ -1,0 +1,45 @@
+* authentication
+Lecturers = {
+    users/lecturers/req?=sign_in
+}
+Students = {
+    users/students/req?=sign_in
+}
+-------------------------------------------------------------------------
+* resource management
+Users
+Sign_Up = {
+	/users/lecturers/req?=sign_up
+	/users/students/req?=sign_up
+}
+------------------------------------------------------------------------
+#
+# Deregister
+# may be unnecessary, assuming app is mandatory
+#
+------------------------------------------------------------------------
+Data
+Post = {
+	/data/bulletin_share/req?=txt
+	/data/bulletin_share/req?=file
+	/data/bulletin_share/req?=vote
+}
+------------------------------------------------------------------------
+Get = {
+	/data/bulletout_share/req?=txts		//messages
+	/data/bulletout_share/req?=files	//files
+	/data/bulletout_share/req?=votes	//votes
+	/data/courses/cca_out/req?=sessions	//course sessions
+	/data/users/student/req?=info		//student info
+	/data/users/lecturers/req?=info		//lecturer info
+}
+------------------------------------------------------------------------
+Update (Special Post) = {
+    /data/courses/cca_in/req?=update //update course sessions
+}    
+------------------------------------------------------------------------
+#
+#Delete
+#NEEDED AS IN THE CASE OF DCD CHANGES
+#
+------------------------------------------------------------------------
