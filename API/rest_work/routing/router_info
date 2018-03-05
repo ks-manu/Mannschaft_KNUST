@@ -1,0 +1,3 @@
+1. these are node-based (no express used) routers to serve pages based on requests made.
+2. all three routers perform the same function but the third is more effective
+3. these routers can be tested anytime only issue is since the templates aren't available, 404 page will be returned when using router1 and router2 [router3 has different provision (just a message)]

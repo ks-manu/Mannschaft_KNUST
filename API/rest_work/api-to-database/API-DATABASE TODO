@@ -1,0 +1,10 @@
+- install mysql driver **
+- create connection    **
+[- test connection]    **
+
+***Make sure to log all actions in console[ and file]
+TO DO
+- INSERT into database [basic input]
+- SELECT from database
+- UPDATE database
+- DELETE records
