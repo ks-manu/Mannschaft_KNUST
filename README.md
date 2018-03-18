@@ -1,9 +1,9 @@
-# Software Engineering Project (KNUST)
+ Software Engineering Project (KNUST)
 ## Group Name: Mannschaft
 ![ClassRep logo](/prototype/logo.png)
 ### ClassRep App
 The ClassRep app connects students and instructors(i.e lectureres, T.A, department office etc).
-* **Front-end**: Android (react-native) and web(reactjs)
+* **Front-end**: Android (java) and web(reactjs)
 * **Back-end**: Node.js
 #### Design specification
 * User profiles for both lecturers and students
