@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ClassRep</string>
+    <string name="user_student">Student</string>
+    <string name="user_instructor">Instructor</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="or">or</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="instructor_id">techmail</string>
+    <string name="student_id">username</string>
+    <string name="password">password</string>
+</resources>
