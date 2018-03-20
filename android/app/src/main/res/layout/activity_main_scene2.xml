@@ -58,6 +58,7 @@
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
+        android:onClick="onClickSignUpLink"
         app:layout_constraintBaseline_toBaselineOf="@+id/signInButton"
         app:layout_constraintEnd_toStartOf="@+id/signInButton"
         app:layout_constraintHorizontal_bias="0.145"
