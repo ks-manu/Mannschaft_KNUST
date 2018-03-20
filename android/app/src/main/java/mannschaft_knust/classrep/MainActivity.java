@@ -1,5 +1,6 @@
 package mannschaft_knust.classrep;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.transition.AutoTransition;
 import android.support.transition.Scene;
@@ -7,6 +8,7 @@ import android.support.transition.Transition;
 import android.support.transition.TransitionManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private Scene scene2;
     private Transition autoTransition;
     private View clickedView;
+    private Scene currentScene;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         userPref = getSharedPreferences(
                 "mannschaft_knust.classrep.USER_PREF" , MODE_PRIVATE);
         if (userPref.contains("username") && userPref.contains("password"))
-            //code for loading class list activity here
+            //code for loading courses activity here
             ;
         else {
             super.onCreate(savedInstanceState);
@@ -44,16 +47,18 @@ public class MainActivity extends AppCompatActivity {
 
                 //do this every time whe show sign in view
                 public void run() {
-                    EditText userID = findViewById(R.id.userID);
+                    EditText userIDInput = findViewById(R.id.userID);
                     TextView signUpLink = findViewById(R.id.signUpLink);
 
                     if(clickedView.getId() == R.id.student_button){
-                        userID.setHint(R.string.student_id);
+                        userIDInput.setHint(R.string.student_id);
+                        userIDInput.setInputType(InputType.TYPE_CLASS_NUMBER);
                         signUpLink.setClickable(true);
                         signUpLink.setVisibility(View.VISIBLE);
                     }
                     else if(clickedView.getId() == R.id.instructor_button){
-                        userID.setHint(R.string.instructor_id);
+                        userIDInput.setHint(R.string.instructor_id);
+                        userIDInput.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
                         signUpLink.setClickable(false);
                         signUpLink.setVisibility(View.INVISIBLE);
                     }
@@ -64,21 +69,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // called when user typ(instructor or student button is clicked
-    public void sceneTransition(View button){
+    public void onClickUserType(View button){
         clickedView = button;
 
         //transition to sign in view
         TransitionManager.go(scene2, autoTransition);
+        currentScene = scene2;
     }
 
     @Override
     public void onBackPressed() {
         //go back to scene1 if back pressed on scene 2
-        if (Scene.getSceneForLayout(sceneRoot, R.layout.activity_main_scene2,this )
-                == scene2)
-        TransitionManager.go(scene1, autoTransition);
+        if (currentScene == scene2) {
+            TransitionManager.go(scene1, autoTransition);
+            currentScene = scene1;
+        }
         else
             super.onBackPressed();
     }
 
+    public void onClickSignUpLink(View signUpLink){
+        Intent signUpIntent = new Intent(this, SignUpActivity.class);
+        startActivity(signUpIntent);
+    }
 }

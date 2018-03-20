@@ -21,6 +21,10 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
+        <activity android:name=".SignUpActivity" />
+        <activity
+            android:name=".CoursesActivity"
+            android:label="@string/title_activity_courses"></activity>
     </application>
 
 </manifest>
