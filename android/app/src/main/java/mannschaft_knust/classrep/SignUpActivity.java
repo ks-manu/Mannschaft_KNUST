@@ -74,7 +74,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     public void onClickSignUpButton(View signUpButton){
 
-        Intent signUpIntent = new Intent(this, CoursesActivity.class);
+        Intent signUpIntent = new Intent(this, MainActivity.class);
         startActivity(signUpIntent);
     }
 }
