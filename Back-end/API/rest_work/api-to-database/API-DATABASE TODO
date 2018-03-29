@@ -4,7 +4,18 @@
 
 ***Make sure to log all actions in console[ and file]
 TO DO
-- INSERT into database [basic input]
-- SELECT from database
-- UPDATE database
-- DELETE records
+- INSERT into database [basic input]    **
+- SELECT from database                  ** 
+[- UPDATE database
+- DELETE records]
+
+- separate the following into individual functions and files:
+ALMOST DONE 1. authentication
+
+DONE 2. authorisation    # call before executing any instruction (queries) with data handling module
+
+3. data handling
+
+-- DATABASE FOR TOKENS
+1. lecturer token (token, timestamp)
+2. student token (token, timestamp)

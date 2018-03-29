@@ -1,0 +1,6 @@
+!! DECIDE WHICH MODULE SHOULD CREATE DATABASE CONNECTION AND MAKE FUCNTION CALLS
+
+1. code to obtain current time for token
+2. code to store token (ensure success before continuing
+3. student login function
+4. design tests

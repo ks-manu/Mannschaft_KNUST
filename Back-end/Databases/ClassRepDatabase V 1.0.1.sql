@@ -59,9 +59,11 @@ CREATE TABLE IF NOT EXISTS `lecturer table` (
   `Tech_MAil` varchar(20) NOT NULL,
   `First_Name` varchar(10) NOT NULL,
   `Last_Name` varchar(10) NOT NULL,
-  `Other_Name` varchar(15) NOT NULL,
+--## Other_Name should be part of first name
+--##  `Other_Name` varchar(15) NOT NULL,
   `Password` varchar(20) NOT NULL,
-  `Course` varchar(20) NOT NULL,
+--## Course should be replaced with Department since lecturers teach multiple courses
+--##  `Course` varchar(20) NOT NULL,
   `Title` varchar(5) NOT NULL,
   PRIMARY KEY (`Tech_MAil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
