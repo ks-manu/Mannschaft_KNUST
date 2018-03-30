@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `course session` (
 
---## REPLACE COURSE CODE WITH COURSE NAME WITH CODE IN BRACKETS
+--## REPLACE `Course_Code` WITH `Course (Code)`
 
   `Course_Code` varchar(15) NOT NULL,
   `Starting_Time` time NOT NULL,
@@ -37,7 +37,10 @@ CREATE TABLE IF NOT EXISTS `course session` (
   `Techmail` varchar(25) NOT NULL,
   `Programme_Year` varchar(20) NOT NULL,
   `Day` varchar(10) NOT NULL,
+
+--## THIS WILL HAVE TO BE CHANGED TOO
   PRIMARY KEY (`Course_Code`)
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -71,12 +74,13 @@ CREATE TABLE IF NOT EXISTS `lecturer table` (
 
 CREATE TABLE IF NOT EXISTS `message table` (
 
---## MESSAGE ID TO IDENTIFY MESSAGES. ESPECIALLY VOTABLE ONES
---## there's no column for the message text, attachment, votability, 
+--## CHANGE TABLE NAME TO `Posts`
+--## `Post ID` --> VARCHAR(25 or 30)
+--## there's no column for the `Message Text`, `Attachment` --> CHAR (1), `Votable` --> CHAR (Y)
 
   `Sent_By` text NOT NULL,
 
---## REVIEW TIMESTAMP FORMAT
+--## REVIEW TIMESTAMP FORMAT. 6 IS NOT ENOUGH FOR TO STORE DATE AND TIME. IF POSSIBLE LEAVE IT BLANK
 
   `Time_sent` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -92,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `students table` (
   `First_Name` varchar(10) NOT NULL,
   `Last_Name` varchar(15) NOT NULL,
 
---## include college
+--## include `College`
 
   `Programme_Year` varchar(25) NOT NULL,
   `Password` varchar(15) NOT NULL,
@@ -107,15 +111,17 @@ CREATE TABLE IF NOT EXISTS `students table` (
 
 CREATE TABLE IF NOT EXISTS `vote table` (
 
---## GENERAL VOTE TABLE
---## there has to be a column for the poll descrption (message id), voters (index number)
---## suggest changing `For` AND `Vote_down` Vote
+--## CHANGE NAME TO `Votes`
+--## INCLUDE `Message ID` --> VARCHAR(25 or 30)[this should be the same as the message ID in the Messages table(Posts)]
+--## INCLUDE `Index Number`
+--## CHANGE `For` AND `Vote_down` TO `Vote` --> CHAR(3)
 
   `For` varchar(100) NOT NULL,
   `Vote_down` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --## there is no table for files
+--## HOLD ON FOR NOW
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
