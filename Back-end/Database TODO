@@ -1,0 +1,5 @@
+CREATE TABLE FOR TOKENS
+Attributes:
+- token
+- user id
+- timestamp
