@@ -1,4 +1,0 @@
-1. Table has not been designed to store messages and votes
-2. No storage for media has been decided upon for files
-3. Messages, Votes, Files need unique ID's which identify them as belonging to a particular message board for easy retrieval by other members
-4. 
