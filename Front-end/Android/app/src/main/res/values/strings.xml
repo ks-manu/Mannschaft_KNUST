@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ClassRep</string>
+    <string name="student">Student</string>
+    <string name="instructor">Instructor</string>
+    <string name="profile">Profile</string>
+    <string name="or">or</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="instructor_id">techmail</string>
+    <string name="student_id">index number</string>
+    <string name="password">password</string>
+    <string name="first_name">first name</string>
+    <string name="last_name">last name</string>
+    <string name="college">College</string>
+    <string name="programme">Programme</string>
+    <string name="year">Year</string>
+    <string name="retype_password">retype password</string>
+    <string name="title_activity_courses">CoursesActivity</string>
+    <string name="courses">Courses</string>
+    <string name="timetable">Timetable</string>
+    <string name="search">Search</string>
+</resources>
