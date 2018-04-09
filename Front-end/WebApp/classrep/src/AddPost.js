@@ -9,8 +9,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import TextField from 'material-ui/TextField';
+import { Router, Route, Link } from 'react-router-dom'
 
-export default class AddAnnouncement extends Component {
+export default class AddPost extends Component {
 
   constructor(props) {
     super(props);
@@ -29,11 +30,12 @@ export default class AddAnnouncement extends Component {
             
             </ToolbarGroup>
             <ToolbarGroup>
-            <ToolbarTitle text="Add Announcement" />
+            <ToolbarTitle text="Add Post" />
             <FontIcon className="muidocs-icon-custom-sort" />
             <ToolbarSeparator />
-            <RaisedButton label="Create Announcement" primary={true} />
-            <IconButton><NavigationClose /></IconButton>
+            <RaisedButton label="Create Post" primary={true} />
+            
+              <IconButton><NavigationClose /></IconButton>
             
             </ToolbarGroup>
         </Toolbar>
