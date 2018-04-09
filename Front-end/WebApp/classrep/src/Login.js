@@ -9,13 +9,13 @@ export default class Login extends Component{
         return(
             <div>
                 <TextField
-                    floatingLabelText="Index Number" type="text" maxlength="7"
+                    floatingLabelText="Techmail" type="email" 
                 /><br />
                 
                 <TextField  floatingLabelText="Password" type="password" />
                 <br />
                 <FlatButton label="Login"  />
-                New here? Sign Up
+                
             </div>    
         );
     }
