@@ -3,21 +3,25 @@ package mannschaft_knust.classrep;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 
 import java.util.List;
 
-
-public class CoursePostsViewModel extends AndroidViewModel {
+public class DatabaseViewModel extends AndroidViewModel {
     DatabaseDao databaseDao;
+    private LiveData<List<Course>> courseList;
     private LiveData<List<CoursePost>> coursePosts;
 
 
-    public CoursePostsViewModel(Application application){
+    public DatabaseViewModel(Application application){
         super(application);
         Database database = Database.getDatabase(application);
         databaseDao = database.databaseDao();
+        courseList = databaseDao.getCourseList();
         coursePosts = databaseDao.getPost("%_%");
+    }
+
+    public LiveData<List<Course>> getCourseList(){
+        return courseList;
     }
 
     public LiveData<List<CoursePost>> getCoursePosts(){
@@ -27,4 +31,5 @@ public class CoursePostsViewModel extends AndroidViewModel {
     public void changePostSet(String courseAndCode){
         coursePosts = databaseDao.getPost('%'+courseAndCode+'%');
     }
+
 }

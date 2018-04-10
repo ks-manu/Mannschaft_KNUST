@@ -14,7 +14,7 @@ import java.util.List;
 public interface DatabaseDao {
 
     @Insert
-    void insertPost(CoursePost coursePost);
+    void insertCoursePost(CoursePost coursePost);
 
     @Insert
     void insertCourseSession(CourseSession courseSession);
@@ -22,8 +22,11 @@ public interface DatabaseDao {
     void updateCourseSession(CourseSession courseSession);
     @Delete
     void deleteCourseSession(CourseSession courseSession);
+
     @Query("DELETE FROM coursesession")
     void deleteAllCourseSessions();
+    @Query("DELETE FROM coursepost")
+    void deleteAllCoursePosts();
 
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT * FROM CourseSession")

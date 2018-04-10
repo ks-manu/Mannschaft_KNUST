@@ -1,9 +1,9 @@
 package mannschaft_knust.classrep;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.sql.Timestamp;
 
@@ -11,8 +11,9 @@ import java.sql.Timestamp;
 class CoursePost {
     @PrimaryKey
     @NonNull
-    String postID;
+    String postID = "null";
     String message;
+    @Nullable
     Timestamp timeSent;
     String sentBy;
     boolean hasAttachment;
@@ -27,8 +28,8 @@ class CoursePost {
         UNDECIDED
     }
 
-    @Ignore
-    CoursePost(String postID, String message, Timestamp timeSent, String sentBy,
+
+    CoursePost(@NonNull String postID, String message, @Nullable Timestamp timeSent, String sentBy,
                       boolean hasAttachment, boolean voteable, boolean voteStatus,
                       UserVote userVote, int totalVotes){
         this.postID=postID;

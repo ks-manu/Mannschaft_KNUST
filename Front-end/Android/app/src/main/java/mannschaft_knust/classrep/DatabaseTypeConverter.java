@@ -9,21 +9,33 @@ class DatabaseTypeConverter {
     //time <-> string
     @TypeConverter
     public static String stringFromTime(Time time){
-        return time.toString();
+        if(time != null)
+            return time.toString();
+        else
+            return null;
     }
     @TypeConverter
     public static Time timeFromString(String string){
-        return Time.valueOf(string);
+        if(string != null)
+            return Time.valueOf(string);
+        else
+            return null;
     }
 
-    //date <-> string
+    //timestamp <-> string
     @TypeConverter
     public static String stringFromTimestamp(Timestamp timestamp){
-        return timestamp.toString();
+        if(timestamp != null)
+            return timestamp.toString();
+        else
+            return null;
     }
     @TypeConverter
     public static Timestamp timestampFromString(String string){
-        return Timestamp.valueOf(string);
+        if(string != null)
+            return Timestamp.valueOf(string);
+        else
+            return null;
     }
 
     //CoursePost.UserVote <-> short

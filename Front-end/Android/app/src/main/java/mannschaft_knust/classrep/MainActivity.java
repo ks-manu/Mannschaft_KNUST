@@ -12,14 +12,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private CourseListFragment courseListFragment = new CourseListFragment();
+    private CoursePostsFragment coursePostsFragment = new CoursePostsFragment();
     private ProfileFragment profileFragment = new ProfileFragment();
     private FragmentManager fragmentManager = getSupportFragmentManager();
+    DatabaseViewModel databaseViewModel;
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -33,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.main_fragment_container,
                             courseListFragment, "courses fragment");
                     fragmentTransaction.commit();
-                    getSupportActionBar().setTitle("ClassRep");
                     return true;
                 case R.id.navigation_timetable:
                     if (fragmentManager.findFragmentByTag("timetable fragment") != null)
@@ -41,15 +45,14 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.main_fragment_container,
                             courseListFragment, "timetable fragment");
                     fragmentTransaction.commit();
-                    getSupportActionBar().setTitle("Timetable");
                     return true;
                 case R.id.navigation_user_profile:
                     if (fragmentManager.findFragmentByTag("profile fragment") != null)
                         return true;
+                    fragmentManager.popBackStack();//to remove history
                     fragmentTransaction.replace(R.id.main_fragment_container,
                             profileFragment, "profile fragment");
                     fragmentTransaction.commit();
-                    getSupportActionBar().setTitle("Profile");
                     return true;
             }
             return false;
@@ -76,8 +79,13 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
+        databaseViewModel = ViewModelProviders.of(this).get(
+                DatabaseViewModel.class);
+
         courseListFragment.setHasOptionsMenu(true);
+        coursePostsFragment.setHasOptionsMenu(true);
         profileFragment.setHasOptionsMenu(true);
+
         fragmentManager.beginTransaction().add(R.id.main_fragment_container, courseListFragment,
                 "courses fragment").commit();
 
@@ -93,5 +101,18 @@ public class MainActivity extends AppCompatActivity {
         // Configure the search info and add any event listeners...
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    //loading post fragment on course list item click
+    public void onCourseListItemClick(View view){
+        TextView courseName = view.findViewById(R.id.course_name);
+        //Toast.makeText(this,courseName.getText(),Toast.LENGTH_LONG).show();
+        //load fragment
+        fragmentManager.beginTransaction().replace(R.id.main_fragment_container, coursePostsFragment,
+                "course fragment").addToBackStack(null).commit();
+        //load post set into database
+        databaseViewModel.changePostSet((String) courseName.getText());
+        //set action bar title
+        getSupportActionBar().setTitle(courseName.getText());
     }
 }

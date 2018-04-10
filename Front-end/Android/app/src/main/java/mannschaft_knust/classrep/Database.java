@@ -52,8 +52,8 @@ public abstract class Database extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
-            databaseDao.deleteAllCourseSessions();
 
+            databaseDao.deleteAllCourseSessions();
             databaseDao.insertCourseSession(new CourseSession("Autotronics_COE265"
                     , "yankee@techmail.com", "Computer_3",1
                     , "Monday",new Time((long)2.88e+7),new Time((long)3.6e+7), "PB012"));
@@ -62,10 +62,10 @@ public abstract class Database extends RoomDatabase {
                     , "afh@techmail.com", "Computer_3",2
                     , "Monday",new Time((long)2.88e+7),new Time((long)3.6e+7), "PB012"));
 
-
-            //databaseDao.insertPost(new CoursePost("Autotronics_COE265","a message in autotronics",
-              //     null,"yankee@techmail.com",
-                //            true,true,true, CoursePost.UserVote.UNDECIDED,15));
+            databaseDao.deleteAllCoursePosts();
+            databaseDao.insertCoursePost(new CoursePost("Autotronics_COE265","a message in autotronics",
+                   null,"yankee@techmail.com",
+                            true,true,true, CoursePost.UserVote.UNDECIDED,15));
             return null;
         }
     }

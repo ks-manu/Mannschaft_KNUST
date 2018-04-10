@@ -46,6 +46,7 @@ class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHol
 
     public void updateData(List<CoursePost> coursePosts){
         this.coursePosts = coursePosts;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -96,7 +97,10 @@ class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHol
                 stringBuilder = (int)(elapsedTime/8.64e+7) + "day(s) ago";
                 holder.timeSentView.setText( stringBuilder);
             }
-            else if((elapsedTime/60000)>1){
+            else if((elapsedTime/3.6e+6)>1){//more than an hour
+                holder.timeSentView.setText(currentPost.timeSent.toString().substring(11,15));
+            }
+            else if((elapsedTime/60000)>1){//more than a minute
                 stringBuilder = (int)(elapsedTime/60000)+"minute(s) ago";
                 holder.timeSentView.setText( stringBuilder);
             }
