@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/vote_up"
+        android:icon="@drawable/ic_thumb_up_black_24dp"
+        android:title="@string/vote_up" />
+    <item
+        android:id="@+id/vote_down"
+        android:icon="@drawable/ic_thumb_down_black_24dp"
+        android:title="@string/vote_down" />
+</menu>

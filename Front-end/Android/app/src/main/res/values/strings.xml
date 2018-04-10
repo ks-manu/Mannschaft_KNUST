@@ -20,4 +20,7 @@
     <string name="timetable">Timetable</string>
     <string name="search">Search</string>
     <string name="settings">Settings</string>
+    <string name="send_message">Send message</string>
+    <string name="vote_up">Vote Up</string>
+    <string name="vote_down">Vote Down</string>
 </resources>

@@ -5,6 +5,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.RoomWarnings;
 import android.arch.persistence.room.Update;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface DatabaseDao {
 
     @Insert
-    void insertPost(Post post);
+    void insertPost(CoursePost coursePost);
 
     @Insert
     void insertCourseSession(CourseSession courseSession);
@@ -21,10 +22,13 @@ public interface DatabaseDao {
     void updateCourseSession(CourseSession courseSession);
     @Delete
     void deleteCourseSession(CourseSession courseSession);
+    @Query("DELETE FROM coursesession")
+    void deleteAllCourseSessions();
 
-    @Query("SELECT DISTINCT courseAndCode,techmail FROM CourseSession")
-    LiveData<List<CourseLecturer>> getCoursesList();
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT * FROM CourseSession")
+    LiveData<List<Course>> getCourseList();
 
-    @Query("SELECT * FROM Post")
-    LiveData<List<Post>> getPosts();
+    @Query("SELECT * FROM CoursePost WHERE postID LIKE :courseAndCode")
+    LiveData<List<CoursePost>> getPost(String courseAndCode);
 }
