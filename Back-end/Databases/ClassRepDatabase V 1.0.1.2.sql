@@ -30,7 +30,8 @@ CREATE TABLE IF NOT EXISTS `course session` (
 
 --## REPLACE `Course_Code` WITH `Course (Code)`
 
-  `Course_Code` varchar(15) NOT NULL,
+  `Course(code)` varchar(15) NOT NULL,
+  `Course_Name` varchar(15) NOT NULL,
   `Starting_Time` time NOT NULL,
   `Ending_Time` time NOT NULL,
   `Venue` varchar(20) NOT NULL,
@@ -39,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `course session` (
   `Day` varchar(10) NOT NULL,
 
 --## THIS WILL HAVE TO BE CHANGED TOO
-  PRIMARY KEY (`Course_Code`)
+  PRIMARY KEY (`Course(code)`)
   
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -72,17 +73,20 @@ CREATE TABLE IF NOT EXISTS `lecturer table` (
 -- Table structure for table `message table`
 --
 
-CREATE TABLE IF NOT EXISTS `message table` (
+CREATE TABLE IF NOT EXISTS `Posts table` (
 
 --## CHANGE TABLE NAME TO `Posts`
 --## `Post ID` --> VARCHAR(25 or 30)
 --## there's no column for the `Message Text`, `Attachment` --> CHAR (1), `Votable` --> CHAR (Y)
-
+  `Post_ID` varchar(25) NOT NULL,
+  `Message` text NOT NULL,
+  `Attachment` char(1) NOT NULL,
+  `Votable`  char(2) NOT NULL,
   `Sent_By` text NOT NULL,
 
 --## REVIEW TIMESTAMP FORMAT. 6 IS NOT ENOUGH FOR TO STORE DATE AND TIME. IF POSSIBLE LEAVE IT BLANK
 
-  `Time_sent` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+  `Time_sent` timestamp() NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -100,6 +104,7 @@ CREATE TABLE IF NOT EXISTS `students table` (
 
   `Programme_Year` varchar(25) NOT NULL,
   `Password` varchar(15) NOT NULL,
+  `College` varchar(30) NOT NULL,
   PRIMARY KEY (`Index_Number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -109,15 +114,16 @@ CREATE TABLE IF NOT EXISTS `students table` (
 -- Table structure for table `vote table`
 --
 
-CREATE TABLE IF NOT EXISTS `vote table` (
+CREATE TABLE IF NOT EXISTS ``Sent_By `Votes table` (
 
 --## CHANGE NAME TO `Votes`
 --## INCLUDE `Message ID` --> VARCHAR(25 or 30)[this should be the same as the message ID in the Messages table(Posts)]
 --## INCLUDE `Index Number`
 --## CHANGE `For` AND `Vote_down` TO `Vote` --> CHAR(3)
 
-  `For` varchar(100) NOT NULL,
-  `Vote_down` varchar(100) NOT NULL
+  `Message_ID` varchar(25) NOT NULL,
+  `Index_Number` varcahr(10) NOT NULL,
+  `Vote` char(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --## there is no table for files
