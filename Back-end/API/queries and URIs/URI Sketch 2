@@ -5,6 +5,10 @@ Sign in = {
     /users/authlib/student/req?=sign_in    //SUBMIT JSON OF CREDENTIALS
 }
 
+Sign out = {
+    /users/deauthlib/lecturer/req?=   //SUBMIT JSON OF CREDENTIALS
+    /users/deauthlib/student/req?=    //SUBMIT JSON OF CREDENTIALS
+}
 ????????????????????
 Sign_Up = {                                     //IF APP WILL BE MANDATORY, LET'S DISABLE SIGN UP TO PREVENT UNATHORISED REGISTRATION
 	/users/lecturer/req?=sign_up
@@ -16,13 +20,13 @@ Sign_Up = {                                     //IF APP WILL BE MANDATORY, LET'
 # Deregister
 # may be unnecessary, assuming app is mandatory
 #
--------------------------------------------------------------------------
+------------------------------------------------------------------------
 * Resource Management
 ------------------------------------------------------------------------
 Post = {
 
 ====================
-     POST
+     POSTS
 ====================
 	/data/systlab/post/reqID?=<Token here(WITHOUT BRACKETS)>    //SUBMIT TOKEN AND JSON
 
