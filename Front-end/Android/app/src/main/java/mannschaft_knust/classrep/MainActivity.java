@@ -1,13 +1,11 @@
 package mannschaft_knust.classrep;
 
-import android.arch.persistence.room.Room;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
-    private CoursesFragment coursesFragment = new CoursesFragment();
+    private CourseListFragment courseListFragment = new CourseListFragment();
     private ProfileFragment profileFragment = new ProfileFragment();
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                     if (fragmentManager.findFragmentByTag("courses fragment") != null)
                         return true;
                     fragmentTransaction.replace(R.id.main_fragment_container,
-                            coursesFragment, "courses fragment");
+                            courseListFragment, "courses fragment");
                     fragmentTransaction.commit();
                     getSupportActionBar().setTitle("ClassRep");
                     return true;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                     if (fragmentManager.findFragmentByTag("timetable fragment") != null)
                         return true;
                     fragmentTransaction.replace(R.id.main_fragment_container,
-                            coursesFragment, "timetable fragment");
+                            courseListFragment, "timetable fragment");
                     fragmentTransaction.commit();
                     getSupportActionBar().setTitle("Timetable");
                     return true;
@@ -59,13 +59,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        SharedPreferences userPref;
+        /*SharedPreferences userPref;
         userPref = getSharedPreferences(
                 "mannschaft_knust.classrep.USER_PREF" , MODE_PRIVATE);
-        if ( !(userPref.contains("username") && userPref.contains("password"))){
+        if ( !(userPref.contains("userID") && userPref.contains("password"))){
             Intent signInIntent = new Intent(this, SignInActivity.class);
             startActivity(signInIntent);
-        }
+        }*/
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -76,10 +76,11 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
-        coursesFragment.setHasOptionsMenu(true);
+        courseListFragment.setHasOptionsMenu(true);
         profileFragment.setHasOptionsMenu(true);
-        fragmentManager.beginTransaction().add(R.id.main_fragment_container,coursesFragment,
+        fragmentManager.beginTransaction().add(R.id.main_fragment_container, courseListFragment,
                 "courses fragment").commit();
+
     }
 
     @Override
@@ -93,6 +94,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
-
-
 }
