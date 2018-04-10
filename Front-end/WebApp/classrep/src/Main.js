@@ -9,7 +9,9 @@ import MenuItem from 'material-ui/MenuItem';
 import Drawer from 'material-ui/Drawer';
 import { Toolbar, ToolbarTitle } from 'material-ui';
 import Paper from 'material-ui/Paper';
-import AddAnnouncement from './AddAnnouncement';
+import AddPost from './AddPost';
+import { Router, Route, Link } from 'react-router-dom'
+import ViewPost from './ViewPost';
 
 // This replaces the textColor value on the palette
 // and then update the keys for each component that depends on it.
@@ -64,17 +66,19 @@ class Main extends Component{
         >
 
         <AppBar title="Menu"/>
-          <MenuItem >Timetable</MenuItem>
-          <MenuItem>Announcements</MenuItem>
+         <MenuItem >Timetable</MenuItem>
+         <MenuItem>Posts</MenuItem>
           <MenuItem>Account</MenuItem>
           <MenuItem>Logout</MenuItem>
+          
         </Drawer>
         <Paper style={paperStyle} >
 
-          <AddAnnouncement/>
+          
+          <ViewPost/>
           
         </Paper>
-            
+           
         
         
   </MuiThemeProvider>
