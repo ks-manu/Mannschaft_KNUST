@@ -23,4 +23,6 @@
     <string name="send_message">Send message</string>
     <string name="vote_up">Vote Up</string>
     <string name="vote_down">Vote Down</string>
+    <string name="message">message</string>
+    <string name="vote">vote</string>
 </resources>

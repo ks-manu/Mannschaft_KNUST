@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ implements Filterable{
         private TextView notSentIndicator;
         private TextView messageView;
         private TextView attachmentIndicator;
-        private Button voteButton;
+        private ImageButton voteButton;
         private TextView totalVotes;
 
         private ViewHolder(ViewGroup coursePostItemView){
