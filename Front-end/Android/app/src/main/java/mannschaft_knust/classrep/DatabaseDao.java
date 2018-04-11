@@ -32,6 +32,6 @@ public interface DatabaseDao {
     @Query("SELECT * FROM CourseSession")
     LiveData<List<Course>> getCourseList();
 
-    @Query("SELECT * FROM CoursePost WHERE postID LIKE :courseAndCode")
-    LiveData<List<CoursePost>> getPost(String courseAndCode);
+    @Query("SELECT * FROM CoursePost")
+    LiveData<List<CoursePost>> getCoursePosts();
 }

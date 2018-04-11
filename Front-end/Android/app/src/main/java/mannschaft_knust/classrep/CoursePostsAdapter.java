@@ -9,12 +9,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHolder> {
+class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHolder>
+implements Filterable{
 
     class ViewHolder extends RecyclerView.ViewHolder{
         private TextView senderNameView;
@@ -38,14 +42,24 @@ class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHol
     }
 
     private List<CoursePost> coursePosts;
-    private Context mContext;
+    private List<CoursePost> courseFilteredPosts = new ArrayList<>();
+    private List<CoursePost> filteredCoursePosts;
+    private String currentCourse;
+    private Context recyclerContext;
 
-    public CoursePostsAdapter(Context mContext){
-        this.mContext = mContext;
+    public CoursePostsAdapter(Context recyclerContext, String currentCourse){
+        this.recyclerContext = recyclerContext;
+        this.currentCourse = currentCourse;
     }
 
     public void updateData(List<CoursePost> coursePosts){
         this.coursePosts = coursePosts;
+        for(int i =0;i<coursePosts.size();i++) {
+            if (coursePosts.get(i).postID.toLowerCase().contains(currentCourse.toLowerCase()))
+                courseFilteredPosts.add(coursePosts.get(i));
+
+        }
+        filteredCoursePosts =  courseFilteredPosts;
         notifyDataSetChanged();
     }
 
@@ -63,7 +77,7 @@ class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHol
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(@NonNull final CoursePostsAdapter.ViewHolder holder, int position) {
-        CoursePost currentPost = coursePosts.get(position);
+        CoursePost currentPost = filteredCoursePosts.get(position);
         long elapsedTime;
         String stringBuilder;
 
@@ -114,7 +128,7 @@ class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHol
         }
 
         //show or disable vote indicators
-        if(coursePosts.get(position).voteable){
+        if(filteredCoursePosts.get(position).voteable){
             if(!(currentPost.userVote == CoursePost.UserVote.UNDECIDED
                     || currentPost.voteStatus) )
                 holder.voteButton.setVisibility(View.GONE);
@@ -124,7 +138,7 @@ class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHol
                     public void onClick(View view) {
 
                         //creating a popup menu
-                        PopupMenu popup = new PopupMenu(mContext, holder.voteButton);
+                        PopupMenu popup = new PopupMenu(recyclerContext, holder.voteButton);
                         //inflating menu from xml resource
                         popup.inflate(R.menu.menu_vote);
                         //adding click listener
@@ -159,10 +173,40 @@ class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHol
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        if( coursePosts != null)
-            return coursePosts.size();
+        if( filteredCoursePosts != null)
+            return filteredCoursePosts.size();
         else
             return 0;
+    }
+
+    @Override
+    public Filter getFilter(){
+        return new Filter(){
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence){
+                String query = charSequence.toString();
+
+                List<CoursePost> filtered = new ArrayList<>();
+
+                if(query.isEmpty())
+                    filtered = courseFilteredPosts;
+                else
+                    for(int i =0;i<courseFilteredPosts.size();i++){
+                        if (courseFilteredPosts.get(i).message.toLowerCase().contains(query.toLowerCase()))
+                            filtered.add(courseFilteredPosts.get(i));
+                    }
+                FilterResults results = new FilterResults();
+                results.count = filtered.size();
+                results.values = filtered;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults results){
+                filteredCoursePosts = (List<CoursePost>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
 }

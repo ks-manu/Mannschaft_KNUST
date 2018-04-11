@@ -17,7 +17,7 @@ public class DatabaseViewModel extends AndroidViewModel {
         Database database = Database.getDatabase(application);
         databaseDao = database.databaseDao();
         courseList = databaseDao.getCourseList();
-        coursePosts = databaseDao.getPost("%_%");
+        coursePosts = databaseDao.getCoursePosts();
     }
 
     public LiveData<List<Course>> getCourseList(){
@@ -27,9 +27,4 @@ public class DatabaseViewModel extends AndroidViewModel {
     public LiveData<List<CoursePost>> getCoursePosts(){
         return coursePosts;
     }
-
-    public void changePostSet(String courseAndCode){
-        coursePosts = databaseDao.getPost('%'+courseAndCode+'%');
-    }
-
 }

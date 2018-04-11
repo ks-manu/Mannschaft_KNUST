@@ -8,11 +8,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -20,6 +23,8 @@ import java.util.List;
 public class CourseListFragment extends Fragment {
 
     RecyclerView courseListRecyclerView;
+    DatabaseViewModel databaseViewModel;
+    CourseListAdapter courseListAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,11 +34,11 @@ public class CourseListFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("ClassRep");
 
         courseListRecyclerView = v.findViewById(R.id.course_list_recycler);
-        final CourseListAdapter courseListAdapter = new CourseListAdapter();
+        courseListAdapter = new CourseListAdapter();
         courseListRecyclerView.setAdapter(courseListAdapter);
 
-        DatabaseViewModel courseListViewModel = ViewModelProviders.of(getActivity()).get(DatabaseViewModel.class);
-        courseListViewModel.getCourseList().observe(this, new Observer<List<Course>>() {
+        databaseViewModel = ViewModelProviders.of(getActivity()).get(DatabaseViewModel.class);
+        databaseViewModel.getCourseList().observe(this, new Observer<List<Course>>() {
             @Override
             public void onChanged(@Nullable List<Course> courseList) {
                 courseListAdapter.updateData(courseList);
@@ -46,6 +51,23 @@ public class CourseListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_course_list, menu);
 
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                courseListAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                courseListAdapter.getFilter().filter(newText);
+                Toast.makeText(getContext(), newText, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
     }
 
 }

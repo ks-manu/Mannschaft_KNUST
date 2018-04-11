@@ -1,10 +1,8 @@
 package mannschaft_knust.classrep;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,9 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -94,25 +89,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_empty, menu);
-
-        //MenuItem searchItem = menu.findItem(R.id.action_search);
-        //SearchView searchView = (SearchView) searchItem.getActionView();
-
-        // Configure the search info and add any event listeners...
-
         return super.onCreateOptionsMenu(menu);
     }
 
     //loading post fragment on course list item click
     public void onCourseListItemClick(View view){
         TextView courseName = view.findViewById(R.id.course_name);
-        //Toast.makeText(this,courseName.getText(),Toast.LENGTH_LONG).show();
+        //set action bar title to chosen course
+        getSupportActionBar().setTitle(courseName.getText());
         //load fragment
         fragmentManager.beginTransaction().replace(R.id.main_fragment_container, coursePostsFragment,
                 "course fragment").addToBackStack(null).commit();
-        //load post set into database
-        databaseViewModel.changePostSet((String) courseName.getText());
-        //set action bar title
-        getSupportActionBar().setTitle(courseName.getText());
     }
 }
