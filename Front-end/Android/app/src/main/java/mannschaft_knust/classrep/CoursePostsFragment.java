@@ -27,12 +27,14 @@ public class CoursePostsFragment extends Fragment {
     RecyclerView coursePostsRecyclerView;
     CoursePostsAdapter coursePostsAdapter;
 
+    FragmentManager fragmentManager;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_course_posts, container, false);
 
-        final FragmentManager fragmentManager = getChildFragmentManager();
+        fragmentManager = getChildFragmentManager();
         FloatingActionButton sendPostActionButton = v.findViewById(R.id.send_post);
         sendPostActionButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -62,8 +64,9 @@ public class CoursePostsFragment extends Fragment {
         inflater.inflate(R.menu.menu_course_posts, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        MenuItem timetableItem = menu.findItem(R.id.view_timetable);
 
+        SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -75,6 +78,17 @@ public class CoursePostsFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 coursePostsAdapter.getFilter().filter(newText);
                 Toast.makeText(getContext(), newText, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+        timetableItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                TimetableFragment timetableFragment = new TimetableFragment();
+                getFragmentManager().beginTransaction().replace(
+                        R.id.main_fragment_container,timetableFragment, "timetable fragment"
+                ).addToBackStack(null).commit();
                 return false;
             }
         });

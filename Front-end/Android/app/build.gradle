@@ -41,4 +41,6 @@ dependencies {
 
     // Test helpers for Room
     testImplementation "android.arch.persistence.room:testing:1.0.0"
+
+    implementation 'com.github.tobiasschuerg:android-week-view:-SNAPSHOT'
 }

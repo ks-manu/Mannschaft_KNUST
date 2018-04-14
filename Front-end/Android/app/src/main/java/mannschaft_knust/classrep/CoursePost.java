@@ -1,6 +1,7 @@
 package mannschaft_knust.classrep;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,7 +29,7 @@ class CoursePost {
         UNDECIDED
     }
 
-
+    @Ignore
     CoursePost(@NonNull String postID, String message, @Nullable Timestamp timeSent, String sentBy,
                       boolean hasAttachment, boolean voteable, boolean voteStatus,
                       UserVote userVote, int totalVotes){

@@ -25,7 +25,12 @@ public class MainActivity extends AppCompatActivity {
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            //clear back stack
+            for(int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
+                fragmentManager.popBackStack();
+            }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
             switch (item.getItemId()) {
                 case R.id.navigation_courses:
                     if (fragmentManager.findFragmentByTag("courses fragment") != null)
@@ -44,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_user_profile:
                     if (fragmentManager.findFragmentByTag("profile fragment") != null)
                         return true;
-                    fragmentManager.popBackStack();//to remove history
                     fragmentTransaction.replace(R.id.main_fragment_container,
                             profileFragment, "profile fragment");
                     fragmentTransaction.commit();
