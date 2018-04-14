@@ -4,14 +4,12 @@ import android.arch.persistence.room.Ignore;
 
 public class Course {
     public String courseAndCode;
-    public String techmail;
-    public String programmeAndYear;
+    public String participants;
 
     @Ignore
-    Course(String courseAndCode, String techmail, String programmeAndYear){
+    Course(String courseAndCode, String participants){
         this.courseAndCode = courseAndCode;
-        this.techmail = techmail;
-        this.programmeAndYear = programmeAndYear;
+        this.participants = participants;
     }
 
     Course(){}

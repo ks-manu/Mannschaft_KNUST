@@ -53,7 +53,7 @@ class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.ViewHolde
         // - replace the contents of the view with that element
         Course currentCourse = filteredCourseList.get(position);
         holder.courseName.setText(currentCourse.courseAndCode);
-        holder.courseDetail.setText(currentCourse.programmeAndYear);
+        holder.courseDetail.setText(currentCourse.participants);
 
     }
 

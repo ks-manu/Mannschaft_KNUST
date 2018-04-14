@@ -32,6 +32,9 @@ public interface DatabaseDao {
     @Query("SELECT * FROM CourseSession")
     LiveData<List<Course>> getCourseList();
 
+    @Query("SELECT * FROM CourseSession")
+    LiveData<List<CourseSession>> getCourseSessions();
+
     @Query("SELECT * FROM CoursePost")
     LiveData<List<CoursePost>> getCoursePosts();
 }

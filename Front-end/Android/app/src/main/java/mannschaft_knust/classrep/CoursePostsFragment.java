@@ -34,6 +34,7 @@ public class CoursePostsFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_course_posts, container, false);
 
+        //configure floating send button
         fragmentManager = getChildFragmentManager();
         FloatingActionButton sendPostActionButton = v.findViewById(R.id.send_post);
         sendPostActionButton.setOnClickListener(new View.OnClickListener(){
@@ -85,8 +86,22 @@ public class CoursePostsFragment extends Fragment {
         timetableItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                TimetableFragment timetableFragment = new TimetableFragment();
-                getFragmentManager().beginTransaction().replace(
+                final TimetableFragment timetableFragment = new TimetableFragment();
+                final FragmentManager fragmentManager = getFragmentManager();
+
+                // observer for timetable fragment refresh
+                DatabaseViewModel databaseViewModel = ViewModelProviders.of(getActivity()).get(DatabaseViewModel.class);
+                databaseViewModel.getCourseSessions().observe(getActivity(), new Observer<List<CourseSession>>() {
+                    @Override
+                    public void onChanged(@Nullable List<CourseSession> courseSessions) {
+                        if(fragmentManager.findFragmentByTag("timetable fragment") != null){
+                            fragmentManager.beginTransaction().detach(timetableFragment).attach(timetableFragment).commit();
+                        }
+                    }
+                });
+
+                //load timetable fragment
+                fragmentManager.beginTransaction().replace(
                         R.id.main_fragment_container,timetableFragment, "timetable fragment"
                 ).addToBackStack(null).commit();
                 return false;

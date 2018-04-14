@@ -55,12 +55,12 @@ public abstract class Database extends RoomDatabase {
 
             databaseDao.deleteAllCourseSessions();
             databaseDao.insertCourseSession(new CourseSession("Autotronics_COE265"
-                    , "yankee@techmail.com", "Computer_3",1
+                    , "Computer_3",1
                     , "Monday",new Time((long)2.88e+7),new Time((long)3.6e+7), "PB012"));
 
             databaseDao.insertCourseSession(new CourseSession("Software_COE265"
-                    , "afh@techmail.com", "Computer_3",2
-                    , "Monday",new Time((long)2.88e+7),new Time((long)3.6e+7), "PB012"));
+                    , "Computer_3",2
+                    , "Tuesday",new Time((long)2.88e+7),new Time((long)3.6e+7), "PB012"));
 
             databaseDao.deleteAllCoursePosts();
             databaseDao.insertCoursePost(new CoursePost("Autotronics_COE265","a message in autotronics",

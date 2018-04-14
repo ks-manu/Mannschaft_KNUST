@@ -99,8 +99,10 @@ public class MainActivity extends AppCompatActivity {
     //loading post fragment on course list item click
     public void onCourseListItemClick(View view){
         TextView courseName = view.findViewById(R.id.course_name);
+        TextView courseDetail = view.findViewById(R.id.course_detail);
         //set action bar title to chosen course
         getSupportActionBar().setTitle(courseName.getText());
+        getSupportActionBar().setSubtitle(courseDetail.getText());
         //load fragment
         fragmentManager.beginTransaction().replace(R.id.main_fragment_container, coursePostsFragment,
                 "course fragment").addToBackStack(null).commit();

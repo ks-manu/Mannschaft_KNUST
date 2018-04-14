@@ -25,4 +25,6 @@
     <string name="vote_down">Vote Down</string>
     <string name="message">message</string>
     <string name="vote">vote</string>
+    <string name="refresh">Refresh</string>
+    <string name="add">Add</string>
 </resources>

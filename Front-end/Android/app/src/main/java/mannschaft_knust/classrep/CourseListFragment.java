@@ -32,6 +32,7 @@ public class CourseListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_course_list, container, false);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("ClassRep");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle("Courses");
 
         courseListRecyclerView = v.findViewById(R.id.course_list_recycler);
         courseListAdapter = new CourseListAdapter();

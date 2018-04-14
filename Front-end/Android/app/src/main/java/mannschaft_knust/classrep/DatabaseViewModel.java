@@ -9,6 +9,7 @@ import java.util.List;
 public class DatabaseViewModel extends AndroidViewModel {
     DatabaseDao databaseDao;
     private LiveData<List<Course>> courseList;
+    private LiveData<List<CourseSession>> courseSessions;
     private LiveData<List<CoursePost>> coursePosts;
 
 
@@ -18,6 +19,7 @@ public class DatabaseViewModel extends AndroidViewModel {
         databaseDao = database.databaseDao();
         courseList = databaseDao.getCourseList();
         coursePosts = databaseDao.getCoursePosts();
+        courseSessions = databaseDao.getCourseSessions();
     }
 
     public LiveData<List<Course>> getCourseList(){
@@ -27,4 +29,6 @@ public class DatabaseViewModel extends AndroidViewModel {
     public LiveData<List<CoursePost>> getCoursePosts(){
         return coursePosts;
     }
+
+    public LiveData<List<CourseSession>> getCourseSessions(){return courseSessions;}
 }
