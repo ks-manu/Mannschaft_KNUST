@@ -115,7 +115,7 @@ public class CoursePostsFragment extends Fragment {
         public Dialog onCreateDialog(Bundle savedInstanceState){
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle("Post Something")
-                    .setView(R.layout.fragment_send_post)
+                    .setView(R.layout.dialog_send_post)
                     .setPositiveButton("Send", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

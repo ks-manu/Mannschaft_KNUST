@@ -34,4 +34,8 @@
         <item>PB141</item>
         <item>A130</item>
     </string-array>
+    <string-array name="courses">
+        <item>Autotronics</item>
+        <item>Software Engineering</item>
+    </string-array>
 </resources>
