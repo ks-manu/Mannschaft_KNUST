@@ -1,8 +1,10 @@
 package mannschaft_knust.classrep;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,10 +26,8 @@ import android.widget.Toast;
 import java.util.List;
 
 public class CoursePostsFragment extends Fragment {
-    RecyclerView coursePostsRecyclerView;
     CoursePostsAdapter coursePostsAdapter;
 
-    FragmentManager fragmentManager;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class CoursePostsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_course_posts, container, false);
 
         //configure floating send button
-        fragmentManager = getChildFragmentManager();
+        final FragmentManager fragmentManager = getChildFragmentManager();
         FloatingActionButton sendPostActionButton = v.findViewById(R.id.send_post);
         sendPostActionButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -45,7 +45,7 @@ public class CoursePostsFragment extends Fragment {
             }
         });
 
-        coursePostsRecyclerView = v.findViewById(R.id.course_post_recycler);
+        RecyclerView coursePostsRecyclerView = v.findViewById(R.id.course_post_recycler);
         coursePostsAdapter = new CoursePostsAdapter(v.getContext(),
                 ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle().toString());
         coursePostsRecyclerView.setAdapter(coursePostsAdapter);
@@ -113,9 +113,22 @@ public class CoursePostsFragment extends Fragment {
         @Override
         @NonNull
         public Dialog onCreateDialog(Bundle savedInstanceState){
-            Dialog dialog = new Dialog(getActivity());
-            dialog.setContentView(R.layout.fragment_send_post);
-            return dialog;
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Post Something")
+                    .setView(R.layout.fragment_send_post)
+                    .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+            return builder.create();
         }
     }
 }

@@ -27,4 +27,6 @@
     <string name="vote">vote</string>
     <string name="refresh">Refresh</string>
     <string name="add">Add</string>
+    <string name="start_time">Start time</string>
+    <string name="duration">Duration(hours)</string>
 </resources>

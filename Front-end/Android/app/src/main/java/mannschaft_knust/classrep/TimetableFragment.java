@@ -1,14 +1,19 @@
 package mannschaft_knust.classrep;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.persistence.room.TypeConverter;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +22,11 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
@@ -39,6 +49,7 @@ public class TimetableFragment extends Fragment {
 
     DatabaseViewModel databaseViewModel;
     List<CourseSession> courseSessions;
+    //reference to current fragment
     TimetableFragment timetableFragment = this;
 
 
@@ -55,7 +66,7 @@ public class TimetableFragment extends Fragment {
         final WeekView weekView = v.findViewById(R.id.week_view);
         weekView.setEventConfig(new EventConfig(true,
                 true,true,true,
-                false,true));
+                true,true));
 
         //load events
         databaseViewModel = ViewModelProviders.of(getActivity()).get(DatabaseViewModel.class);
@@ -88,15 +99,65 @@ public class TimetableFragment extends Fragment {
             }
         });
 
+        //configuring on session(event) click
         weekView.setLessonClickListener(new Function1<EventView, Unit>() {
             @Override
             public Unit invoke(EventView eventView) {
+                //load dialog for editing session
+                //look through courseSessions
+                for(CourseSession courseSession : courseSessions){
+                    //compare id of event and course session to be edited
+                    if(courseSession.courseSessionID == eventView.getEvent().getId()){
 
+                        UpdateSessionFragment updateSessionFragment = new UpdateSessionFragment();
+                        updateSessionFragment.showNow(getChildFragmentManager(),"update session");
+
+                        //get reference to the dialog
+                        AlertDialog updateSessionDialog =
+                                ((AlertDialog) updateSessionFragment.getDialog());
+
+                        //set message
+                        updateSessionDialog.setMessage("Edit " + courseSession.courseAndCode+
+                                "for "+ courseSession.participants);
+
+                        //display information of selected course session(event)
+                        TextView courseName = updateSessionDialog.findViewById(R.id.course_name);
+                        TextView participants = updateSessionDialog.findViewById(R.id.participants);
+                        courseName.setText(courseSession.courseAndCode);
+                        participants.setText(courseSession.participants);
+
+                        //load day spinner
+                        Spinner daySpinner = updateSessionDialog.findViewById(R.id.day_spinner);
+                        ArrayAdapter<CharSequence> dayAdapter = ArrayAdapter.createFromResource(getActivity(),
+                                R.array.days_of_week, android.R.layout.simple_spinner_item);
+                        dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        daySpinner.setAdapter(dayAdapter);
+
+                        //config time input with time picker dialog
+                        EditText timeInput = updateSessionDialog.findViewById(R.id.start_time_input);
+                        timeInput.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //show time picker dialog
+                                DialogFragment timePickerFragment = new TimePickerFragment();
+                                timePickerFragment.show(getChildFragmentManager(), "time picker");
+                            }
+                        });
+
+                        //load available venues(this would be dynamic base on time selected)
+                        Spinner venueSpinner = updateSessionDialog.findViewById(R.id.venue_spinner);
+                        ArrayAdapter<CharSequence> venueAdapter = ArrayAdapter.createFromResource(getActivity(),
+                                R.array.venues, android.R.layout.simple_spinner_item);
+                        venueAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        venueSpinner.setAdapter(venueAdapter);
+
+                        break;
+                    }
+                }
                 return null;
             }
         });
 
-        registerForContextMenu(weekView);
 
         weekView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -117,6 +178,7 @@ public class TimetableFragment extends Fragment {
     }
 
 
+    //convert  course sessions to events for weekview
     @TypeConverter
     public List<Event.Single> eventsFromCourseSessions(@NonNull List<CourseSession> courseSession){
         List<Event.Single> events = new ArrayList<>();
@@ -152,6 +214,7 @@ public class TimetableFragment extends Fragment {
             LocalTime endTime = LocalTime.parse(courseSession.get(i).endingTime.toString());
 
             String upperText = title.substring(0,5);
+            String lowerText = courseSession.get(i).venue;
 
 
             //default colors
@@ -159,13 +222,13 @@ public class TimetableFragment extends Fragment {
             int backgroundColor = Color.GRAY;
 
             events.add(new Event.Single(id,date ,title , shortTitle,subtitle ,day,startTime,
-                    endTime,upperText , null,textColor,backgroundColor));
+                    endTime,upperText , lowerText,textColor,backgroundColor));
         }
 
         return events;
     }
 
-
+    //options menu for fragment
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
         inflater.inflate(R.menu.menu_timtable, menu);
 
@@ -183,20 +246,75 @@ public class TimetableFragment extends Fragment {
         refreshTimetable.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                final FragmentManager fragmentManager = getFragmentManager();
-
                 //refresh timetable on refresh button click
-                databaseViewModel.getCourseSessions().observe(getActivity(), new Observer<List<CourseSession>>() {
-                    @Override
-                    public void onChanged(@Nullable List<CourseSession> courseSessions) {
-                        if(fragmentManager.findFragmentByTag("timetable fragment") != null){
-                            fragmentManager.beginTransaction().detach(timetableFragment).attach(timetableFragment).commit();
-                        }
-                    }
-                });
+                if(getFragmentManager().findFragmentByTag("timetable fragment") != null){
+                    getFragmentManager().beginTransaction().detach(timetableFragment).attach(timetableFragment).commit();
+                }
                 return false;
             }
         });
     }
 
+    //update session dialog
+    static public class UpdateSessionFragment extends DialogFragment {
+        @Override
+        @NonNull
+        public Dialog onCreateDialog(Bundle savedInstanceState){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+            //configure builder
+            builder.setTitle("Edit Session")
+                    .setView(R.layout.fragment_update_session)
+                    .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+            return builder.create();
+        }
+    }
+
+    //time picker dialog
+    public static class TimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        @NonNull
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            String timeString = hourOfDay+":"+minute;
+
+            UpdateSessionFragment updateSessionFragment =
+                    (UpdateSessionFragment) getFragmentManager()
+                            .findFragmentByTag("update session");
+
+            AlertDialog updateSessionDialog = (AlertDialog) updateSessionFragment.getDialog();
+
+            ((EditText)updateSessionDialog.findViewById(R.id.start_time_input))
+                    .setText(timeString);
+        }
+    }
 }
