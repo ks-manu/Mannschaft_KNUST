@@ -1,13 +1,6 @@
 package mannschaft_knust.classrep;
 
-<<<<<<< HEAD
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
-import android.content.Context;
 
-@android.arch.persistence.room.Database(entities = {CourseSession.class,Post.class},
-        version = 1, exportSchema = false)
-=======
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
@@ -22,7 +15,6 @@ import java.sql.Timestamp;
 @android.arch.persistence.room.Database(entities = {CourseSession.class,CoursePost.class},
         version = 1, exportSchema = false)
 @TypeConverters({DatabaseTypeConverter.class})
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
 public abstract class Database extends RoomDatabase {
 
     public abstract DatabaseDao databaseDao();
@@ -34,18 +26,14 @@ public abstract class Database extends RoomDatabase {
             synchronized (Database.class){
                 if(INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-<<<<<<< HEAD
-                            Database.class, "database").build();
-=======
+
                             Database.class, "database").addCallback(sRoomDatabaseCallback).build();
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
                 }
             }
         }
         return INSTANCE;
     }
-<<<<<<< HEAD
-=======
+
 
     private static RoomDatabase.Callback sRoomDatabaseCallback =
             new RoomDatabase.Callback(){
@@ -68,21 +56,26 @@ public abstract class Database extends RoomDatabase {
         @Override
         protected Void doInBackground(final Void... params) {
 
+            //delete all data
             databaseDao.deleteAllCourseSessions();
-            databaseDao.insertCourseSession(new CourseSession("Autotronics_COE265"
-                    , "Computer_3",1
-                    , "Monday",new Time((long)2.88e+7),new Time((long)3.6e+7), "PB012"));
+            databaseDao.deleteAllCoursePosts();
 
-            databaseDao.insertCourseSession(new CourseSession("Software_COE265"
-                    , "Computer_3",2
+            //load course sessions
+            databaseDao.insertCourseSession(new CourseSession("Autotronics(COE265)"
+                    , "Computer(3)",1
+                    , "Monday",new Time((long)2.88e+7),new Time((long)3.6e+7), "PB012"));
+            databaseDao.insertCourseSession(new CourseSession("Software(COE265)"
+                    , "Computer(3)",2
                     , "Tuesday",new Time((long)2.88e+7),new Time((long)3.6e+7), "PB012"));
 
-            databaseDao.deleteAllCoursePosts();
-            databaseDao.insertCoursePost(new CoursePost("Autotronics_COE265","a message in autotronics",
-                   null,"yankee@techmail.com",
+            //load course posts
+            databaseDao.insertCoursePost(new CoursePost("Autotronics(COE265)","a message in autotronics",
+                   null,"Mr. Yankee",
                             true,true,true, CoursePost.UserVote.UNDECIDED,15));
+            databaseDao.insertCoursePost(new CoursePost("Software(COE265)","a message in software",
+                    null,"Mr. Yankee",
+                    true,true,true, CoursePost.UserVote.UNDECIDED,15));
             return null;
         }
     }
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
 }

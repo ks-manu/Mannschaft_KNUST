@@ -1,17 +1,12 @@
 package mannschaft_knust.classrep;
 
-<<<<<<< HEAD
-import android.support.v4.app.Fragment;
-
-public class TimetableFragment extends Fragment {
-
-=======
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.persistence.room.TypeConverter;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -36,8 +31,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.jakewharton.threetenabp.AndroidThreeTen;
-
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalTime;
 
@@ -56,18 +49,20 @@ public class TimetableFragment extends Fragment {
 
     DatabaseViewModel databaseViewModel;
     List<CourseSession> courseSessions;
-    //reference to current fragment
-    TimetableFragment timetableFragment = this;
+    TimetableFragment thisTimetableFragment = this;
+    String userType;
 
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        setHasOptionsMenu(true);
-
-        AndroidThreeTen.init(getContext());
-
         //inflate fragment layout
         View v = inflater.inflate(R.layout.fragment_timetable, container, false);
+
+        setHasOptionsMenu(true);
+
+        userType = getActivity()
+                .getSharedPreferences("mannschaft_knust.classrep.USER_PREF", Context.MODE_PRIVATE)
+                .getString("user type", "");
 
         //config week view
         final WeekView weekView = v.findViewById(R.id.week_view);
@@ -107,63 +102,61 @@ public class TimetableFragment extends Fragment {
         });
 
         //configuring on session(event) click
-        weekView.setLessonClickListener(new Function1<EventView, Unit>() {
-            @Override
-            public Unit invoke(EventView eventView) {
-                //load dialog for editing session
-                //look through courseSessions
-                for(CourseSession courseSession : courseSessions){
-                    //compare id of event and course session to be edited
-                    if(courseSession.courseSessionID == eventView.getEvent().getId()){
+        if(userType.equals("Instructor")){
+            weekView.setLessonClickListener(new Function1<EventView, Unit>() {
+                @Override
+                public Unit invoke(EventView eventView) {
+                    //load dialog for editing session
+                    //look through courseSessions
+                    for(CourseSession courseSession : courseSessions){
+                        //compare id of event and course session to be edited
+                        if(courseSession.courseSessionID == eventView.getEvent().getId()){
 
-                        UpdateSessionFragment updateSessionFragment = new UpdateSessionFragment();
-                        updateSessionFragment.showNow(getChildFragmentManager(),"update session");
+                            UpdateSessionFragment updateSessionFragment = new UpdateSessionFragment();
+                            updateSessionFragment.showNow(getChildFragmentManager(),"update session");
 
-                        //get reference to the dialog
-                        AlertDialog dialog =
-                                ((AlertDialog) updateSessionFragment.getDialog());
+                            //get reference to the dialog
+                            AlertDialog dialog =
+                                    ((AlertDialog) updateSessionFragment.getDialog());
 
-                        //set message
-                        dialog.setMessage("Edit " + courseSession.courseAndCode+
-                                "for "+ courseSession.participants);
+                            //display information of selected course session(event)
+                            TextView courseName = dialog.findViewById(R.id.course_name);
+                            TextView participants = dialog.findViewById(R.id.participants);
+                            courseName.setText(courseSession.courseAndCode);
+                            participants.setText(courseSession.participants);
 
-                        //display information of selected course session(event)
-                        TextView courseName = dialog.findViewById(R.id.course_name);
-                        TextView participants = dialog.findViewById(R.id.participants);
-                        courseName.setText(courseSession.courseAndCode);
-                        participants.setText(courseSession.participants);
+                            //load day spinner
+                            Spinner daySpinner = dialog.findViewById(R.id.course_spinner);
+                            ArrayAdapter<CharSequence> dayAdapter = ArrayAdapter.createFromResource(getActivity(),
+                                    R.array.days_of_week, android.R.layout.simple_spinner_item);
+                            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            daySpinner.setAdapter(dayAdapter);
 
-                        //load day spinner
-                        Spinner daySpinner = dialog.findViewById(R.id.course_spinner);
-                        ArrayAdapter<CharSequence> dayAdapter = ArrayAdapter.createFromResource(getActivity(),
-                                R.array.days_of_week, android.R.layout.simple_spinner_item);
-                        dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        daySpinner.setAdapter(dayAdapter);
+                            //config time input with time picker dialog
+                            EditText timeInput = dialog.findViewById(R.id.start_time_input);
+                            timeInput.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //show time picker dialog
+                                    DialogFragment timePickerFragment = new TimePickerFragment();
+                                    timePickerFragment.show(getChildFragmentManager(), "time picker");
+                                }
+                            });
 
-                        //config time input with time picker dialog
-                        EditText timeInput = dialog.findViewById(R.id.start_time_input);
-                        timeInput.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                //show time picker dialog
-                                DialogFragment timePickerFragment = new TimePickerFragment();
-                                timePickerFragment.show(getChildFragmentManager(), "time picker");
-                            }
-                        });
+                            //load available venues(this would be dynamic base on time selected)
+                            Spinner venueSpinner = dialog.findViewById(R.id.venue_spinner);
+                            ArrayAdapter<CharSequence> venueAdapter = ArrayAdapter.createFromResource(getActivity(),
+                                    R.array.venues, android.R.layout.simple_spinner_item);
+                            venueAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            venueSpinner.setAdapter(venueAdapter);
 
-                        //load available venues(this would be dynamic base on time selected)
-                        Spinner venueSpinner = dialog.findViewById(R.id.venue_spinner);
-                        ArrayAdapter<CharSequence> venueAdapter = ArrayAdapter.createFromResource(getActivity(),
-                                R.array.venues, android.R.layout.simple_spinner_item);
-                        venueAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        venueSpinner.setAdapter(venueAdapter);
-
-                        break;
+                            break;
+                        }
                     }
+                    return null;
                 }
-                return null;
-            }
-        });
+            });
+        }
 
 
         weekView.setOnTouchListener(new View.OnTouchListener() {
@@ -242,6 +235,21 @@ public class TimetableFragment extends Fragment {
         MenuItem addCourseSession = menu.findItem(R.id.add_session_button);
         MenuItem refreshTimetable = menu.findItem(R.id.refresh_timetable_button);
 
+        //config refresh button
+        refreshTimetable.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                //refresh timetable on refresh button click
+                getFragmentManager().beginTransaction().detach(thisTimetableFragment).attach(thisTimetableFragment).commit();
+                return false;
+            }
+        });
+
+        //configure add session button
+        if(userType.equals("Student")){
+            menu.removeItem(R.id.add_session_button);
+            return;
+        }
         addCourseSession.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -281,14 +289,6 @@ public class TimetableFragment extends Fragment {
             }
         });
 
-        refreshTimetable.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                //refresh timetable on refresh button click
-                getFragmentManager().beginTransaction().detach(timetableFragment).attach(timetableFragment).commit();
-                return false;
-            }
-        });
     }
 
     //update session dialog
@@ -386,5 +386,4 @@ public class TimetableFragment extends Fragment {
             return builder.create();
         }
     }
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
 }

@@ -55,10 +55,11 @@ implements Filterable{
 
     public void updateData(List<CoursePost> coursePosts){
         this.coursePosts = coursePosts;
+        //clear before re inserting data
+        courseFilteredPosts.clear();
         for(int i =0;i<coursePosts.size();i++) {
             if (coursePosts.get(i).postID.toLowerCase().contains(currentCourse.toLowerCase()))
                 courseFilteredPosts.add(coursePosts.get(i));
-
         }
         filteredCoursePosts =  courseFilteredPosts;
         notifyDataSetChanged();
@@ -128,41 +129,47 @@ implements Filterable{
             holder.attachmentIndicator.setVisibility(View.GONE);
         }
 
+
         //show or disable vote indicators
+        String userType = recyclerContext
+                .getSharedPreferences("mannschaft_knust.classrep.USER_PREF", Context.MODE_PRIVATE)
+                .getString("user type","");
         if(filteredCoursePosts.get(position).voteable){
-            if(!(currentPost.userVote == CoursePost.UserVote.UNDECIDED
-                    || currentPost.voteStatus) )
-                holder.voteButton.setVisibility(View.GONE);
-            else{
-                holder.voteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+            if (userType.equals("Student")){
+                if(!(currentPost.userVote == CoursePost.UserVote.UNDECIDED
+                        || currentPost.voteStatus) )
+                    holder.voteButton.setVisibility(View.GONE);
+                else{
+                    holder.voteButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
 
-                        //creating a popup menu
-                        PopupMenu popup = new PopupMenu(recyclerContext, holder.voteButton);
-                        //inflating menu from xml resource
-                        popup.inflate(R.menu.menu_vote);
-                        //adding click listener
-                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                switch (item.getItemId()) {
-                                    case R.id.vote_up:
-                                        //handle menu1 click
-                                        break;
-                                    case R.id.vote_down:
-                                        //handle menu2 click
-                                        break;
+                            //creating a popup menu
+                            PopupMenu popup = new PopupMenu(recyclerContext, holder.voteButton);
+                            //inflating menu from xml resource
+                            popup.inflate(R.menu.menu_vote);
+                            //adding click listener
+                            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                @Override
+                                public boolean onMenuItemClick(MenuItem item) {
+                                    switch (item.getItemId()) {
+                                        case R.id.vote_up:
+                                            //handle menu1 click
+                                            break;
+                                        case R.id.vote_down:
+                                            //handle menu2 click
+                                            break;
+                                    }
+                                    return false;
                                 }
-                                return false;
-                            }
-                        });
-                        //displaying the popup
-                        popup.show();
-                    }
-                });
+                            });
+                            //displaying the popup
+                            popup.show();
+                        }
+                    });
+                }
             }
-
+            else holder.voteButton.setVisibility(View.GONE);
         }
         else {
             holder.voteButton.setVisibility(View.GONE);

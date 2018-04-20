@@ -1,45 +1,29 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-<<<<<<< HEAD
-    
-=======
+
     ext.kotlin_version = '1.2.31'
 
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
     repositories {
         google()
         jcenter()
     }
     dependencies {
-<<<<<<< HEAD
-        classpath 'com.android.tools.build:gradle:3.0.1'
-
-=======
         classpath 'com.android.tools.build:gradle:3.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
-<<<<<<< HEAD
-=======
+
 apply plugin: 'kotlin'
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
 
 allprojects {
     repositories {
         google()
         jcenter()
-<<<<<<< HEAD
-    }
-}
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-=======
         maven { url 'https://jitpack.io' }
     }
 }
@@ -60,5 +44,4 @@ compileTestKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
     }
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
 }

@@ -1,20 +1,6 @@
 package mannschaft_knust.classrep;
 
 import android.arch.persistence.room.Entity;
-<<<<<<< HEAD
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
-
-@Entity
-class CourseSession extends CourseLecturer{
-    @PrimaryKey
-    int courseSessionID;
-    String day;
-    String startingTime;
-    String endingTime;
-    String venue;
-    String programmeAndYear;
-=======
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -43,5 +29,4 @@ class CourseSession extends Course {
     CourseSession(){
         super();
     }
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
 }

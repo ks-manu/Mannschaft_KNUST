@@ -1,18 +1,10 @@
 package mannschaft_knust.classrep;
 
-<<<<<<< HEAD
-import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-public class CoursePostsFragment extends ListFragment {
-=======
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,35 +22,49 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import org.threeten.bp.LocalTime;
 
 import java.util.List;
 
 public class CoursePostsFragment extends Fragment {
     CoursePostsAdapter coursePostsAdapter;
-
+    String userType;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_course_posts, container, false);
 
-        //configure floating send button
-        final FragmentManager fragmentManager = getChildFragmentManager();
-        FloatingActionButton sendPostActionButton = v.findViewById(R.id.send_post);
-        sendPostActionButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                SendPostDialog sendPostDialog = new SendPostDialog();
-                sendPostDialog.showNow(fragmentManager,null);
-            }
-        });
+        setHasOptionsMenu(true);
 
+        userType = getActivity()
+                .getSharedPreferences("mannschaft_knust.classrep.USER_PREF", Context.MODE_PRIVATE)
+                .getString("user type", "");
+
+        //configure floating send button
+        FloatingActionButton sendPostActionButton = v.findViewById(R.id.send_post);
+        if(userType.equals("Instructor")){
+            final FragmentManager fragmentManager = getChildFragmentManager();
+            sendPostActionButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    SendPostDialog sendPostDialog = new SendPostDialog();
+                    sendPostDialog.showNow(fragmentManager,"send post");
+                }
+            });
+        }
+        else sendPostActionButton.setVisibility(View.GONE);
+
+        //config recycler view and its adapter
         RecyclerView coursePostsRecyclerView = v.findViewById(R.id.course_post_recycler);
         coursePostsAdapter = new CoursePostsAdapter(v.getContext(),
                 ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle().toString());
         coursePostsRecyclerView.setAdapter(coursePostsAdapter);
 
+        //set observer for updating recycler data
         DatabaseViewModel databaseViewModel = ViewModelProviders.of(getActivity()).get(DatabaseViewModel.class);
         databaseViewModel.getCoursePosts().observe(this, new Observer<List<CoursePost>>() {
             @Override
@@ -92,6 +98,12 @@ public class CoursePostsFragment extends Fragment {
             }
         });
 
+        //config view timetable options item
+        if(userType.equals("Student")){
+            menu.removeItem(R.id.view_timetable);
+            return;
+        }
+        //timetable option menu item to be configured only for instructors
         timetableItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -128,7 +140,30 @@ public class CoursePostsFragment extends Fragment {
                     .setPositiveButton("Send", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            DialogFragment sendPostDialog =
+                                    (DialogFragment) getFragmentManager()
+                                            .findFragmentByTag("send post");
 
+                            EditText messageInput =
+                                    sendPostDialog.getDialog().findViewById(R.id.message_input);
+
+                            DatabaseViewModel databaseViewModel =
+                                    ViewModelProviders.of(getActivity()).get(DatabaseViewModel.class);
+
+                            String postID = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle().toString();
+                            String userLastName = getActivity()
+                                    .getSharedPreferences("mannschaft_knust.classrep.USER_PREF",Context.MODE_PRIVATE)
+                                    .getString("last name", "");
+                            String userTitle = getActivity()
+                                    .getSharedPreferences("mannschaft_knust.classrep.USER_PREF",Context.MODE_PRIVATE)
+                                    .getString("title", "");
+
+                            //insert post into database
+                            databaseViewModel.insertPost(new CoursePost(postID+ LocalTime.now().toString(),
+                                    messageInput.getText().toString(),
+                                    null, userTitle+" "+ userLastName,
+                                    false,false)
+                            );
                         }
                     })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -140,5 +175,4 @@ public class CoursePostsFragment extends Fragment {
             return builder.create();
         }
     }
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
 }

@@ -3,71 +3,12 @@ package mannschaft_knust.classrep;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-<<<<<<< HEAD
-import android.arch.persistence.db.SupportSQLiteOpenHelper;
-import android.arch.persistence.room.DatabaseConfiguration;
-import android.arch.persistence.room.InvalidationTracker;
-=======
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
+import android.os.AsyncTask;
 
 import java.util.List;
 
 public class DatabaseViewModel extends AndroidViewModel {
-<<<<<<< HEAD
-    private Database database;
     private DatabaseDao databaseDao;
-    private LiveData<List<CourseLecturer>> courseList;
-    private LiveData<List<Post>> posts;
-
-    public DatabaseViewModel(Application application){
-        super(application);
-        database = new Database() {
-            @Override
-            public DatabaseDao databaseDao() {
-                return null;
-            }
-
-            @Override
-            protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration config) {
-                return null;
-            }
-
-            @Override
-            protected InvalidationTracker createInvalidationTracker() {
-                return null;
-            }
-        };
-
-        databaseDao = database.databaseDao();
-        courseList = databaseDao.getCoursesList();
-        posts = databaseDao.getPosts();
-    }
-
-    public LiveData<List<CourseLecturer>> getCourseList(){
-        return courseList;
-    }
-
-    public LiveData<List<Post>> getPosts(){
-        return posts;
-    }
-
-    public void insertPost(Post post){
-        databaseDao.insertPost(post);
-    }
-
-    public void insetCourseSession(CourseSession courseSession){
-        databaseDao.insertCourseSession(courseSession);
-    }
-
-    public void updateCourseSession(CourseSession courseSession){
-        databaseDao.updateCourseSession(courseSession);
-    }
-
-    public void deletCourseSession(CourseSession courseSession){
-        databaseDao.deleteCourseSession(courseSession);
-    }
-=======
-    DatabaseDao databaseDao;
     private LiveData<List<Course>> courseList;
     private LiveData<List<CourseSession>> courseSessions;
     private LiveData<List<CoursePost>> coursePosts;
@@ -82,14 +23,40 @@ public class DatabaseViewModel extends AndroidViewModel {
         courseSessions = databaseDao.getCourseSessions();
     }
 
+    //course list operations
     public LiveData<List<Course>> getCourseList(){
         return courseList;
     }
 
+    //course post operations
     public LiveData<List<CoursePost>> getCoursePosts(){
         return coursePosts;
     }
+    public void insertPost(CoursePost post){new insertPostAsyncTask(databaseDao).execute(post);}
 
+    //course session operations
     public LiveData<List<CourseSession>> getCourseSessions(){return courseSessions;}
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
+    public void insertCourseSession(CourseSession courseSession){
+        databaseDao.insertCourseSession(courseSession);}
+    public void updateCourseSession(CourseSession courseSession){
+        databaseDao.updateCourseSession(courseSession);
+    }
+    public void deleteCourseSession(CourseSession courseSession){
+        databaseDao.deleteCourseSession(courseSession);
+    }
+
+    private static class insertPostAsyncTask extends AsyncTask<CoursePost, Void, Void> {
+
+        private DatabaseDao databaseDao;
+
+        insertPostAsyncTask(DatabaseDao databaseDao) {
+            this.databaseDao = databaseDao;
+        }
+
+        @Override
+        protected Void doInBackground(final CoursePost... params) {
+            databaseDao.insertCoursePost(params[0]);
+            return null;
+        }
+    }
 }

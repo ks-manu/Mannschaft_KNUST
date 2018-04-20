@@ -18,12 +18,12 @@ class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.ViewHolde
 
     class ViewHolder extends RecyclerView.ViewHolder{
         TextView courseName;
-        TextView courseDetail;
+        TextView courseParticipant;
 
         private ViewHolder(View courseListItemView){
             super(courseListItemView);
             courseName = courseListItemView.findViewById(R.id.course_name);
-            courseDetail = courseListItemView.findViewById(R.id.course_detail);
+            courseParticipant = courseListItemView.findViewById(R.id.course_participant);
         }
     }
 
@@ -53,7 +53,7 @@ class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.ViewHolde
         // - replace the contents of the view with that element
         Course currentCourse = filteredCourseList.get(position);
         holder.courseName.setText(currentCourse.courseAndCode);
-        holder.courseDetail.setText(currentCourse.participants);
+        holder.courseParticipant.setText(currentCourse.participants);
 
     }
 

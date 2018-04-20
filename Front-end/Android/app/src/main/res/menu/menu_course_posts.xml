@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/view_timetable"
-        android:icon="@drawable/ic_timetable_24dp"
+        android:icon="@drawable/ic_timetable_white_24dp"
         android:title="@string/timetable"
         app:showAsAction="ifRoom"/>
 

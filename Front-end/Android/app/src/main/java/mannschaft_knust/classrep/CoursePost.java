@@ -44,5 +44,19 @@ class CoursePost {
         this.totalVotes=totalVotes;
     }
 
+    @Ignore
+    CoursePost(@NonNull String postID, String message, @Nullable Timestamp timeSent, String sentBy,
+               boolean hasAttachment, boolean voteable){
+        this.postID=postID;
+        this.message=message;
+        this.timeSent=timeSent;
+        this.sentBy=sentBy;
+        this.hasAttachment=hasAttachment;
+        this.voteable=voteable;
+        this.voteStatus=voteable;
+        this.userVote=UserVote.UNDECIDED;
+        this.totalVotes=0;
+    }
+
     CoursePost(){}
 }

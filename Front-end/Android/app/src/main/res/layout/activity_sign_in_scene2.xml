@@ -44,6 +44,7 @@
         android:layout_marginEnd="4dp"
         android:layout_marginTop="8dp"
         android:text="@string/sign_in"
+        android:onClick="onClickSignInButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/password"
         app:layout_constraintTop_toBottomOf="@+id/password"
