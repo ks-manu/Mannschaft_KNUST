@@ -3,12 +3,20 @@
 
     <item
         android:id="@+id/navigation_courses"
+<<<<<<< HEAD
         android:icon="@drawable/ic_assignment_black_24dp"
+=======
+        android:icon="@drawable/ic_courses_black_24dp"
+>>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
         android:title="@string/courses" />
 
     <item
         android:id="@+id/navigation_user_profile"
+<<<<<<< HEAD
         android:icon="@drawable/ic_person_outline_black_24dp"
+=======
+        android:icon="@drawable/ic_profile_black_24dp"
+>>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
         android:title="@string/profile" />
 
 </menu>

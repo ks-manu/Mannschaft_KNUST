@@ -7,7 +7,14 @@
 |                            GUIDELINES                              |
 ----------------------------------------------------------------------
 Emerging Trends
+<<<<<<< HEAD
 //TEAM IS TO READ AND DECIDE WHAT'S RELEVANT AND WHAT'S NOT
+=======
+1. Intro to emerging trends
+2. Determining soft trends
+3. Technology directions
+4. Tools related trends
+>>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
 
 Machine Learning
 1. A brief intro to the concept of machine learning and why it is has generated so much hype. discuss the concept of predictive analytics
@@ -18,6 +25,7 @@ Machine Learning
 6. Pros and cons of machine learning
 [WALK THROUGH AN ALGORITHM IF POSSIBLE]
 
+<<<<<<< HEAD
 Blockchain Technology
 1. A brief intro to blockchain. Mention things that they have likely heard about like cryptocurrencies (bitcoin, ethereum, litecoin)
 2. (a) What exactly is blockchain? [Basic, brief but vivid]
@@ -32,3 +40,6 @@ Blockchain Technology
 6. Current and potential applications of blockchain
 7. Pros and Cons of blockchain technology
 [WALK THROUGH A SIMPLE CODE IF POSSIBLE]
+=======
+Blockchain has been reassigned
+>>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec

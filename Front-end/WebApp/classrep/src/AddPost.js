@@ -16,11 +16,18 @@ export default class AddPost extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 3,
+      description: '',
+      message: ''
     };
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   handleChange = (event, index, value) => this.setState({value});
+
+  onSubmit(e){
+    e.preventDefault();
+    console.log(this.state)
+}
 
   render() {
     return (
@@ -33,16 +40,16 @@ export default class AddPost extends Component {
             <ToolbarTitle text="Add Post" />
             <FontIcon className="muidocs-icon-custom-sort" />
             <ToolbarSeparator />
-            <RaisedButton label="Create Post" primary={true} />
+            <RaisedButton label="Create Post" primary={true} onClick={this.onSubmit}/>
             
-              <IconButton><NavigationClose /></IconButton>
+              <IconButton><Link to="/addPost"><NavigationClose /></Link></IconButton>
             
             </ToolbarGroup>
         </Toolbar>
 
-            <TextField className="Description" maxLength="50" fullWidth="true" floatingLabelText="Description" />
+            <TextField className="Description" maxLength="50" fullWidth="true" floatingLabelText="Description" onChange={e => this.setState({description: e.target.value})} />
             <br />
-            <TextField className="Message" multiLine={true} rows={6} fullWidth="true" rowsMax={10} floatingLabelText="Message" />
+            <TextField className="Message" multiLine={true} rows={6} fullWidth="true" rowsMax={10} floatingLabelText="Message" onChange={e => this.setState({message: e.target.value})}/>
             <br />
     </div>        
     );

@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
+import {cyan500} from 'material-ui/styles/colors';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 //import Button from 'antd/lib/button';
 import './App.css';
-//import { Layout, Menu, Icon } from 'antd';
-//import SideBar from './SideBar'; //antd
-//import AppBarWork from './AppBarWork';
 import Main from './Main';
+import PageRouter from './PageRoutes';
 
+const muiTheme = getMuiTheme({
+  palette: {
+    textColor: cyan500,
+  },
+  appBar: {
+    height: 50,
+  },
+});
 
 export default class App extends Component {
   render() {
     return (
-      
-       <Main/>
+      <MuiThemeProvider muiTheme={muiTheme}>
+       <PageRouter/>
+      </MuiThemeProvider>
       
     );
   }
