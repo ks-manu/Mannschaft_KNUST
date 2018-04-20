@@ -46,9 +46,7 @@ public class ProfileFragment extends Fragment {
         settingsItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                //go to settings activity
-                //Intent intent = new Intent(getContext(),SettingsActivity.class);
-                //startActivity(intent);
+                startActivity(new Intent(getContext(), SettingsActivity.class));
                 return false;
             }
         });

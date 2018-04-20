@@ -9,13 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-<<<<<<< HEAD
-        <activity android:name=".SignInActivity">
-
-        </activity>
-=======
-        <activity android:name=".SignInActivity"></activity>
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
+        <activity android:name=".SignInActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -31,8 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-=======
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -41,7 +33,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mannschaft_knust.classrep.MainActivity" />
         </activity>
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
+        <activity android:name=".AboutAppActivity"></activity>
     </application>
 
 </manifest>

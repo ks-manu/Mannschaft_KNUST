@@ -6,19 +6,11 @@
     <string name="or">or</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
-<<<<<<< HEAD
-    <string name="instructor_id">techmail</string>
-    <string name="student_id">index number</string>
-    <string name="password">password</string>
-    <string name="first_name">first name</string>
-    <string name="last_name">last name</string>
-=======
     <string name="instructor_id">Techmail</string>
     <string name="student_id">Index number</string>
     <string name="password">Password</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
     <string name="college">College</string>
     <string name="programme">Programme</string>
     <string name="year">Year</string>
@@ -28,8 +20,6 @@
     <string name="timetable">Timetable</string>
     <string name="search">Search</string>
     <string name="settings">Settings</string>
-<<<<<<< HEAD
-=======
     <string name="send_message">Send message</string>
     <string name="vote_up">Vote Up</string>
     <string name="vote_down">Vote Down</string>
@@ -114,5 +104,6 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
->>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
+    <string name="version">alpha-release</string>
+    <string name="group_copyright">© Mannschaft KNUST</string>
 </resources>
