@@ -45,6 +45,9 @@ public class DatabaseViewModel extends AndroidViewModel {
         databaseDao.deleteCourseSession(courseSession);
     }
 
+    //on sign out
+    public void deleteAll(){new deleteAllAsyncTask(databaseDao);}
+
     private static class insertPostAsyncTask extends AsyncTask<CoursePost, Void, Void> {
 
         private DatabaseDao databaseDao;
@@ -56,6 +59,22 @@ public class DatabaseViewModel extends AndroidViewModel {
         @Override
         protected Void doInBackground(final CoursePost... params) {
             databaseDao.insertCoursePost(params[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        private DatabaseDao databaseDao;
+
+        deleteAllAsyncTask(DatabaseDao databaseDao) {
+            this.databaseDao = databaseDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            databaseDao.deleteAllCoursePosts();
+            databaseDao.deleteAllCourseSessions();
             return null;
         }
     }
