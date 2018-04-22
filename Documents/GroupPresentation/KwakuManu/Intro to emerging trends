@@ -1,0 +1,75 @@
+Intro to emerging trends
+
+SLIDE 1: Introduction
+
+    An emerging trend is a topic area that is growing in interest and utility over time.
+    
+    Over the years engineers, scientists and researchers have developed an array of process models, technical methods, and automated tools to make signinficant improvement to the way we build computer software.
+    
+    The unending search for “silver bullet” (the magic process or transcendent technology that will allow us to build large, complex, software-based systems easily, without confusion, without mistakes, without delay—without the many problems associated with software development) has proven futile.
+    
+SLIDE 2: Why The Fuss?
+
+    Why did ancient kings hire soothsayers?
+    
+    Why do major multinational corporations hire consulting firms and think tanks to prepare forecasts?
+    
+    Why does a substantial percentage of the public read horoscopes?
+    
+    We want to know what’s coming so we can ready ourselves. Though the only certainty is that nothing is ever certain, we believe that even the tiniest idea about what is certain and/or uncertain is better than no idea.
+    
+SLIDE 3: A Way Forward
+
+    appreciate that technologies come and go
+    
+    real trends that we should explore aren't in hard sciences.
+    
+    progress in software engineering will be guided by business, organizational, market, and cultural trends.
+    
+    Those trends lead to technology innovation
+    
+SLIDE 4: Technology Evolution
+
+    technological evolution is similar to biological evolution, but occurs at a rate that is orders of magnitude faster.
+    
+    Evolution occurs as a result of positive feedback
+    
+    “the more capable methods resulting from one stage of evolutionary progress are used to create the next stage”
+    
+    Technology Assessment Test
+    (1) How rapidly does a technology evolve?
+    (2) How significant are the effects of positive feedback?
+    (3) How profound will the resultant changes be?
+    
+    When a successful new technology is introduced, the initial concept moves through a reasonably predictable “innovation life cycle”
+    
+INCLUDE Figure 38.1 ON PAGE 840
+
+
+    it's important to note that many research and technology trends never reach maturity. In fact, the vast majority of “promising” technologies receive widespread interest for a few years and then fall into niche usage
+    
+SLIDE 5: Prospects For A True Engineering Discipline
+    
+    academic researchers and industry professionals put in considerable effort to put up a reliable structure for Software Engineering to exist as a discipline
+    
+    Comments from Mary Shaw:
+"Engineering disciplines typically evolve from craft practices of a technology, sufficient for local or ad hoc use. When the technology becomes economically significant, it requires stable production techniques and management control. The resulting commercial market is based on experience, rather than a deep understanding of the technology . . . an engineering profession emerges when . . . science becomes sufficiently mature to support purposeful practice and design evolution with predictable outcomes."
+
+    "Problems facing software engineers are increasingly situated in complex social contexts, and delineating the problem’s boundaries is increasingly difficult”
+    
+    As a consequence, isolating the scientific underpinnings of a discipline remains a challenge.
+    
+SLIDE 6: Observing Software Engineering Trends
+
+    comment from Barry Boehm:
+“software engineers [will] face the often formidable challenges of dealing with rapid change, uncertainty and emergence,
+dependability, diversity, and interdependence, but they also have opportunities to make significant contributions that will make a difference for the better.”
+
+    “soft trends” have a significant impact on the overall direction of software engineering. BUT research- and technology-oriented trends remain important.
+    
+    Research trends “are driven by general perceptions of the state of the art and the state of the practice, by researcher perceptions of practitioner needs, by national funding programs that rally around specific strategic goals, and by sheer technical interest".
+    Technology trends occur when research trends are extrapolated to meet industry needs and are shaped by market-driven demand
+    
+INSERT Figure 38.2 FROM PAGE 843
+
+    Not every software engineering technology makes it all the way through the hype cycle. In some cases, disillusionment is justified and the technology is relegated to obscurity.

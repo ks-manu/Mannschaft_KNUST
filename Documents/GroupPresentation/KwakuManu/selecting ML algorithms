@@ -1,0 +1,25 @@
+This is a generic, practical approach that can be applied to most machine learning problems:
+
+    Categorize the problem. This is a two-step process.
+        Categorize by input. If you have labelled data, it’s a supervised learning problem. If you have unlabelled data and want to find structure, it’s an unsupervised learning problem. If you want to optimize an objective function by interacting with an environment, it’s a reinforcement learning problem.
+        Categorize by output. If the output of your model is a number, it’s a regression problem. If the output of your model is a class, it’s a classification problem. If the output of your model is a set of input groups, it’s a clustering problem.
+    Find the available algorithms. Now that you have categorized the problem, you can identify the algorithms that are applicable and practical to implement using the tools at your disposal.
+    Implement all of them. Set up a machine learning pipeline that compares the performance of each algorithm on the dataset using a set of carefully selected evaluation criteria. The best one is automatically selected. You can either do this once or have a service running that does this in intervals when new data is added.
+    Optimize hyperparameters (optional). Using cross-validation, you can tune each algorithm to optimize performance, if time permits it. If not, manually selected hyperparameters will work well enough for the most part.
+
+
+    Define Problem
+    Analyse Data
+        Understand data with descriptive statistics
+        Understand data with visualisation and plots
+    Prepare Data
+        Pre-process data
+        Feature selection
+    Evaluate Algorithms
+        Evaluate model based on chosen metrics
+        Spot check algorithms and select one
+        Build Pipelines
+    Improve Results by various optimisation
+        Ensembling (bagging, boosting etc)
+        Hyperparameter tuning.
+    Visualise /Present results.
