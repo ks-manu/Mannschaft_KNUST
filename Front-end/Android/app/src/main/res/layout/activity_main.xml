@@ -31,17 +31,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation_instructor" />
+        app:menu="@menu/navigation" />
 
-    <RelativeLayout
+
+    <LinearLayout
         android:id="@+id/main_fragment_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar">
 
-    </RelativeLayout>
+        app:layout_constraintTop_toBottomOf="@+id/action_bar" android:orientation="horizontal">
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

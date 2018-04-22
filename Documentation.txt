@@ -1,0 +1,104 @@
+
+##Electronic Class Rep
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   #Mannschaft
+Software Engineering
+Computer Engineering
+ 
+
+**Contents**
+1.Introduction	3
+1.1 Aims:	3
+1.2 Platforms:	3
+2. Details of the Project	3
+2.1 Social Media Integration:	3
+2.2 Landscape Mode:	3
+2.3 Offline Mode:	3
+2.4 Server Collaboration:	3
+2.5 Printing features:	3
+2.6 In- app purchases:	3
+2.7 Geo- location services:	3
+2.8 Push notifications:	3
+3. Market Information	4
+3.1 Target group:	4
+4. Various Issues	4
+
+
+ 
+**1.Introduction**
+**1.1 Aims:**
+*	Broadcast messages from lecturers, T. As, lab technician, department office in affairs relating to academics.
+*	Provide a live timetable for both lecturers and students.
+*	Provide the ability to reschedule classes and or change location of class.
+*	Provide the list of available classes at a particular time.
+*	Provide lecturers to send course material or links to these course material.
+
+**.2 Platforms: **
+*	Android
+*	Web
+*. Details of the Project
+
+**.1 Social Media Integration: **
+* The app will not have social media integrated into it but will incorporate the school account i.e. using reference number, username and password.
+
+**2.2 Landscape Mode:**
+	The app will can be used in landscape mode
+
+**2.3 Offline Mode:**
+The app cannot be used offline since it requires internet access to make the live timetables and free venues.
+
+**2.4 Server Collaboration: **
+The app will get the timetable, venues and user info from a server. 
+
+**2.5 Printing features:**
+	The app will not enable any printing features.
+**2.6 In- app purchases:**
+	The app will not have any in-app purchases.
+
+**2.7 Geo- location services:**
+	The app will not enable geo- location services 
+
+**2.8 Push notifications:** 
+The app will allow push notifications to enhance user interaction. Users will be notified when 	
+there is a new post on a change of class or venue and a suggestion of a new class.
+
+##3. Market Information
+**3.1 Target group:**
+This app is aimed at students and lecturers of a university (initially Kwame Nkrumah University of Science and Technology).
+
+**3.2 Competitors:**
+	There are currently no known competitors. 
+
+##4. Various Issues
+**Team Mannschaft: 
+	Five people will work on the electronic class rep app.
+	#Roles to be assigned later
+*	Kwaku Manu Sarpong
+*	Hassan Maazu
+*	Cyril Yamoah
+*	Sarah Aboagye
+*	Issah Jamal
+
+
+
+
+
+	
+
+

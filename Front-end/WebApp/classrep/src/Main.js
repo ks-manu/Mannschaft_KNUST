@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {cyan500} from 'material-ui/styles/colors';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
 import Login from './Login';
@@ -12,6 +12,7 @@ import Paper from 'material-ui/Paper';
 import AddPost from './AddPost';
 import { Router, Route, Link } from 'react-router-dom'
 import ViewPost from './ViewPost';
+import './App.css';
 
 // This replaces the textColor value on the palette
 // and then update the keys for each component that depends on it.
@@ -53,7 +54,7 @@ class Main extends Component{
     
     
     return(
-  <MuiThemeProvider muiTheme={muiTheme}>
+  <div href="banner.jpg">
         <AppBar 
           title="Class Rep"
           onLeftIconButtonClick={this.handleToggle}  />
@@ -66,22 +67,28 @@ class Main extends Component{
         >
 
         <AppBar title="Menu"/>
-         <MenuItem >Timetable</MenuItem>
-         <MenuItem>Posts</MenuItem>
+          <MenuItem >Timetable</MenuItem>
+          <MenuItem>Posts</MenuItem>
           <MenuItem>Account</MenuItem>
-          <MenuItem>Logout</MenuItem>
+          <Link to="./Login"><MenuItem>Logout</MenuItem></Link>
           
         </Drawer>
         <Paper style={paperStyle} >
 
           
-          <ViewPost/>
+          <h1>Welcome to Class Rep</h1>
+          <ul>
+            <Link to="/viewPost"><li>ViewPost</li></Link>
+            <Link to="/addPost"><li>Add Post</li></Link>
+            <Link to="/changeVenue"><li>Change Venue</li></Link>
+            <Link to="/changeTime"><li>Change Time</li></Link>
+            
+          </ul>
           
         </Paper>
            
         
-        
-  </MuiThemeProvider>
+        </div>
     );
 
   }

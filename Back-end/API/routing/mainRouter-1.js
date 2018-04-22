@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 //--------------------------------------------configuration-----------------------------------------------------------
 var express = require('express');
 var bodyParser = require('body-parser');
 var authenticator = require("../../authentication/authenticator-2.js");
 var fs = require('fs');
 
+=======
+var express = require('express');
+var bodyParser = require('body-parser');
+//var authenticate = require("../../authentication/authenticator.js");
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
 //var authorise = require("../../authentication/authoriser.js");
 
 var appRouter = express();
@@ -12,6 +18,7 @@ var appRouter = express();
 appRouter.use(bodyParser.json());
 appRouter.use(bodyParser.urlencoded({ extended: true }));
 
+<<<<<<< HEAD
 var mysql = require('mysql');
 var dbConn = mysql.createConnection({
   host: "localhost",
@@ -30,12 +37,15 @@ dbConn.connect(function(err) {
   }
 });
 
+=======
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
 //--------------------------------------------POST REQUESTS-----------------------------------------------------------
 //sign in
 appRouter.post('/users/authlib/:user_type/reqID=sign_in', function(request, response){
     switch(request.params.user_type){
         case("lecturer"):
             if(!request.body.user_id || !request.body.password){
+<<<<<<< HEAD
                 var message = "\nFAILURE: No request parameters for Sign In @ " + new Date;
                 fs.appendFileSync('serverlog', message);
 //ensure both user_id and password are not empty
@@ -48,11 +58,17 @@ appRouter.post('/users/authlib/:user_type/reqID=sign_in', function(request, resp
                 
                 authenticator.lecturerLogin(techmail, password, response, dbConn, fs);
                 
+=======
+//ensure both user_id and password are not empty
+                response.status("400");      //bad request
+                //response.send("Invalid details!");
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
             }
             break
         
         case("student"):
             if(!request.body.user_id || !request.body.password){       //ensure both user_id and password are not empty
+<<<<<<< HEAD
                 var message = "\nFAILURE: No request parameters for Sign In @ " + new Date;
                 fs.appendFileSync('serverlog', message);
                 
@@ -65,6 +81,10 @@ appRouter.post('/users/authlib/:user_type/reqID=sign_in', function(request, resp
                 
                 authenticator.studentLogin(username, password, response, dbConn, fs);
                 
+=======
+                response.status("400");      //bad request
+                //response.send("Invalid details!");
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
             }
             break
         
@@ -72,6 +92,7 @@ appRouter.post('/users/authlib/:user_type/reqID=sign_in', function(request, resp
 });
 
 //sign out
+<<<<<<< HEAD
 appRouter.post('/users/deauthlib/:user_type/reqID=:session_token', function(request, response){
     //extract token from URL
     if(!request.params.session_token){
@@ -93,6 +114,17 @@ appRouter.post('/users/deauthlib/:user_type/reqID=:session_token', function(requ
                 authenticator.studentLogout(session_token, response, dbConn, fs);
                 break
         }
+=======
+appRouter.post('/users/deauthlib/lecturer/reqID=:session-token', function(request, response){
+    //extract token from URL
+    if(!request.params.session-token){
+        response.status("400");
+        //response.send("No-Session-Token");
+        console.log("Failed: POST request on Sign Out. No token");
+    }
+    else{
+        var session_token = request.params.session-token;
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
     }
 });
 

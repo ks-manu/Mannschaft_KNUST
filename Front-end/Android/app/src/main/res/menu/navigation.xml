@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:id="@+id/navigation_courses"
         android:icon="@drawable/ic_courses_black_24dp"
         android:title="@string/courses" />
-
     <item
         android:id="@+id/navigation_timetable"
+<<<<<<< HEAD:Front-end/Android/app/src/main/res/menu/navigation_student.xml
         android:icon="@drawable/ic_timetable_24dp"
         android:title="@string/timetable" />
 
+=======
+        android:icon="@drawable/ic_timetable_white_24dp"
+        android:title="@string/timetable"/>
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2:Front-end/Android/app/src/main/res/menu/navigation.xml
     <item
         android:id="@+id/navigation_user_profile"
         android:icon="@drawable/ic_profile_black_24dp"
         android:title="@string/profile" />
+
 </menu>

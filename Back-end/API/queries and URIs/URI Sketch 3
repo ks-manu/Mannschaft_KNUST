@@ -1,6 +1,7 @@
 ------------------------------------------------------------------------
 * Authentication
 Sign in = {
+<<<<<<< HEAD
     /users/authlib/lecturer/reqID=sign_in   //DONE
     /users/authlib/student/reqID=sign_in    //DONE
 }
@@ -8,6 +9,15 @@ Sign in = {
 Sign out = {
     /users/deauthlib/lecturer/reqID=<session-token-here>   //DONE
     /users/deauthlib/student/reqID=<session-token-here>    //DONE
+=======
+    /users/authlib/lecturer/reqID=sign_in   //SUBMIT JSON OF CREDENTIALS
+    /users/authlib/student/reqID=sign_in    //SUBMIT JSON OF CREDENTIALS
+}
+
+Sign out = {
+    /users/deauthlib/lecturer/reqID=   //SUBMIT JSON OF CREDENTIALS
+    /users/deauthlib/student/reqID=    //SUBMIT JSON OF CREDENTIALS
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
 }
 ????????????????????
 Sign_Up = {                                     //IF APP WILL BE MANDATORY, LET'S DISABLE SIGN UP TO PREVENT UNATHORISED REGISTRATION

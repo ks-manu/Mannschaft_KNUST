@@ -12,10 +12,26 @@ import java.util.List;
 
 @Dao
 public interface DatabaseDao {
+    //course list operations
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT * FROM CourseSession")
+    LiveData<List<Course>> getCourseList();
 
+    //course post operations
+    @Query("SELECT * FROM CoursePost")
+    LiveData<List<CoursePost>> getCoursePosts();
     @Insert
+<<<<<<< HEAD
     void insertPost(CoursePost coursePost);
+=======
+    void insertCoursePost(CoursePost coursePost);
+    @Query("DELETE FROM coursepost")
+    void deleteAllCoursePosts();
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
 
+    //course session operations
+    @Query("SELECT * FROM CourseSession")
+    LiveData<List<CourseSession>> getCourseSessions();
     @Insert
     void insertCourseSession(CourseSession courseSession);
     @Update
@@ -24,6 +40,7 @@ public interface DatabaseDao {
     void deleteCourseSession(CourseSession courseSession);
     @Query("DELETE FROM coursesession")
     void deleteAllCourseSessions();
+<<<<<<< HEAD
 
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT * FROM CourseSession")
@@ -31,4 +48,6 @@ public interface DatabaseDao {
 
     @Query("SELECT * FROM CoursePost WHERE postID LIKE :courseAndCode")
     LiveData<List<CoursePost>> getPost(String courseAndCode);
+=======
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
 }

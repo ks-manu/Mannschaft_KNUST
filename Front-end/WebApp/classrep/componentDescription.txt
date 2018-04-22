@@ -1,0 +1,14 @@
+LOGIN
+Lecturers login with techmails(knust emails) and predefined passwords, which can be changed after first login
+--------------------------------------------------------------------------
+VIEWPOST
+See already existing post and the number of votes for each
+--------------------------------------------------------------------------
+ADDPOST
+Add a new post for students(can be votable) 
+--------------------------------------------------------------------------
+CHANGETIME
+Modify the time of a class to another date/time permanently. This is usually done after voting of a post has been done.
+--------------------------------------------------------------------------
+CHANGEVENUE
+Modify the location of a class according to available classes that are available. This is usually done after voting of a post has been done.

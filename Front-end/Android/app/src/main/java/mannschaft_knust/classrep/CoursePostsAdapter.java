@@ -9,12 +9,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+<<<<<<< HEAD
 import android.widget.TextView;
 
 import java.util.Date;
 import java.util.List;
 
 class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHolder> {
+=======
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHolder>
+implements Filterable{
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
 
     class ViewHolder extends RecyclerView.ViewHolder{
         private TextView senderNameView;
@@ -22,7 +36,11 @@ class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHol
         private TextView notSentIndicator;
         private TextView messageView;
         private TextView attachmentIndicator;
+<<<<<<< HEAD
         private Button voteButton;
+=======
+        private ImageButton voteButton;
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
         private TextView totalVotes;
 
         private ViewHolder(ViewGroup coursePostItemView){
@@ -38,14 +56,36 @@ class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHol
     }
 
     private List<CoursePost> coursePosts;
+<<<<<<< HEAD
     private Context mContext;
 
     public CoursePostsAdapter(Context mContext){
         this.mContext = mContext;
+=======
+    private List<CoursePost> courseFilteredPosts = new ArrayList<>();
+    private List<CoursePost> filteredCoursePosts;
+    private String currentCourse;
+    private Context recyclerContext;
+
+    public CoursePostsAdapter(Context recyclerContext, String currentCourse){
+        this.recyclerContext = recyclerContext;
+        this.currentCourse = currentCourse;
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
     }
 
     public void updateData(List<CoursePost> coursePosts){
         this.coursePosts = coursePosts;
+<<<<<<< HEAD
+=======
+        //clear before re inserting data
+        courseFilteredPosts.clear();
+        for(int i =0;i<coursePosts.size();i++) {
+            if (coursePosts.get(i).postID.toLowerCase().contains(currentCourse.toLowerCase()))
+                courseFilteredPosts.add(coursePosts.get(i));
+        }
+        filteredCoursePosts =  courseFilteredPosts;
+        notifyDataSetChanged();
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
     }
 
     @Override
@@ -62,7 +102,11 @@ class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHol
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(@NonNull final CoursePostsAdapter.ViewHolder holder, int position) {
+<<<<<<< HEAD
         CoursePost currentPost = coursePosts.get(position);
+=======
+        CoursePost currentPost = filteredCoursePosts.get(position);
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
         long elapsedTime;
         String stringBuilder;
 
@@ -96,7 +140,14 @@ class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHol
                 stringBuilder = (int)(elapsedTime/8.64e+7) + "day(s) ago";
                 holder.timeSentView.setText( stringBuilder);
             }
+<<<<<<< HEAD
             else if((elapsedTime/60000)>1){
+=======
+            else if((elapsedTime/3.6e+6)>1){//more than an hour
+                holder.timeSentView.setText(currentPost.timeSent.toString().substring(11,15));
+            }
+            else if((elapsedTime/60000)>1){//more than a minute
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
                 stringBuilder = (int)(elapsedTime/60000)+"minute(s) ago";
                 holder.timeSentView.setText( stringBuilder);
             }
@@ -109,6 +160,7 @@ class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHol
             holder.attachmentIndicator.setVisibility(View.GONE);
         }
 
+<<<<<<< HEAD
         //show or disable vote indicators
         if(coursePosts.get(position).voteable){
             if(!(currentPost.userVote == CoursePost.UserVote.UNDECIDED
@@ -144,6 +196,49 @@ class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHol
                 });
             }
 
+=======
+
+        //show or disable vote indicators
+        String userType = recyclerContext
+                .getSharedPreferences("mannschaft_knust.classrep.USER_PREF", Context.MODE_PRIVATE)
+                .getString("user type","");
+        if(filteredCoursePosts.get(position).voteable){
+            if (userType.equals("Student")){
+                if(!(currentPost.userVote == CoursePost.UserVote.UNDECIDED
+                        || currentPost.voteStatus) )
+                    holder.voteButton.setVisibility(View.GONE);
+                else{
+                    holder.voteButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            //creating a popup menu
+                            PopupMenu popup = new PopupMenu(recyclerContext, holder.voteButton);
+                            //inflating menu from xml resource
+                            popup.inflate(R.menu.menu_vote);
+                            //adding click listener
+                            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                @Override
+                                public boolean onMenuItemClick(MenuItem item) {
+                                    switch (item.getItemId()) {
+                                        case R.id.vote_up:
+                                            //handle menu1 click
+                                            break;
+                                        case R.id.vote_down:
+                                            //handle menu2 click
+                                            break;
+                                    }
+                                    return false;
+                                }
+                            });
+                            //displaying the popup
+                            popup.show();
+                        }
+                    });
+                }
+            }
+            else holder.voteButton.setVisibility(View.GONE);
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
         }
         else {
             holder.voteButton.setVisibility(View.GONE);
@@ -155,10 +250,48 @@ class CoursePostsAdapter extends RecyclerView.Adapter<CoursePostsAdapter.ViewHol
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
+<<<<<<< HEAD
         if( coursePosts != null)
             return coursePosts.size();
+=======
+        if( filteredCoursePosts != null)
+            return filteredCoursePosts.size();
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
         else
             return 0;
     }
 
+<<<<<<< HEAD
+=======
+    @Override
+    public Filter getFilter(){
+        return new Filter(){
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence){
+                String query = charSequence.toString();
+
+                List<CoursePost> filtered = new ArrayList<>();
+
+                if(query.isEmpty())
+                    filtered = courseFilteredPosts;
+                else
+                    for(int i =0;i<courseFilteredPosts.size();i++){
+                        if (courseFilteredPosts.get(i).message.toLowerCase().contains(query.toLowerCase()))
+                            filtered.add(courseFilteredPosts.get(i));
+                    }
+                FilterResults results = new FilterResults();
+                results.count = filtered.size();
+                results.values = filtered;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults results){
+                filteredCoursePosts = (List<CoursePost>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
 }
