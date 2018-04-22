@@ -18,6 +18,7 @@ export default class PageRouter extends Component{
                     <Route exact path="/viewPost" component={ViewPost}/>
                     <Route exact path="/changeTime" component={ChangeTime}/>
                     <Route exact path="/changeVenue" component={ChangeVenue}/>
+                    <Route exact path="/viewTimeTable" component={viewTimeTable}/>
                 </Switch>
             </BrowserRouter>
         );
