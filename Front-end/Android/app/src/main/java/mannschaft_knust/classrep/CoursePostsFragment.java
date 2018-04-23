@@ -1,5 +1,17 @@
 package mannschaft_knust.classrep;
 
+<<<<<<< HEAD
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ListFragment;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+=======
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.arch.lifecycle.Observer;
@@ -20,11 +32,19 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+<<<<<<< HEAD
+import java.util.List;
+
+public class CoursePostsFragment extends ListFragment {
+
+    RecyclerView coursePostsRecyclerView;
+=======
 import org.threeten.bp.LocalTime;
 
 import java.util.List;
@@ -32,12 +52,22 @@ import java.util.List;
 public class CoursePostsFragment extends Fragment {
     CoursePostsAdapter coursePostsAdapter;
     String userType;
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_course_posts, container, false);
 
+<<<<<<< HEAD
+        coursePostsRecyclerView = v.findViewById(R.id.course_post_recycler);
+        final CoursePostsAdapter coursePostsAdapter = new CoursePostsAdapter(v.getContext());
+        coursePostsRecyclerView.setAdapter(coursePostsAdapter);
+
+        CoursePostsViewModel coursePostsViewModel =
+                ViewModelProviders.of(this).get(CoursePostsViewModel.class);
+        coursePostsViewModel.getCoursePosts().observe(this, new Observer<List<CoursePost>>() {
+=======
         setHasOptionsMenu(true);
 
         userType = getActivity()
@@ -67,6 +97,7 @@ public class CoursePostsFragment extends Fragment {
         //set observer for updating recycler data
         DatabaseViewModel databaseViewModel = ViewModelProviders.of(getActivity()).get(DatabaseViewModel.class);
         databaseViewModel.getCoursePosts().observe(this, new Observer<List<CoursePost>>() {
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
             @Override
             public void onChanged(@Nullable List<CoursePost> coursePosts) {
                 coursePostsAdapter.updateData(coursePosts);
@@ -78,6 +109,8 @@ public class CoursePostsFragment extends Fragment {
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_course_posts, menu);
+<<<<<<< HEAD
+=======
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         MenuItem timetableItem = menu.findItem(R.id.view_timetable);
@@ -174,5 +207,6 @@ public class CoursePostsFragment extends Fragment {
                     });
             return builder.create();
         }
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
     }
 }

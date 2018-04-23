@@ -12,8 +12,12 @@
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:elevation="1dp"
+<<<<<<< HEAD
+        android:focusable="true">
+=======
         android:focusable="true"
         android:onClick="onCourseListItemClick">
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
 
         <TextView
             android:id="@+id/course_name"
@@ -26,6 +30,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+<<<<<<< HEAD
+            android:id="@+id/course_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+=======
             android:id="@+id/course_participant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,6 +46,7 @@
             android:layout_marginTop="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             app:layout_constraintBottom_toBottomOf="parent"
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
             app:layout_constraintStart_toStartOf="@+id/course_name"
             app:layout_constraintTop_toBottomOf="@+id/course_name" />
     </android.support.constraint.ConstraintLayout>

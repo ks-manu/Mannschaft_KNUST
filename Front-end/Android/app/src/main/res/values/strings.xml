@@ -23,6 +23,8 @@
     <string name="send_message">Send message</string>
     <string name="vote_up">Vote Up</string>
     <string name="vote_down">Vote Down</string>
+<<<<<<< HEAD
+=======
     <string name="message">message</string>
     <string name="vote">vote</string>
     <string name="refresh">Refresh</string>
@@ -35,4 +37,5 @@
     <string name="version">alpha-release</string>
     <string name="group_copyright">© Mannschaft KNUST</string>
     <string name="sign_out">sign out</string>
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
 </resources>

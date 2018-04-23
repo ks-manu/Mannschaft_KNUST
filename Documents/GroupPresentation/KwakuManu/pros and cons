@@ -1,0 +1,17 @@
+machine learning pros and cons:
+
+ADVANTAGES
+
+    Feature learning: One of the interesting advantages of machine learning is that a system randomly initialized and trained on some datasets will eventually learn good feature representations for a given task. Classical approaches involved handcrafting features by an expert human. This took several years of painstakingly fine tuning several parameters to get it right. Nowadays machine learning is used to discover relevant features in otherwise disordered datasets. Such features can be useful for things such as face detection, face recognition, speech recognition or image classification. Deep learning in particular aims to build higher-level abstract feature representation of data layer by layer. These features can be very powerful in speech and image recognition.
+    Parameter optimization: This is similar to feature learning as a group of tunable parameters can be visualized as a feature. Machine learning mostly employs a gradient based method of optimizing a large array of parameters. Again such parameters may be large in number for example, a deep neural architecture can have billions of tunable parameters. These parameters when well set can result in a system working properly. It is not feasible for a human or humans to find such an optimal setting for large number of parameters by hand, thus large scale machine learning algorithms such as stochastic gradient descent are used to find an optimal setting.
+    Data is just too much for human processing and analysis. There is just too much data being produced and without an automated system based on machine learning to learn from such systems, we are nowhere.
+    With new deep learning based systems, data engineering and preprocessing costs are dropping.
+
+DISADVANTAGES
+
+    Acquisition: the large amounts of training data needed to teach the algorithm need to be processed and refined before being supplied to the software agent. this may result in unintentional biasing or corruption of the data. this leads to inaccurate results.
+    Limited: It is not a guarantee that machine learning algorithms will always work in every case imaginable. Sometimes or most of the times machine learning will fail, thus it requires some understanding of the problem at hand in order to apply the right machine learning algorithm.
+    Large data requirements: Some machine learning algorithms need a lot of training data such as deep learning algorithms. It might be cumbersome to work with or collect such large amounts of data. Fortunately there are a lot of training data for image recognition purposes.
+    In ML, say we train our model and validate it on a small dataset. Then we apply this to predict unseen data. Cool, but what if the data we had been seeing so far was biased. Then, we will take terrible decisions.
+    Social scientists might start relying on machine learning a lot more than they should. We still need lot of improvements in unsupervised learning. So we still need handcoded data and interviews.
+    humans are more convenient to deal with when it comes major mistakes that may involve possible liability

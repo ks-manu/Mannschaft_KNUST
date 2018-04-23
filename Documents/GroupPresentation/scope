@@ -8,13 +8,19 @@
 ----------------------------------------------------------------------
 Emerging Trends
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 //TEAM IS TO READ AND DECIDE WHAT'S RELEVANT AND WHAT'S NOT
 =======
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
 1. Intro to emerging trends
 2. Determining soft trends
 3. Technology directions
 4. Tools related trends
+<<<<<<< HEAD
+=======
 >>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
 
 Machine Learning
 1. A brief intro to the concept of machine learning and why it is has generated so much hype. discuss the concept of predictive analytics
@@ -25,6 +31,9 @@ Machine Learning
 6. Pros and cons of machine learning
 [WALK THROUGH AN ALGORITHM IF POSSIBLE]
 
+<<<<<<< HEAD
+Blockchain has been reassigned
+=======
 <<<<<<< HEAD
 Blockchain Technology
 1. A brief intro to blockchain. Mention things that they have likely heard about like cryptocurrencies (bitcoin, ethereum, litecoin)
@@ -43,3 +52,4 @@ Blockchain Technology
 =======
 Blockchain has been reassigned
 >>>>>>> de8ef97882507ee65dbc280704872c516e30d3ec
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2

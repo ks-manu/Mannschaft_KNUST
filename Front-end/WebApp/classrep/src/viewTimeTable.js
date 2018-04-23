@@ -1,2 +1,13 @@
 import React,{Component} from 'react';
-import DatePicker from 'material-ui/DatePicker';
+import Timetable from 'react-timetable-events';
+
+
+
+export default class viewTimeTable extends Component {
+ 
+    render(){
+        return (
+            <Timetable events={this.state.events}/>
+        )
+    }
+}

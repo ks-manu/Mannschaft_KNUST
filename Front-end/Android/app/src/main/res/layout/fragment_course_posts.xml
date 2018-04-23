@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/course_post_recycler"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutManager="android.support.v7.widget.LinearLayoutManager">
+
+</android.support.v7.widget.RecyclerView>
+=======
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -21,3 +31,4 @@
         android:src="@drawable/ic_send_white_24dp"/>
 
 </FrameLayout>
+>>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
