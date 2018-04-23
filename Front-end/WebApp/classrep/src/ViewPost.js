@@ -6,13 +6,14 @@ import Post from './Post';
 import Paper from 'material-ui/Paper';
 import paperStyle from './PaperStyle';
 import AddPost from './AddPost';
-
+import { observer } from 'mobx-react';
+import PostStore from './store/PostStore';
 
 const style = {
   margin: 12,
 };
 
-
+ mobx-react.observer(['PostStore']);
 
 
 
@@ -26,12 +27,14 @@ export default class ViewPost extends Component{
      const newId=posts[posts.length-1].id+1;
      this.setState({
        posts:posts.concat({id: newId, post:this.refs.message.getValue(), upvotes:0, downvotes:0})
-     })
+
+       
+     });
   
-   
-       console.log(posts[posts.length-1].id+1)
-  
-  
+   console.log(this.refs.message.getValue());
+       
+   //this.refs.message.getValue=null;
+     
    
   }
  
@@ -51,14 +54,14 @@ export default class ViewPost extends Component{
         <form >
         
           
-          <TextField className="PostHolder" multiLine={false} rows={6} fullWidth="true" rowsMax={10} floatingLabelText="Post" ref='message'/>
+          <TextField className="PostHolder" multiLine={false} rows={6} fullWidth="true" rowsMax={10} floatingLabelText="Post" refs='message'/>
             
           <RaisedButton label="Submit" className="submitButton" style={style} onClick={this.newPost} />
           <RaisedButton label="Cancel" className="cancelButton" style={style}/> 
       
         </form>  
       </Paper> 
-        {this.state.posts.map(info=>
+        {this.props.post.all.slice().map(info=>
         <Post key={info.id} {...info}/>
     
       )}
