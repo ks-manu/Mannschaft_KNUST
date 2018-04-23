@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
 import {cyan500} from 'material-ui/styles/colors';
-// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import paperStyle from './PaperStyle';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
 import Login from './Login';
-import SignUp from './SignUp';
+
 import MenuItem from 'material-ui/MenuItem';
 import Drawer from 'material-ui/Drawer';
 import { Toolbar, ToolbarTitle } from 'material-ui';
@@ -14,9 +14,7 @@ import { Router, Route, Link } from 'react-router-dom'
 import ViewPost from './ViewPost';
 import './App.css';
 
-// This replaces the textColor value on the palette
-// and then update the keys for each component that depends on it.
-// More on Colors: http://www.material-ui.com/#/customization/colors
+
 const muiTheme = getMuiTheme({
   palette: {
     textColor: cyan500,
@@ -26,15 +24,8 @@ const muiTheme = getMuiTheme({
   },
 });
 
-const paperStyle={
-  height:'85%',
-  width:'50%',
-  margin:'7%',
-  textAlign:'center',
-  backgroundColor:'#E0F7FA'
-}
 
-// MuiThemeProvider takes the theme as a property and passed it down the hierarchy.
+
 class Main extends Component{
   
   constructor(props){
@@ -54,7 +45,7 @@ class Main extends Component{
     
     
     return(
-  <div href="banner.jpg">
+  <div>
         <AppBar 
           title="Class Rep"
           onLeftIconButtonClick={this.handleToggle}  />
@@ -67,7 +58,7 @@ class Main extends Component{
         >
 
         <AppBar title="Menu"/>
-          <MenuItem >Timetable</MenuItem>
+          <Link to="./Timetable"><MenuItem >Timetable</MenuItem></Link>
           <MenuItem>Posts</MenuItem>
           <MenuItem>Account</MenuItem>
           <Link to="./Login"><MenuItem>Logout</MenuItem></Link>
@@ -78,8 +69,7 @@ class Main extends Component{
           
           <h1>Welcome to Class Rep</h1>
           <ul>
-            <Link to="/viewPost"><li>ViewPost</li></Link>
-            <Link to="/addPost"><li>Add Post</li></Link>
+            <Link to="/ViewPost"><li>ViewPost</li></Link>
             <Link to="/changeVenue"><li>Change Venue</li></Link>
             <Link to="/changeTime"><li>Change Time</li></Link>
             

@@ -4,14 +4,8 @@ import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 import {Link} from 'react-router-dom';
 import './App';
+import paperStyle from './PaperStyle';
 
-const paperStyle={
-    height:'85%',
-    width:'50%',
-    margin:'7%',
-    textAlign:'center',
-    backgroundColor:'#E0F7FA'
-  }
 
 export default class Login extends Component{
     constructor(){
@@ -23,9 +17,9 @@ export default class Login extends Component{
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onSubmit(e){
-        e.preventDefault();
-        console.log(this.state)
+    onSubmit=(e) =>{
+        // e.preventDefault();
+        console.log('logged in')
     }
 
     render(){
@@ -43,7 +37,7 @@ export default class Login extends Component{
                     onChange={e => this.setState({password: e.target.value})}
                     />
                     <br />
-                    <Link to="/main"><FlatButton label="Login"  /></Link>
+                    <Link to="/main"><FlatButton label="Login" onClick={this.onSubmit} /></Link>
                 </Paper>
          </div>       
         );
