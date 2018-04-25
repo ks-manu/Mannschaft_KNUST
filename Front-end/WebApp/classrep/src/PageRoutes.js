@@ -15,7 +15,7 @@ import {Provider} from 'mobx-react';
 export default class PageRouter extends Component{
     render(){
         return(
-            <Provider PostStore={stores.PostStore}>    
+                
                 <BrowserRouter>
                     <Switch>
                         <Route exact path="/" component={Login} />
@@ -27,7 +27,7 @@ export default class PageRouter extends Component{
                         {/* <Route exact path="/viewTimeTable" component={viewTimeTable}/> */}
                     </Switch>
                 </BrowserRouter>
-            </Provider>    
+                
         );
     }
 

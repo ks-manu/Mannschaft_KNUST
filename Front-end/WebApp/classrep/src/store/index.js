@@ -1,6 +1,6 @@
-import PostStore from './PostStore';
+// import PostStore from './PostStore';
 
-const stores={
-    PostStore,
-};
-export default stores;
+// const stores={
+//     PostStore,
+// };
+// export default stores;

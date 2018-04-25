@@ -14,7 +14,7 @@
 
 module.exports = {
     entry: {
-      app: './app',
+      app: './src.index.js',
     },
     output: {
       path: __dirname,
