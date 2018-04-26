@@ -7,25 +7,12 @@
         android:icon="@drawable/ic_search_white_24dp"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="android.support.v7.widget.SearchView" />
-<<<<<<< HEAD
-    <item
-        android:id="@+id/send_message"
-        android:icon="@drawable/ic_send_black_24dp"
-        android:menuCategory="container"
-        android:title="@string/send_message"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/view_timetable"
-        android:icon="@drawable/ic_timetable_24dp"
-        android:title="@string/timetable" />
-=======
 
     <item
         android:id="@+id/view_timetable"
         android:icon="@drawable/ic_timetable_white_24dp"
         android:title="@string/timetable"
         app:showAsAction="ifRoom"/>
->>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
 
 
 </menu>

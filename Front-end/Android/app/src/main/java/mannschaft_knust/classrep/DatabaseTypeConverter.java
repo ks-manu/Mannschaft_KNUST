@@ -9,23 +9,6 @@ class DatabaseTypeConverter {
     //time <-> string
     @TypeConverter
     public static String stringFromTime(Time time){
-<<<<<<< HEAD
-        return time.toString();
-    }
-    @TypeConverter
-    public static Time timeFromString(String string){
-        return Time.valueOf(string);
-    }
-
-    //date <-> string
-    @TypeConverter
-    public static String stringFromTimestamp(Timestamp timestamp){
-        return timestamp.toString();
-    }
-    @TypeConverter
-    public static Timestamp timestampFromString(String string){
-        return Timestamp.valueOf(string);
-=======
         if(time != null)
             return time.toString();
         else
@@ -53,7 +36,6 @@ class DatabaseTypeConverter {
             return Timestamp.valueOf(string);
         else
             return null;
->>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
     }
 
     //CoursePost.UserVote <-> short
