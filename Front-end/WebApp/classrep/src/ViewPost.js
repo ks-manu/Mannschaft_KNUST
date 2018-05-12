@@ -20,11 +20,11 @@ const style = {
 
 
 export default class ViewPost extends Component{
-  componentWillMount(){
-    this.setState({
-      posts:PostDetails,
-    })
-  }
+  // componentWillMount(){
+  //   this.setState({
+  //     posts:PostDetails,
+  //   })
+  // }
   
   
   newPost=(e)=>{
