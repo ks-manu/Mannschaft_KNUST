@@ -7,9 +7,7 @@ import AddPost from './AddPost';
 import ChangeTime from './ChangeTime';
 import ChangeVenue from './ChangeVenue';
 import Timetable from './Timetable';
-//import viewTimeTable from './viewTimeTable';
-import stores from './store/index';
-import {Provider} from 'mobx-react';
+
 
 
 export default class PageRouter extends Component{
@@ -24,7 +22,6 @@ export default class PageRouter extends Component{
                         <Route exact path="/ViewPost" component={ViewPost}/>
                         <Route exact path="/changeTime" component={ChangeTime}/>
                         <Route exact path="/changeVenue" component={ChangeVenue}/>
-                        {/* <Route exact path="/viewTimeTable" component={viewTimeTable}/> */}
                     </Switch>
                 </BrowserRouter>
                 

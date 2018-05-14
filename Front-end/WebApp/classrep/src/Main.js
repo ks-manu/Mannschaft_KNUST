@@ -12,6 +12,8 @@ import Paper from 'material-ui/Paper';
 import AddPost from './AddPost';
 import { Router, Route, Link } from 'react-router-dom'
 import ViewPost from './ViewPost';
+import Timetable from "./Timetable";
+import 'react-calendar-timeline/lib/Timeline.css'
 import './App.css';
 
 
@@ -58,7 +60,7 @@ class Main extends Component{
         >
 
         <AppBar title="Menu"/>
-          <Link to="./viewTimeTable"><MenuItem >Timetable</MenuItem></Link>
+          <Link to="./TimeTable"><MenuItem >Timetable</MenuItem></Link>
           <MenuItem>Posts</MenuItem>
           <MenuItem>Account</MenuItem>
           <Link to="./Login"><MenuItem>Logout</MenuItem></Link>
