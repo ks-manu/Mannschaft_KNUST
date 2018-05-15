@@ -120,4 +120,8 @@ import Paper from 'material-ui/Paper';
   }
 
 
+<<<<<<< HEAD
    }
+=======
+   }
+>>>>>>> Fixed the change time function
