@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
 import {cyan500} from 'material-ui/styles/colors';
-import paperStyle from './PaperStyle';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
 import Login from './Login';
@@ -15,6 +14,7 @@ import ViewPost from './ViewPost';
 import Timetable from "./Timetable";
 import 'react-calendar-timeline/lib/Timeline.css'
 import './App.css';
+import TimeTable from './Timetable';
 
 
 const muiTheme = getMuiTheme({
@@ -26,6 +26,13 @@ const muiTheme = getMuiTheme({
   },
 });
 
+const paperStyleTimetable={
+    height: '85%',
+    width:'90%',
+    margin:'7%',
+    
+  }
+
 
 
 class Main extends Component{
@@ -34,7 +41,8 @@ class Main extends Component{
       super(props);
       this.state={
         "open":false,
-        "show":null
+        "show":null,
+        "fixed":true,
       };
   }
 
@@ -60,22 +68,16 @@ class Main extends Component{
         >
 
         <AppBar title="Menu"/>
-          <Link to="./viewTimeTable"><MenuItem >Timetable</MenuItem></Link>
+          <Link to="./TimeTable"><MenuItem >Timetable</MenuItem></Link>
           <MenuItem>Posts</MenuItem>
           <MenuItem>Account</MenuItem>
           <Link to="./Login"><MenuItem>Logout</MenuItem></Link>
           
         </Drawer>
-        <Paper style={paperStyle} >
+        <Paper style={paperStyleTimetable} >
 
           
-          <h1>Welcome to Class Rep</h1>
-          <ul>
-            <Link to="/ViewPost"><li>ViewPost</li></Link>
-            <Link to="/changeVenue"><li>Change Venue</li></Link>
-            <Link to="/changeTime"><li>Change Time</li></Link>
-            
-          </ul>
+          <Timetable/>
           
         </Paper>
             

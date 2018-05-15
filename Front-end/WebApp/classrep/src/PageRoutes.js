@@ -7,6 +7,7 @@ import AddPost from './AddPost';
 import ChangeTime from './ChangeTime';
 import ChangeVenue from './ChangeVenue';
 import Timetable from './Timetable';
+import viewTimetable from './viewTimetable';
 
 
 
@@ -18,7 +19,7 @@ export default class PageRouter extends Component{
                     <Switch>
                         <Route exact path="/" component={Login} />
                         <Route exact path="/main" component={Main} />
-                        <Route exact path="/Timetable" component={Timetable}/>
+                        <Route exact path="/viewTimetable" component={viewTimetable}/>
                         <Route exact path="/ViewPost" component={ViewPost}/>
                         <Route exact path="/changeTime" component={ChangeTime}/>
                         <Route exact path="/changeVenue" component={ChangeVenue}/>
