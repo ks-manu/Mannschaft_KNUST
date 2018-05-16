@@ -68,7 +68,7 @@ class Main extends Component{
         >
 
         <AppBar title="Menu"/>
-          <Link to="./TimeTable"><MenuItem >Timetable</MenuItem></Link>
+          <Link to="./viewTimetable"><MenuItem >Timetable</MenuItem></Link>
           <MenuItem>Posts</MenuItem>
           <MenuItem>Account</MenuItem>
           <Link to="./Login"><MenuItem>Logout</MenuItem></Link>
