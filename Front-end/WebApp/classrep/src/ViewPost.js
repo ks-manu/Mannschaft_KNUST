@@ -24,14 +24,13 @@ export default class ViewPost extends Component{
      const posts=this.state.posts;
      const newId=posts[posts.length-1].id+1;
      this.setState({
-       posts:posts.concat({id: newId, post:this.refs.message.getValue(), upvotes:0, downvotes:0})
+      posts:posts.concat({id: newId, post:document.getElementById('post').value, upvotes:0, downvotes:0})
 
-       
-     });
-  
-   console.log(this.refs.message.getValue());
-       
-   //this.refs.message.getValue=null;
+      
+    });
+ 
+console.log(document.getElementById('post').value);
+   
      
    
   }
@@ -55,7 +54,7 @@ export default class ViewPost extends Component{
           
           <TextField className="PostHolder" multiLine={false} rows={6} 
           fullWidth="true" rowsMax={10} floatingLabelText="Post" 
-          refs='message'/>
+          id='post'/>
             
           <RaisedButton label="Submit" className="submitButton" style={style} onClick={this.newPost} />
           <RaisedButton label="Cancel" className="cancelButton" style={style}/> 
