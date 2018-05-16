@@ -15,3 +15,7 @@ left:0%;
 right:100%;
 bottom: 0%;
 }
+
+.AppBar{
+  position:fixed;
+}

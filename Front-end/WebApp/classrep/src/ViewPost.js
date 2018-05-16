@@ -5,15 +5,13 @@ import TextField from 'material-ui/TextField';
 import Post from './Post';
 import Paper from 'material-ui/Paper';
 import paperStyle from './PaperStyle';
-import AddPost from './AddPost';
-// import { observer } from 'mobx-react';
-// import PostStore from './store/PostStore';
+import MenuBar from './MenuBar';
 
 const style = {
   margin: 12,
 };
 
-//  mobx-react.observer(['PostStore']);
+
 
 
 
@@ -49,18 +47,22 @@ export default class ViewPost extends Component{
   render(){
   return(
     <div>      
+      <MenuBar/>
       <Paper style={paperStyle}>
         <h2>New Post</h2>
         <form >
         
           
-          <TextField className="PostHolder" multiLine={false} rows={6} fullWidth="true" rowsMax={10} floatingLabelText="Post" refs='message'/>
+          <TextField className="PostHolder" multiLine={false} rows={6} 
+          fullWidth="true" rowsMax={10} floatingLabelText="Post" 
+          refs='message'/>
             
           <RaisedButton label="Submit" className="submitButton" style={style} onClick={this.newPost} />
           <RaisedButton label="Cancel" className="cancelButton" style={style}/> 
       
         </form>  
       </Paper> 
+     
       {this.state.posts.map(info=>
          <Post key={info.id} {...info}/>
     

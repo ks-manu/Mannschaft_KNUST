@@ -1,44 +1,19 @@
 import React,{Component} from 'react';
-import {cyan500} from 'material-ui/styles/colors';
 import paperStyle from './PaperStyle';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import AppBar from 'material-ui/AppBar';
 import Login from './Login';
-
-import MenuItem from 'material-ui/MenuItem';
-import Drawer from 'material-ui/Drawer';
-import { Toolbar, ToolbarTitle } from 'material-ui';
 import Paper from 'material-ui/Paper';
 import AddPost from './AddPost';
 import { Router, Route, Link } from 'react-router-dom'
 import ViewPost from './ViewPost';
 import Timetable from "./Timetable";
-import 'react-calendar-timeline/lib/Timeline.css'
 import './App.css';
-
-
-const muiTheme = getMuiTheme({
-  palette: {
-    textColor: cyan500,
-  },
-  appBar: {
-    height: 50,
-  },
-});
+import MenuBar from './MenuBar'
 
 
 
 class Main extends Component{
   
-  constructor(props){
-      super(props);
-      this.state={
-        "open":false,
-        "show":null
-      };
-  }
-
-  handleToggle=()=> this.setState({open:!this.state.open});
+  
 
   
  
@@ -48,24 +23,7 @@ class Main extends Component{
     
     return(
       <div>
-        <AppBar 
-          title="Class Rep"
-          onLeftIconButtonClick={this.handleToggle}  />
-        <Drawer
-          docked={false} 
-          width={200}
-          open={this.state.open}
-          onRequestChange={(open)=> this.setState({open})}
-
-        >
-
-        <AppBar title="Menu"/>
-          <Link to="./viewTimeTable"><MenuItem >Timetable</MenuItem></Link>
-          <MenuItem>Posts</MenuItem>
-          <MenuItem>Account</MenuItem>
-          <Link to="./Login"><MenuItem>Logout</MenuItem></Link>
-          
-        </Drawer>
+        <MenuBar/>
         <Paper style={paperStyle} >
 
           

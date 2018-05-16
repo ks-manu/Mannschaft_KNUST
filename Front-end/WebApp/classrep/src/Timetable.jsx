@@ -3,7 +3,7 @@ import moment from 'moment'
 
 import Timeline from 'react-calendar-timeline/lib'
 import generateFakeData from "./FakeData";
-
+import 'react-calendar-timeline/lib/Timeline.css'
 import FakeData from './FakeData'
 
 var keys = {
@@ -15,7 +15,8 @@ var keys = {
   itemDivTitleKey: 'title',
   itemGroupKey: 'group',
   itemTimeStartKey: 'start',
-  itemTimeEndKey: 'end'
+  itemTimeEndKey: 'end',
+  timeStep:'5'
 }
 
 export default class Timetable extends Component {
@@ -87,7 +88,7 @@ export default class Timetable extends Component {
         items={items}
         keys={keys}
         fullUpdate
-        sidebarContent={<div>Above The Left</div>}
+        sidebarContent={<div>Class</div>}
         itemsSorted
         itemTouchSendsClick={false}
         stackItems
