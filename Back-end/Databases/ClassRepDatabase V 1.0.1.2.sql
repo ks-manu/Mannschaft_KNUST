@@ -28,19 +28,16 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `course session` (
 
---## REPLACE `Course_Code` WITH `Course (Code)`
-
-  `Course(code)` varchar(15) NOT NULL,
-  `Course_Name` varchar(15) NOT NULL,
-  `Starting_Time` time NOT NULL,
-  `Ending_Time` time NOT NULL,
+  `Course(Code)` varchar(15) NOT NULL,
+  `StartingTime` time NOT NULL,
+  `EndingTime` time NOT NULL,
   `Venue` varchar(20) NOT NULL,
   `Techmail` varchar(25) NOT NULL,
-  `Programme_Year` varchar(20) NOT NULL,
+  `ProgrammeAndYear` varchar(20) NOT NULL,
   `Day` varchar(10) NOT NULL,
+  `ID` int NOT NULL AUTO_INCREMENT,
 
---## THIS WILL HAVE TO BE CHANGED TOO
-  PRIMARY KEY (`Course(code)`)
+  PRIMARY KEY (`ID`)
   
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -55,16 +52,16 @@ CREATE TABLE IF NOT EXISTS `course session` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `lecturer table`
+-- Table structure for table `lecturers`
 --
 
-CREATE TABLE IF NOT EXISTS `lecturer table` (
-  `Tech_MAil` varchar(20) NOT NULL,
-  `First_Name` varchar(10) NOT NULL,
-  `Last_Name` varchar(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `lecturers` (
+  `TechMail` varchar(20) NOT NULL,
+  `FirstName` varchar(10) NOT NULL,
+  `LastName` varchar(10) NOT NULL,
   `Password` varchar(20) NOT NULL,
   `Title` varchar(5) NOT NULL,
-  PRIMARY KEY (`Tech_MAil`)
+  PRIMARY KEY (`TechMail`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -73,39 +70,30 @@ CREATE TABLE IF NOT EXISTS `lecturer table` (
 -- Table structure for table `message table`
 --
 
-CREATE TABLE IF NOT EXISTS `Posts table` (
+CREATE TABLE IF NOT EXISTS `Posts` (
 
---## CHANGE TABLE NAME TO `Posts`
---## `Post ID` --> VARCHAR(25 or 30)
---## there's no column for the `Message Text`, `Attachment` --> CHAR (1), `Votable` --> CHAR (Y)
-  `Post_ID` varchar(25) NOT NULL,
-  `Message` text NOT NULL,
+  `PostID` int NOT NULL AUTO_INCREMENT,
+  `Message` varchar(140) NOT NULL,
   `Attachment` char(1) NOT NULL,
   `Votable`  char(2) NOT NULL,
-  `Sent_By` text NOT NULL,
-
---## REVIEW TIMESTAMP FORMAT. 6 IS NOT ENOUGH FOR TO STORE DATE AND TIME. IF POSSIBLE LEAVE IT BLANK
-
-  `Time_sent` timestamp() NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
+  `SentBy` text NOT NULL,
+  `TimeSent` timestamp() NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `students table`
+-- Table structure for table `students`
 --
 
-CREATE TABLE IF NOT EXISTS `students table` (
-  `Index_Number` varchar(10) NOT NULL,
-  `First_Name` varchar(10) NOT NULL,
-  `Last_Name` varchar(15) NOT NULL,
-
---## include `College`
-
-  `Programme_Year` varchar(25) NOT NULL,
+CREATE TABLE IF NOT EXISTS `students` (
+  `IndexNumber` varchar(10) NOT NULL,
+  `FirstName` varchar(10) NOT NULL,
+  `LastName` varchar(15) NOT NULL,
+  `ProgrammeAndYear` varchar(25) NOT NULL,
   `Password` varchar(15) NOT NULL,
   `College` varchar(30) NOT NULL,
-  PRIMARY KEY (`Index_Number`)
+  PRIMARY KEY (`IndexNumber`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -114,16 +102,12 @@ CREATE TABLE IF NOT EXISTS `students table` (
 -- Table structure for table `vote table`
 --
 
-CREATE TABLE IF NOT EXISTS ``Sent_By `Votes table` (
+CREATE TABLE IF NOT EXISTS  `Votes` (
 
---## CHANGE NAME TO `Votes`
---## INCLUDE `Message ID` --> VARCHAR(25 or 30)[this should be the same as the message ID in the Messages table(Posts)]
---## INCLUDE `Index Number`
---## CHANGE `For` AND `Vote_down` TO `Vote` --> CHAR(3)
-
-  `Message_ID` varchar(25) NOT NULL,
-  `Index_Number` varcahr(10) NOT NULL,
-  `Vote` char(3) NOT NULL
+  `PostID` varchar(25) NOT NULL,
+  `IndexNumber` varcahr(10) NOT NULL,
+  `Vote` char(3) NOT NULL,
+  FOREIGN KEY (`PostID`) REFERENCES students(`PostID`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --## there is no table for files

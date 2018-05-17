@@ -2,9 +2,12 @@ package mannschaft_knust.classrep;
 
 import android.arch.persistence.room.Ignore;
 
-public class Course {
-    public String courseAndCode;
-    public String participants;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+class Course {
+    @Expose @SerializedName("Course(Code)")  String courseAndCode;
+    String participants;
 
     @Ignore
     Course(String courseAndCode, String participants){

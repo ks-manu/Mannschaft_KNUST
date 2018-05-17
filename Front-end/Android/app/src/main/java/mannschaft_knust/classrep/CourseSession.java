@@ -4,16 +4,19 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.sql.Time;
 
 @Entity
 class CourseSession extends Course {
     @PrimaryKey
-    int courseSessionID;
-    String day;
-    Time startingTime;
-    Time endingTime;
-    String venue;
+    @Expose @SerializedName("ID") int courseSessionID;
+    @Expose String day;
+    @Expose Time startingTime;
+    @Expose Time endingTime;
+    @Expose String venue;
 
     @Ignore
     CourseSession (String courseAndCode, String programmeAndYear
