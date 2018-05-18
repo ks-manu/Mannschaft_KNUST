@@ -4,10 +4,10 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
-<<<<<<< HEAD
-=======
 import android.support.annotation.Nullable;
->>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.sql.Timestamp;
 
@@ -15,18 +15,13 @@ import java.sql.Timestamp;
 class CoursePost {
     @PrimaryKey
     @NonNull
-<<<<<<< HEAD
-    String postID;
-    String message;
-=======
-    String postID = "null";
-    String message;
+    @Expose String postID = "null";
+    @Expose String message;
     @Nullable
->>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
-    Timestamp timeSent;
-    String sentBy;
-    boolean hasAttachment;
-    boolean voteable;
+    @Expose Timestamp timeSent;
+    @Expose String sentBy;
+    @Expose @SerializedName("Attachment") boolean hasAttachment;
+    @Expose boolean voteable;
     boolean voteStatus;
     UserVote userVote;
     int totalVotes;
@@ -38,11 +33,7 @@ class CoursePost {
     }
 
     @Ignore
-<<<<<<< HEAD
-    CoursePost(String postID, String message, Timestamp timeSent, String sentBy,
-=======
     CoursePost(@NonNull String postID, String message, @Nullable Timestamp timeSent, String sentBy,
->>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
                       boolean hasAttachment, boolean voteable, boolean voteStatus,
                       UserVote userVote, int totalVotes){
         this.postID=postID;
@@ -56,8 +47,6 @@ class CoursePost {
         this.totalVotes=totalVotes;
     }
 
-<<<<<<< HEAD
-=======
     @Ignore
     CoursePost(@NonNull String postID, String message, @Nullable Timestamp timeSent, String sentBy,
                boolean hasAttachment, boolean voteable){
@@ -72,6 +61,5 @@ class CoursePost {
         this.totalVotes=0;
     }
 
->>>>>>> 43472d64ddc513de0ab2db5c474cd328cc28f1b2
     CoursePost(){}
 }

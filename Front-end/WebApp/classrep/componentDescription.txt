@@ -12,3 +12,16 @@ Modify the time of a class to another date/time permanently. This is usually don
 --------------------------------------------------------------------------
 CHANGEVENUE
 Modify the location of a class according to available classes that are available. This is usually done after voting of a post has been done.
+
+Address for timetable
+-----------------------------------------------------------------------------------------
+https://www.npmjs.com/package/react-calendar-timeline
+
+
+npm codes for new modules
+--------------------------
+randomcolor- npm i randomcolor
+moment- npm i moment
+faker- npm i faker
+interact.js- npm i interactjs
+ReactCalendarTimeline- npm i react-calendar-timeline
