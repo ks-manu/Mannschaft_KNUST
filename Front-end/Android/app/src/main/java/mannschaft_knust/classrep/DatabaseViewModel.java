@@ -3,79 +3,39 @@ package mannschaft_knust.classrep;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.os.AsyncTask;
 
 import java.util.List;
 
 public class DatabaseViewModel extends AndroidViewModel {
-    private DatabaseDao databaseDao;
-    private LiveData<List<Course>> courseList;
-    private LiveData<List<CourseSession>> courseSessions;
-    private LiveData<List<CoursePost>> coursePosts;
 
+    private DataRepository dataRepository;
 
     public DatabaseViewModel(Application application){
         super(application);
-        Database database = Database.getDatabase(application);
-        databaseDao = database.databaseDao();
-        courseList = databaseDao.getCourseList();
-        coursePosts = databaseDao.getCoursePosts();
-        courseSessions = databaseDao.getCourseSessions();
+        dataRepository = new DataRepository(application);
     }
+
+    //get user data
+    public User getUser(){return dataRepository.getUser();}
 
     //course list operations
     public LiveData<List<Course>> getCourseList(){
-        return courseList;
+        return dataRepository.getCourseList();
     }
 
     //course post operations
     public LiveData<List<CoursePost>> getCoursePosts(){
-        return coursePosts;
+        return dataRepository.getCoursePosts();
     }
-    public void insertPost(CoursePost post){new insertPostAsyncTask(databaseDao).execute(post);}
+    public void insertPost(CoursePost post){ dataRepository.insertPost(post);}
 
     //course session operations
-    public LiveData<List<CourseSession>> getCourseSessions(){return courseSessions;}
+    public LiveData<List<CourseSession>> getCourseSessions(){return dataRepository.getCourseSessions();}
     public void insertCourseSession(CourseSession courseSession){
-        databaseDao.insertCourseSession(courseSession);}
-    public void updateCourseSession(CourseSession courseSession){
-        databaseDao.updateCourseSession(courseSession);
-    }
-    public void deleteCourseSession(CourseSession courseSession){
-        databaseDao.deleteCourseSession(courseSession);
+        dataRepository.insertCourseSession(courseSession);
     }
 
-    //on sign out
-    public void deleteAll(){new deleteAllAsyncTask(databaseDao);}
-
-    private static class insertPostAsyncTask extends AsyncTask<CoursePost, Void, Void> {
-
-        private DatabaseDao databaseDao;
-
-        insertPostAsyncTask(DatabaseDao databaseDao) {
-            this.databaseDao = databaseDao;
-        }
-
-        @Override
-        protected Void doInBackground(final CoursePost... params) {
-            databaseDao.insertCoursePost(params[0]);
-            return null;
-        }
-    }
-
-    private static class deleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        private DatabaseDao databaseDao;
-
-        deleteAllAsyncTask(DatabaseDao databaseDao) {
-            this.databaseDao = databaseDao;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            databaseDao.deleteAllCoursePosts();
-            databaseDao.deleteAllCourseSessions();
-            return null;
-        }
-    }
+    //on sign out delete all
+    public void deleteAll(){
+        dataRepository.deleteAll();}
 }

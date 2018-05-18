@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mannschaft_knust.classrep">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
         <activity android:name=".SignInActivity" />
 
         <meta-data
@@ -16,6 +20,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".SignUpActivity" />
+
         <activity
             android:name=".MainActivity"
             android:label="ClassRep">
@@ -25,6 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -33,6 +39,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mannschaft_knust.classrep.MainActivity" />
         </activity>
+
         <activity android:name=".AboutAppActivity"></activity>
     </application>
 

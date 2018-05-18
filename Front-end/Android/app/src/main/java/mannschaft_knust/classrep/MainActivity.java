@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidThreeTen.init(this);
 
         SharedPreferences userPref;
         userPref = getSharedPreferences(
