@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `course session`
 --
 
-CREATE TABLE IF NOT EXISTS `course session` (
+CREATE TABLE IF NOT EXISTS `Course_session` (
 
 --## REPLACE `Course_Code` WITH `Course (Code)`
 
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `students table` (
 -- Table structure for table `vote table`
 --
 
-CREATE TABLE IF NOT EXISTS ``Sent_By `Votes table` (
+CREATE TABLE IF NOT EXISTS `Votes table` (
 
 --## CHANGE NAME TO `Votes`
 --## INCLUDE `Message ID` --> VARCHAR(25 or 30)[this should be the same as the message ID in the Messages table(Posts)]
