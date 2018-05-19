@@ -24,7 +24,7 @@
     <string name="vote_up">Vote Up</string>
     <string name="vote_down">Vote Down</string>
     <string name="message">message</string>
-    <string name="vote">vote</string>
+    <string name="userVote">userVote</string>
     <string name="refresh">Refresh</string>
     <string name="add">Add</string>
     <string name="start_time">Start time</string>
