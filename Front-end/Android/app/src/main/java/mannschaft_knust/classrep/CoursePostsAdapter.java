@@ -37,7 +37,7 @@ implements Filterable{
             messageView = coursePostItemView.findViewById(R.id.meessage_view);
             attachmentIndicator = coursePostItemView.findViewById(R.id.attachment_indicator);
             voteButton = coursePostItemView.findViewById(R.id.vote_button);
-            totalVotes = coursePostItemView.findViewById(R.id.total_vote);
+            totalVotes = coursePostItemView.findViewById(R.id.total_votes);
         }
     }
 
@@ -151,16 +151,22 @@ implements Filterable{
                             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                                 @Override
                                 public boolean onMenuItemClick(MenuItem item) {
+                                    CoursePost votedPost = new CoursePost(currentPost.postID
+                                            ,currentPost.message,currentPost.timeSent,currentPost.sentBy
+                                            ,currentPost.hasAttachment,currentPost.voteable,currentPost.userVote
+                                            ,currentPost.totalVotes);
                                     switch (item.getItemId()) {
                                         case R.id.vote_up:
                                             databaseViewModel
-                                                    .voteOnPost(currentPost
+                                                    .voteOnPost(votedPost
                                                             , CoursePost.UserVote.FOR);
+                                            notifyDataSetChanged();
                                             break;
                                         case R.id.vote_down:
                                             databaseViewModel
-                                                    .voteOnPost(currentPost
+                                                    .voteOnPost(votedPost
                                                             , CoursePost.UserVote.AGAINST);
+                                            notifyDataSetChanged();
                                             break;
                                     }
                                     return false;
@@ -173,10 +179,16 @@ implements Filterable{
                 }
             }
         }
+        else holder.voteButton.setVisibility(View.GONE);
+
 
         //show totalvotes
         if (currentPost.totalVotes == 0){
             holder.totalVotes.setVisibility(View.GONE);
+        }
+        else {
+            stringBuilder = currentPost.totalVotes+"";
+            holder.totalVotes.setText(stringBuilder);
         }
 
     }

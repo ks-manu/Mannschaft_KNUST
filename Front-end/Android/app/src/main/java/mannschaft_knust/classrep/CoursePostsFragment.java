@@ -152,12 +152,8 @@ public class CoursePostsFragment extends Fragment {
                                     ViewModelProviders.of(getActivity()).get(DatabaseViewModel.class);
 
                             String postID = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle().toString();
-                            String userLastName = getActivity()
-                                    .getSharedPreferences("mannschaft_knust.classrep.USER_PREF",Context.MODE_PRIVATE)
-                                    .getString("last name", "");
-                            String userTitle = getActivity()
-                                    .getSharedPreferences("mannschaft_knust.classrep.USER_PREF",Context.MODE_PRIVATE)
-                                    .getString("title", "");
+                            String userLastName = databaseViewModel.getUser().lastName;
+                            String userTitle = ((UserInstructor)databaseViewModel.getUser()).title;
 
                             //insert post into database
                             databaseViewModel.insertPost(new CoursePost(postID+ LocalTime.now().toString(),

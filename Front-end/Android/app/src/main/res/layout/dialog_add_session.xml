@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <Spinner
-        android:id="@+id/course_spinner"
+        android:id="@+id/day_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -28,7 +28,7 @@
         android:inputType="time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/day_spinner" />
 
     <Spinner
         android:id="@+id/venue_spinner"

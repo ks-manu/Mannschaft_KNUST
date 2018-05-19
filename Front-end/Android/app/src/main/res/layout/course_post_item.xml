@@ -56,11 +56,11 @@
             android:contentDescription="@string/userVote"
             android:src="@drawable/ic_thumbs_up_down_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/total_vote"
+            app:layout_constraintEnd_toStartOf="@+id/total_votes"
             app:layout_constraintTop_toBottomOf="@+id/meessage_view" />
 
         <TextView
-            android:id="@+id/total_vote"
+            android:id="@+id/total_votes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
