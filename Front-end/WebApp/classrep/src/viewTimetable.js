@@ -30,7 +30,7 @@ class viewTimetable extends Component{
     
     
     return(
-      <div>
+      <div id="TimetableDiv"> 
         <MenuBar/>
         <Paper style={paperStyleTimetable} >
 

@@ -24,7 +24,7 @@ export default class ViewPost extends Component{
      const posts=this.state.posts;
      const newId=posts[posts.length-1].id+1;
      this.setState({
-      posts:posts.concat({id: newId, post:document.getElementById('post').value, upvotes:0, downvotes:0})
+      posts:posts.concat({id: newId, post:document.getElementById('post').value,votable:0,attachment:0})
 
       
     });

@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import paperStyle from './PaperStyle';
+//import paperStyle from './PaperStyle';
 import Login from './Login';
 import Paper from 'material-ui/Paper';
 import AddPost from './AddPost';
@@ -9,6 +9,12 @@ import Timetable from "./Timetable";
 import './App.css';
 import MenuBar from './MenuBar'
 
+const paperStyleMain={
+  circle: true,
+  margin:'7%',
+  textAlign:'center',
+  backgroundColor:'#E0F7FA'
+}
 
 
 class Main extends Component{
@@ -24,7 +30,7 @@ class Main extends Component{
     return(
       <div>
         <MenuBar/>
-        <Paper style={paperStyle} >
+        <Paper style={paperStyleMain} >
 
           
           <h1>Welcome to Class Rep</h1>

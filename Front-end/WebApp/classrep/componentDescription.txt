@@ -25,3 +25,4 @@ moment- npm i moment
 faker- npm i faker
 interact.js- npm i interactjs
 ReactCalendarTimeline- npm i react-calendar-timeline
+json loader- npm i -S json-loader

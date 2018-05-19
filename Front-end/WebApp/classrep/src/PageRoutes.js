@@ -7,7 +7,7 @@ import AddPost from './AddPost';
 import ChangeTime from './ChangeTime';
 import ChangeVenue from './ChangeVenue';
 import Timetable from './Timetable';
-import viewTimetable from './viewTimetable';
+import viewTimetable from './ViewTimetable';
 
 
 

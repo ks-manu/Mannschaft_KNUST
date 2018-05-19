@@ -13,9 +13,11 @@ const Post = props =>
               {props.post}
               <br/>
               <br/>
-              Up:{props.upvotes}     Down:{props.downvotes}
+              votable:{props.votable}     attachment:{props.attachment}
             </CardText>
           </Card>
   </div>
+
+
 
   export default Post;

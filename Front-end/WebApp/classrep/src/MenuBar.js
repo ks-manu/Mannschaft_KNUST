@@ -45,8 +45,8 @@ class MenuBar extends Component{
     
     
     return(
-      <div>
-        <AppBar className="AppBar"
+      <div id="MenuDiv">
+        <AppBar className="AppBar" position="fixed"
           title="Class Rep"
           onLeftIconButtonClick={this.handleToggle}  />
         <Drawer
@@ -61,7 +61,7 @@ class MenuBar extends Component{
           <Link to="./viewTimeTable"><MenuItem >Timetable</MenuItem></Link>
           <Link to='./viewPost'><MenuItem>Posts</MenuItem></Link>
           <MenuItem>Account</MenuItem>
-          <Link to="./Login"><MenuItem>Logout</MenuItem></Link>
+          <Link to="./"><MenuItem>Logout</MenuItem></Link>
           
         </Drawer>
         
