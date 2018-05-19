@@ -11,15 +11,15 @@ import retrofit2.http.Path;
 public interface DataWebService {
    //SignIn
     @POST("users/authlib/{userType}/reqID=sign_in")
-    Call<User> signIn(String userType,@Body User user);
+    Call<User> signIn(@Path("token") String userType, @Body User user);
 
     //SignOut
     @POST("users/deauthlib/{userType}/reqID={token}")
-    Call<User> signOut(String userType, String token, @Body User user);
+    Call<User> signOut(@Path("token") String userType, @Path("token") String token, @Body User user);
 
     //signUp
     @POST("user/{userType}/reqID=sign_up")
-    Call<User> signUp(String userType, @Body User user);
+    Call<User> signUp(@Path("token") String userType, @Body User user);
 
     // Post Requests
     // Sending a post
@@ -41,9 +41,9 @@ public interface DataWebService {
             ,@Path("techmailOrProgrammeAndYear") String techMailOrProgramme);
     //Get PollResults
     @GET("data/share/reqID={token}/poll/{messageID}")
-    Call<List<UserVote>> getPollResult(String token, String messageID);
+    Call<List<UserVote>> getPollResult(@Path("token") String token, @Path("token") String messageID);
     //get BioData
     @GET("data/users/{userType}/share/reqID={token}")
-    Call<User> getBioData(String userType, String token);
+    Call<User> getBioData(@Path("token") String userType, @Path("token") String token);
 
 }

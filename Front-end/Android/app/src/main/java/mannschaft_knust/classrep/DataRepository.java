@@ -9,7 +9,16 @@ import android.widget.Toast;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
+import java.lang.reflect.Type;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,11 +43,35 @@ class DataRepository {
             .addConverterFactory(GsonConverterFactory
                     .create(new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
                             .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+                            .registerTypeAdapter(Timestamp.class, new TimestampSerializer())
+                            .registerTypeAdapter(Time.class, new TimeSerializer())
+                            .registerTypeAdapter(Timestamp.class, new TimestampDeserializer())
+                            .registerTypeAdapter(Time.class, new TimeDeserializer())
                             .create())
             )
             .build();
     private DataWebService dataWebService = retrofit.create(DataWebService.class);
 
+    private class TimestampSerializer implements JsonSerializer<Timestamp>{
+        public JsonElement serialize(Timestamp timestamp, Type type, JsonSerializationContext context){
+            return new JsonPrimitive(timestamp.toString());
+        }
+    }
+    private class TimeSerializer implements JsonSerializer<Time>{
+        public JsonElement serialize(Time time, Type type, JsonSerializationContext context){
+            return new JsonPrimitive(time.toString());
+        }
+    }
+    private class TimestampDeserializer implements JsonDeserializer<Timestamp>{
+        public Timestamp deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context){
+            return Timestamp.valueOf(jsonElement.getAsJsonPrimitive().getAsString());
+        }
+    }
+    private class TimeDeserializer implements JsonDeserializer<Time>{
+        public Time deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context){
+            return Time.valueOf(jsonElement.getAsJsonPrimitive().getAsString());
+        }
+    }
 
 
     DataRepository(Application application){
