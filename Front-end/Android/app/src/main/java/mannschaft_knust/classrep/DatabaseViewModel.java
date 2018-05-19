@@ -28,6 +28,9 @@ public class DatabaseViewModel extends AndroidViewModel {
         return dataRepository.getCoursePosts();
     }
     public void insertPost(CoursePost post){ dataRepository.insertPost(post);}
+    public void voteOnPost(CoursePost post, CoursePost.UserVote userVote){
+        dataRepository.voteOnPost(post, userVote);
+    }
 
     //course session operations
     public LiveData<List<CourseSession>> getCourseSessions(){return dataRepository.getCourseSessions();}

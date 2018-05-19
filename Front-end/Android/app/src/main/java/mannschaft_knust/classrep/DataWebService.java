@@ -36,8 +36,9 @@ public interface DataWebService {
     @GET("data/post/reqID={token}/post/{messageID}/{time}")
     Call<List<CoursePost>> getCoursePosts(@Path("token") String token,@Path("messageID") String messageID, @Path("time") String time);
     //Get CourseSessions
-    @GET("data/course/session/reqID={token}/share/{techmail}")
-    Call<List<CourseSession>> getCourseSessions(@Path("token") String token,@Path("techmail") String techMail);
+    @GET("data/course/session/reqID={token}/share/{techmailOrProgrammeAndYear}")
+    Call<List<CourseSession>> getCourseSessions(@Path("token") String token
+            ,@Path("techmailOrProgrammeAndYear") String techMailOrProgramme);
     //Get PollResults
     @GET("data/share/reqID={token}/poll/{messageID}")
     Call<List<UserVote>> getPollResult(String token, String messageID);

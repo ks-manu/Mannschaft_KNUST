@@ -21,10 +21,9 @@ class CoursePost {
     @Expose Timestamp timeSent;
     @Expose String sentBy;
     @Expose @SerializedName("Attachment") boolean hasAttachment;
-    @Expose boolean voteable;
-    boolean voteStatus;
-    UserVote userVote;
-    int totalVotes;
+    @Expose boolean voteable = false;
+    UserVote userVote = UserVote.UNDECIDED;
+    int totalVotes = 0;
 
     enum UserVote{
         FOR,
@@ -34,7 +33,7 @@ class CoursePost {
 
     @Ignore
     CoursePost(@NonNull String postID, String message, @Nullable Timestamp timeSent, String sentBy,
-                      boolean hasAttachment, boolean voteable, boolean voteStatus,
+                      boolean hasAttachment, boolean voteable,
                       UserVote userVote, int totalVotes){
         this.postID=postID;
         this.message=message;
@@ -42,7 +41,6 @@ class CoursePost {
         this.sentBy=sentBy;
         this.hasAttachment=hasAttachment;
         this.voteable=voteable;
-        this.voteStatus=voteStatus;
         this.userVote=userVote;
         this.totalVotes=totalVotes;
     }
@@ -56,7 +54,6 @@ class CoursePost {
         this.sentBy=sentBy;
         this.hasAttachment=hasAttachment;
         this.voteable=voteable;
-        this.voteStatus=voteable;
         this.userVote=UserVote.UNDECIDED;
         this.totalVotes=0;
     }

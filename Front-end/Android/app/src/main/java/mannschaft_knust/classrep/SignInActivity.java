@@ -117,6 +117,7 @@ public class SignInActivity extends AppCompatActivity {
                     .putString("token", "akdlsfdfdj")
                     .apply();
         }
+        else return;
 
         startActivity(new Intent(this, MainActivity.class));
         finish();

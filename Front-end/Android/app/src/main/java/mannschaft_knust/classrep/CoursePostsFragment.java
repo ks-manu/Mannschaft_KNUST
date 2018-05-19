@@ -30,19 +30,20 @@ import org.threeten.bp.LocalTime;
 import java.util.List;
 
 public class CoursePostsFragment extends Fragment {
+
+    DatabaseViewModel databaseViewModel;
     CoursePostsAdapter coursePostsAdapter;
     String userType;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        databaseViewModel = ViewModelProviders.of(getActivity()).get(DatabaseViewModel.class);
+        userType = databaseViewModel.getUser().userType;
+
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_course_posts, container, false);
 
         setHasOptionsMenu(true);
-
-        userType = getActivity()
-                .getSharedPreferences("mannschaft_knust.classrep.USER_PREF", Context.MODE_PRIVATE)
-                .getString("user type", "");
 
         //configure floating send button
         FloatingActionButton sendPostActionButton = v.findViewById(R.id.send_post);
@@ -61,11 +62,11 @@ public class CoursePostsFragment extends Fragment {
         //config recycler view and its adapter
         RecyclerView coursePostsRecyclerView = v.findViewById(R.id.course_post_recycler);
         coursePostsAdapter = new CoursePostsAdapter(v.getContext(),
-                ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle().toString());
+                ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle().toString()
+                , databaseViewModel);
         coursePostsRecyclerView.setAdapter(coursePostsAdapter);
 
         //set observer for updating recycler data
-        DatabaseViewModel databaseViewModel = ViewModelProviders.of(getActivity()).get(DatabaseViewModel.class);
         databaseViewModel.getCoursePosts().observe(this, new Observer<List<CoursePost>>() {
             @Override
             public void onChanged(@Nullable List<CoursePost> coursePosts) {

@@ -23,7 +23,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 class DataRepository {
 
-    private User user;
+    private User user = new User();
     private DatabaseDao databaseDao;
     private LiveData<List<Course>> courseList;
     private LiveData<List<CourseSession>> courseSessions;
@@ -60,12 +60,11 @@ class DataRepository {
             ((UserInstructor) user)
                     .title = sharedPreferences.getString("title", "");
         }
-        else {
+        else if (sharedPreferences.getString("user type","").equals("Student")){
             user = new UserStudent();
             user.userType = "Student";
             ((UserStudent) user)
-                    .indexNumber = Integer
-                    .getInteger(sharedPreferences.getString("userID",""));
+                    .indexNumber = Integer.parseInt(sharedPreferences.getString("userID","0"));
             ((UserStudent) user)
                     .programmeAndYear = sharedPreferences.getString("programme(year)", "");
         }
@@ -114,8 +113,13 @@ class DataRepository {
     //web services
     private void updateCourseSession(){
         //pulling course sessions
-        Call<List<CourseSession>> call = dataWebService
-                .getCourseSessions(user.token, ((UserInstructor)user).techMail);
+        Call<List<CourseSession>> call;
+        if (user.userType.equals("Student")){
+            call = dataWebService
+                    .getCourseSessions(user.token,((UserStudent)user).programmeAndYear);
+        }
+        else call = dataWebService
+                .getCourseSessions(user.token, ((UserInstructor) user).techMail);
         call.enqueue(new Callback<List<CourseSession>>(){
 
             public void onResponse(@NonNull Call<List<CourseSession>> call,@NonNull Response<List<CourseSession>> response){
@@ -202,7 +206,7 @@ class DataRepository {
 
             public void onResponse(@NonNull Call<UserVote> call, @NonNull Response<UserVote> response){
                 if(response.isSuccessful()) {
-                    databaseDao.insertCoursePost(post);
+                    new insertPostAsyncTask(databaseDao).execute(post);
                     updateCoursePosts();
                 }
             }
