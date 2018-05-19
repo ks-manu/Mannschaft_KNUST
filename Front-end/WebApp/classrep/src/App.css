@@ -19,3 +19,14 @@ bottom: 0%;
 .AppBar{
   position:fixed;
 }
+
+
+body{
+  background: url("./tranguyen459276unsplash.jpg");
+  
+  background-position:top;
+  background: cover;
+  background-repeat: no-repeat;
+  background-size: 100%, 100%;
+ background-blend-mode: lighten;
+}
