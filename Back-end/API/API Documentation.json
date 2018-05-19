@@ -1,0 +1,575 @@
+{
+	"info": {
+		"name": "Mannschaft KNUST",
+		"_postman_id": "0f9f6d9e-a69a-82d5-978d-6ce7e94d1121",
+		"description": "Performs:\n- Authentication\n- Data post\n- Data get\n\nFor:\n- Android app\n- Web app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"description": "",
+			"item": [
+				{
+					"name": "Authenticate Students",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "user_id",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5555/users/authlib/student/reqID=sign_in",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"users",
+								"authlib",
+								"student",
+								"reqID=sign_in"
+							]
+						},
+						"description": "This endpoint allows students to log in and receive a token for future authorisation."
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticate Lecturers",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "user_id",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5555/users/authlib/lecturer/reqID=sign_in",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"users",
+								"authlib",
+								"lecturer",
+								"reqID=sign_in"
+							]
+						},
+						"description": "This endpoint allows lecturers to log in and receive a token for future authorisation."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Data in",
+			"description": "",
+			"item": [
+				{
+					"name": "Post messages",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "Post_ID",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "Message",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "Attachment",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "Votable",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "Sent_By",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "Time_sent",
+									"value": "",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5555/data/systlab/:token/post/:course_code",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"data",
+								"systlab",
+								":token",
+								"post",
+								":course_code"
+							],
+							"variable": [
+								{
+									"key": "token",
+									"value": ""
+								},
+								{
+									"key": "course_code",
+									"value": ""
+								}
+							]
+						},
+						"description": "This endpoint allows you to store messages in the database.\n\nOptions for Votable are:\n- yes\n- no\n\nOptions for Attachment are:\n- Y (yes)\n- N (no)"
+					},
+					"response": []
+				},
+				{
+					"name": "Vote",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "messageID",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "indexNo",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "vote",
+									"value": "",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5555/data/systlab/reqID=:session_token/poll",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"data",
+								"systlab",
+								"reqID=:session_token",
+								"poll"
+							]
+						},
+						"description": "This allows you to submit your vote on a message.\n\nOptions for vote are:\n- yes\n- no"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Course Session Data",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "alter",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "course_code",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "starting_time",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "ending_time",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "techmail",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "venue",
+									"value": "",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "programme_year",
+									"value": "",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5555/data/systlab/course/session/reqID=:session_token",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"data",
+								"systlab",
+								"course",
+								"session",
+								"reqID=:session_token"
+							]
+						},
+						"description": "Use this endpoint to update course session data when an agreement has been reached.\n\nOptions for \"alter\" are:\n- all (both sne AND ven)\n- sne (only starting and ending times)\n- ven (Only venue)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Data out",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:5555/data/post/reqID=:token/:session/:time",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"data",
+								"post",
+								"reqID=:token",
+								":session",
+								":time"
+							],
+							"variable": [
+								{
+									"key": "session",
+									"value": ""
+								},
+								{
+									"key": "time",
+									"value": ""
+								}
+							]
+						},
+						"description": "Use this endpoint to retrieve stored posts in the specified _session_ table (this is a unique identifier for Course+Programme_Year).\n\nOptions for _time_ are:\n- all (all messages since inception of session)\n- YYYY-MM-DD HH:MM:SS (all messages after specified time frame. at least date)"
+					},
+					"response": []
+				},
+				{
+					"name": "Vote Results",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:5555/data/share/reqID=:session_token/poll/:message_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"data",
+								"share",
+								"reqID=:session_token",
+								"poll",
+								":message_id"
+							],
+							"variable": [
+								{
+									"key": "message_id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Use this endpoint to query for the results of a particular poll"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sessions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:5555/data/course/session/reqID=:session_token/share/:user_type/:key",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"data",
+								"course",
+								"session",
+								"reqID=:session_token",
+								"share",
+								":user_type",
+								":key"
+							],
+							"variable": [
+								{
+									"key": "user_type",
+									"value": ""
+								},
+								{
+									"key": "key",
+									"value": ""
+								}
+							]
+						},
+						"description": "Use this endpoint to query for CCA data.\n\nOptions for user_type are:\n- std (student)\n- lcr (lecturer)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Biodata",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:5555/data/users/share/reqID=:session_token/:user_type/:user_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"data",
+								"users",
+								"share",
+								"reqID=:session_token",
+								":user_type",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_type",
+									"value": ""
+								},
+								{
+									"key": "user_id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Use this endpoint to query for user biodata.\n\nOptions for user_type are:\n- std (student)\n- lcr (lecturer)\n\nOptions for user_id are either Index Number or TechMail"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Deathentication",
+			"description": "",
+			"item": [
+				{
+					"name": "Deauthenticate Lecturers",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "session_token",
+									"value": "",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5555/users/deauthlib/lecturer/reqID=:session_token",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"users",
+								"deauthlib",
+								"lecturer",
+								"reqID=:session_token"
+							]
+						},
+						"description": "This endpoint allows you to manually log lecturers out."
+					},
+					"response": []
+				},
+				{
+					"name": "Deathenticate Students",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "session_token",
+									"value": "",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5555/users/deauthlib/student/reqID=:session_token",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"users",
+								"deauthlib",
+								"student",
+								"reqID=:session_token"
+							]
+						},
+						"description": "This endpoint allows you to manually log students out."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"id": "36f51a1d-e3f7-4eed-946e-580a1dc63c69",
+			"key": "user_id",
+			"value": "",
+			"type": "text"
+		},
+		{
+			"id": "67208b2d-bdd0-47b7-b3f1-e19b0bdf9fa8",
+			"key": "password",
+			"value": "",
+			"type": "text"
+		},
+		{
+			"id": "ee4065a9-77ca-4a45-be47-f4ee2edea174",
+			"key": "message_id",
+			"value": "",
+			"type": "text"
+		},
+		{
+			"id": "3174c898-6149-45fc-aa45-8ac7897bcb53",
+			"key": "program_year",
+			"value": "",
+			"type": "text"
+		},
+		{
+			"id": "16274813-d975-4d60-b355-1b7576d83afc",
+			"key": "techmail",
+			"value": "",
+			"type": "text"
+		},
+		{
+			"id": "5d55908b-2116-4756-aa58-afa6f700ca0b",
+			"key": "date&time_sent",
+			"value": "",
+			"type": "text"
+		}
+	]
+}

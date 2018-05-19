@@ -1,0 +1,2 @@
+1. ensure authoriser runs and checks token before granting access to any resource
+2. provide access to data modifying functions

@@ -12,3 +12,6 @@ The ClassRep app connects students and instructors(i.e lectureres, T.A, departme
 * View Current Course Allocation (CCA = Timetable)
 * Reschedule courses and update CCA as required
 * Vote on class scheduling. [RULE = A decision must be made among alternatives]
+### API
+Find published API documentation here:
+* https://documenter.getpostman.com/view/3710976/mannschaft-knust/RW86LqRR
