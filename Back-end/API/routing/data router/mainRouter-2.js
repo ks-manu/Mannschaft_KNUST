@@ -34,8 +34,8 @@ dbConn.connect(function(err) {
 //sign in
 appRouter.post('/users/authlib/:user_type/reqID=sign_in', function(request, response){
     switch(request.params.user_type){
-        case("lecturer"):
-            if(!request.body.user_id || !request.body.password){
+        case("Lecturer"):
+            if(!request.body.TechMail || !request.body.Password){
                 var message = "\nFAILURE: No request parameters for Sign In @ " + new Date;
                 fs.appendFileSync('serverlog', message);
 //ensure both user_id and password are not empty
@@ -43,16 +43,16 @@ appRouter.post('/users/authlib/:user_type/reqID=sign_in', function(request, resp
                 response.send();
             }
             else{
-                var techmail = request.body.user_id;
-                var password = request.body.password;
+                var TechMail = request.body.TechMail;
+                var Password = request.body.Password;
                 
-                authenticator.lecturerLogin(techmail, password, response, dbConn, fs);
+                authenticator.lecturerLogin(TechMail, Password, response, dbConn, fs);
                 
             }
             break
         
-        case("student"):
-            if(!request.body.user_id || !request.body.password){       //ensure both user_id and password are not empty
+        case("Student"):
+            if(!request.body.IndexNumber || !request.body.Password){       //ensure both user_id and password are not empty
                 var message = "\nFAILURE: No request parameters for Sign In @ " + new Date;
                 fs.appendFileSync('serverlog', message);
                 
@@ -60,10 +60,10 @@ appRouter.post('/users/authlib/:user_type/reqID=sign_in', function(request, resp
                 response.send();
             }
             else{
-                var username = request.body.user_id;
-                var password = request.body.password;
+                var IndexNumber = request.body.IndexNumber;
+                var Password = request.body.Password;
                 
-                authenticator.studentLogin(username, password, response, dbConn, fs);
+                authenticator.studentLogin(IndexNumber, Password, response, dbConn, fs);
                 
             }
             break
@@ -85,11 +85,11 @@ appRouter.post('/users/deauthlib/:user_type/reqID=:session_token', function(requ
         var session_token = request.params.session_token;
         
         switch(request.params.user_type){
-            case "lecturer":
+            case "Lecturer":
                 authenticator.lecturerLogout(session_token, response, dbConn, fs);
                 break
             
-            case "student":
+            case "Student":
                 authenticator.studentLogout(session_token, response, dbConn, fs);
                 break
         }

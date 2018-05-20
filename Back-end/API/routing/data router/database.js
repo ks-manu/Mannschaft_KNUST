@@ -71,8 +71,8 @@ function getBioData(token, type, user_id, response, dbConn, fs){
 }
 
 function getSessions(token, user_type, key, response, dbConn, fs){
-    var lcrSessQuery = 'SELECT * FROM Course_sessions WHERE Programme_Year ="'+key+'";';        //what about other lect's teaching same year?
-    var stdSessQuery = 'SELECT * FROM Course_sessions WHERE Techmail="'+key+'";';       //what about other dept/yrs courses?
+    var stdSessQuery = 'SELECT * FROM Course_sessions WHERE Programme_Year ="'+key+'";';
+    var lcrSessQuery = 'SELECT * FROM Course_sessions WHERE Techmail="'+key+'";';
     
     switch(user_type){
         case "lcr":

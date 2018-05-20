@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `CourseSession` (
 -- Table structure for table `lecturer table`
 --
 
-CREATE TABLE IF NOT EXISTS `Lecturers` (
+CREATE TABLE IF NOT EXISTS `Lecturer` (
   `TechMail` varchar(20) NOT NULL,
   `FirstName` varchar(10) NOT NULL,
   `LastName` varchar(10) NOT NULL,
@@ -70,9 +70,9 @@ CREATE TABLE IF NOT EXISTS `Lecturers` (
 -- Table structure for table `message table`
 --
 
-CREATE TABLE IF NOT EXISTS `Posts` (
+CREATE TABLE IF NOT EXISTS `Post` (
 
-  `PostID` int NOT NULL AUTO_INCREMENT,
+  `PostID` varchar(100) NOT NULL AUTO_INCREMENT,
   `Message` varchar(140) NOT NULL,
   `Attachment` char(1) NOT NULL,
   `Votable`  char(2) NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `Posts` (
 -- Table structure for table `students table`
 --
 
-CREATE TABLE IF NOT EXISTS `Students` (
+CREATE TABLE IF NOT EXISTS `Student` (
   `IndexNumber` varchar(10) NOT NULL,
   `FirstName` varchar(10) NOT NULL,
   `LastName` varchar(15) NOT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `Students` (
 -- Table structure for table `vote table`
 --
 
-CREATE TABLE IF NOT EXISTS  `Votes` (
+CREATE TABLE IF NOT EXISTS  `Vote` (
 
   `PostID` varchar(25) NOT NULL,
   `IndexNumber` varcahr(10) NOT NULL,
