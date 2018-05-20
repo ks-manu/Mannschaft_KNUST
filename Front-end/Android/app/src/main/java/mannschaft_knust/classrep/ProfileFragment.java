@@ -44,13 +44,6 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         setHasOptionsMenu(true);
         databaseViewModel = ViewModelProviders.of(getActivity()).get(DatabaseViewModel.class);
         user = databaseViewModel.getUser().getValue();
-        databaseViewModel.getUser().observe(this, new Observer<User>() {
-            @Override
-            public void onChanged(@Nullable User nUser) {
-                user = nUser;
-                getFragmentManager().beginTransaction().detach(thisProfileFragment).attach(thisProfileFragment).commit();
-            }
-        });
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -61,7 +54,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         //check user type for visibilty of user type specific views
         if(user.userType.equals("Student")){
             //remove title field
-            ((View)v.findViewById(R.id.instructor_title)).setVisibility(View.GONE);
+            (v.findViewById(R.id.instructor_title)).setVisibility(View.GONE);
 
             //spinner and adapter for college options
             Spinner collegesSpinner = v.findViewById(R.id.college_spinner);
@@ -79,15 +72,15 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
                     programmeAndYear.length()-1);
             //show student index programme and year
             ((EditText) v.findViewById(R.id.index_number_input))
-                    .setText(user.indexNumber);
+                    .setText(String.valueOf(user.indexNumber));
             ((EditText) v.findViewById(R.id.year_input))
                     .setText(year);
             //set spinner to students current college and programme
-            collegesSpinner
-                    .setSelection(collegesAdapter.getPosition(user.college));
+            collegesSpinner.setSelection(collegesAdapter.getPosition(user.college));
+            Toast.makeText(getContext(), user.college, Toast.LENGTH_SHORT).show();
         }
         else {//if user type is instructor set student fields to GONE
-            ((View) v.findViewById(R.id.student_extra)).setVisibility(View.GONE);
+            (v.findViewById(R.id.student_extra)).setVisibility(View.GONE);
 
             //show lecturer title
             ((EditText) v.findViewById(R.id.instructor_title))
@@ -143,7 +136,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         String selectedCollege = (parent.getItemAtPosition(pos)).toString();
 
         //spinner and adapter for programmes depending on selected college
-        Spinner programmeSpinner = getView().findViewById(R.id.programme_spinner);;
+        Spinner programmeSpinner = getView().findViewById(R.id.programme_spinner);
         ArrayAdapter<CharSequence> programmesAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item);
         switch (selectedCollege) {

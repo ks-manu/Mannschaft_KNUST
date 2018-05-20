@@ -2,6 +2,7 @@ package mannschaft_knust.classrep;
 
 import android.app.Activity;
 import android.app.Application;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +27,7 @@ import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
 
+    private DatabaseViewModel databaseViewModel;
     private Scene scene1;
     private Scene scene2;
     private Transition autoTransition;
@@ -38,6 +40,8 @@ public class SignInActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
 
         //scenes and transition
         ViewGroup sceneRoot = findViewById(R.id.scene_root);
@@ -96,7 +100,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void onClickSignInButton(View button){
-        DataRepository dataRepository = new DataRepository(this);
+        DataRepository dataRepository = databaseViewModel.getDataRepository();
         EditText userIDInput = findViewById(R.id.userID);
         EditText passwordInput = findViewById(R.id.password);
 

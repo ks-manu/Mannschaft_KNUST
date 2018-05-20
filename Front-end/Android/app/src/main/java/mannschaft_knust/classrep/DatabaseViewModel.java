@@ -40,6 +40,9 @@ public class DatabaseViewModel extends AndroidViewModel {
     }
 
     //on sign out delete all
-    public void deleteAll(){
-        dataRepository.deleteAll();}
+    public void deleteAll(){ dataRepository.deleteAll();}
+
+    public DataRepository getDataRepository() {
+        return dataRepository;
+    }
 }

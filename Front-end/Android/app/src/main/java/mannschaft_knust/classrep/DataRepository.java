@@ -1,12 +1,10 @@
 package mannschaft_knust.classrep;
 
-import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.hardware.usb.UsbRequest;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
@@ -24,6 +22,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -38,6 +37,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 class DataRepository {
 
+    MutableLiveData<Boolean> updateRequestCalled = new MutableLiveData<>();
     private MutableLiveData<User> user = new MutableLiveData<>();
     private DatabaseDao databaseDao;
     private LiveData<List<Course>> courseList;
@@ -81,13 +81,13 @@ class DataRepository {
 
 
     DataRepository(Context context){
-        if (context.getApplicationContext() != null){
-            Database database = Database.getDatabase(context.getApplicationContext());
-            databaseDao = database.databaseDao();
-            courseList = databaseDao.getCourseList();
-            coursePosts = databaseDao.getCoursePosts();
-            courseSessions = databaseDao.getCourseSessions();
-        }
+        updateRequestCalled.setValue(Boolean.TRUE);
+
+        Database database = Database.getDatabase(context);
+        databaseDao = database.databaseDao();
+        courseList = databaseDao.getCourseList();
+        coursePosts = databaseDao.getCoursePosts();
+        courseSessions = databaseDao.getCourseSessions();
         this.context = context;
 
         //instantiating user object
@@ -103,6 +103,7 @@ class DataRepository {
             user.userType = "Student";
             user.indexNumber = Integer.parseInt(sharedPreferences.getString("userID","0"));
             user.programmeAndYear = sharedPreferences.getString("programme(year)", "");
+            user.college = sharedPreferences.getString("college", "");
         }
         user.firstName = sharedPreferences.getString("first name", "");
         user.lastName = sharedPreferences.getString("last name", "");
@@ -110,20 +111,12 @@ class DataRepository {
         this.user.setValue(user);
     }
 
-    //get user object
+    //offline operations
     public MutableLiveData<User> getUser(){return user;}
 
-    //course list operations
-    public LiveData<List<Course>> getCourseList(){
-        updateCourseSession();
-        return courseList;
-    }
+    public LiveData<List<Course>> getCourseList(){ return courseList;}
 
-    //course post operations
-    public LiveData<List<CoursePost>> getCoursePosts(){
-        updateCoursePosts();
-        return coursePosts;
-    }
+    public LiveData<List<CoursePost>> getCoursePosts(){return coursePosts; }
     public void insertPost(CoursePost post){
         new insertPostAsyncTask(databaseDao).execute(post);
         sendCoursePost(post);
@@ -132,17 +125,11 @@ class DataRepository {
         post.userVote = userVote;
         sendVote(post);
     }
+    public LiveData<List<CourseSession>> getCourseSessions(){ return courseSessions; }
 
-    //course session operations
-    public LiveData<List<CourseSession>> getCourseSessions(){
-        updateCourseSession();
-        return courseSessions;
-    }
     public void insertCourseSession(final CourseSession courseSession){
         sendCourseSession(courseSession);
     }
-
-    //delete all for sign out
     public void deleteAll(){new deleteAllAsyncTask(databaseDao);}
 
     //web services
@@ -170,7 +157,7 @@ class DataRepository {
             }
         });
     }
-    public void getBioData(final String token,final String userType, final String userID){
+    private void getBioData(final String token,final String userType, final String userID){
         Call<User> call  = dataWebService.getBioData(token,userType,userID);
         call.enqueue(new Callback<User>() {
             @Override
@@ -219,7 +206,8 @@ class DataRepository {
         }
     }
 
-    private void updateCourseSession(){
+    public void updateCourseSession(){
+        updateRequestCalled.setValue(Boolean.FALSE);
         //pulling course sessions
         Call<List<CourseSession>> call;
         if (user.getValue().userType.equals("Student")){
@@ -231,6 +219,7 @@ class DataRepository {
         call.enqueue(new Callback<List<CourseSession>>(){
 
             public void onResponse(@NonNull Call<List<CourseSession>> call,@NonNull Response<List<CourseSession>> response){
+                updateRequestCalled.setValue(Boolean.TRUE);
                 if(response.isSuccessful() && response.body() != null) {
                     databaseDao.deleteAllCourseSessions();
                     for (CourseSession courseSession : response.body()){
@@ -245,27 +234,49 @@ class DataRepository {
             }
 
             public void onFailure(@NonNull Call<List<CourseSession>> call,@NonNull Throwable t){
+                updateRequestCalled.setValue(Boolean.TRUE);
                 Toast.makeText(context,"No Network", Toast.LENGTH_SHORT).show();
             }
         });
     }
-    private void updateCoursePosts(){
+    public void updateCoursePosts(){
+        updateRequestCalled.setValue(Boolean.FALSE);
+        ArrayList<Object> callAndCallback= new ArrayList<>();
         //pulling course post
         Call<List<CoursePost>> call = dataWebService
                 .getCoursePosts(user.getValue().token, "sf", null);
-        call.enqueue(new Callback<List<CoursePost>>(){
+        CustomCallback<List<CoursePost>> callback = new CustomCallback<List<CoursePost>>(){
+            boolean newData = false;
+            boolean calledBack = false;
+            List<CoursePost> newCoursePosts;
 
             public void onResponse(@NonNull Call<List<CoursePost>> call,@NonNull Response<List<CoursePost>> response){
+                updateRequestCalled.setValue(Boolean.TRUE);
                 if(response.isSuccessful() && response.body() != null) {
-                    for (CoursePost coursePost : response.body())
+                    newData = true;
+                    calledBack = true;
+                    for (CoursePost coursePost : response.body()){
+                        newCoursePosts.add(coursePost);
                         databaseDao.insertCoursePost(coursePost);
+                    }
                 }
             }
 
             public void onFailure(@NonNull Call<List<CoursePost>> call,@NonNull Throwable t){
+                updateRequestCalled.setValue(Boolean.TRUE);
+                calledBack = true;
                 Toast.makeText(context,"No Network", Toast.LENGTH_SHORT).show();
             }
-        });
+
+            public boolean hasBeenCalled(){return calledBack;}
+            public boolean hasNewData(){return newData;}
+            public List<CoursePost> getNewData(){
+                return newCoursePosts;
+            }
+        };
+        call.enqueue(callback);
+
+        new PostNotificationAsyncTask(callback).execute();
     }
     private void sendCoursePost(CoursePost post){
         //push course post
@@ -291,6 +302,8 @@ class DataRepository {
 
             public void onResponse(@NonNull Call<CourseSession> call,@NonNull Response<CourseSession> response){
                 if(response.isSuccessful()) {
+                    Toast.makeText(context,"Changes applied successfully"
+                            ,Toast.LENGTH_SHORT).show();
                     updateCourseSession();
                 }
             }
@@ -325,7 +338,6 @@ class DataRepository {
         });
     }
 
-
     //async task for database insertion and deletion
     private static class insertPostAsyncTask extends AsyncTask<CoursePost, Void, Void> {
 
@@ -357,4 +369,27 @@ class DataRepository {
         }
     }
 
+    //async task for notifications
+    private static class PostNotificationAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        List<CoursePost> newCoursePosts;
+        CustomCallback<List<CoursePost>> customCallback;
+
+        PostNotificationAsyncTask(CustomCallback<List<CoursePost>> customCallback){
+            this.customCallback = customCallback;
+        }
+
+        @Override
+        protected Void doInBackground(final Void... params) {
+            if(customCallback.hasBeenCalled()){
+                if(customCallback.hasNewData()){
+                    newCoursePosts =  customCallback.getNewData();
+                }
+                else return null;
+            }
+            else
+                new PostNotificationAsyncTask(customCallback).execute();
+            return null;
+        }
+    }
 }

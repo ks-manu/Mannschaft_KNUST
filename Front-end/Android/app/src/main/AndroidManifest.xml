@@ -40,7 +40,12 @@
                 android:value="mannschaft_knust.classrep.MainActivity" />
         </activity>
 
-        <activity android:name=".AboutAppActivity"></activity>
+        <activity android:name=".AboutAppActivity"/>
+
+        <service android:name=".DataBackgroundSync"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

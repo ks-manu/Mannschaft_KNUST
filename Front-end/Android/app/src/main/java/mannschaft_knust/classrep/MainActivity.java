@@ -1,7 +1,11 @@
 package mannschaft_knust.classrep;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -100,6 +104,13 @@ public class MainActivity extends AppCompatActivity {
         databaseViewModel = ViewModelProviders.of(this).get(
                 DatabaseViewModel.class);
 
+        //background synch
+        JobScheduler syncJob = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobInfo.Builder jobBuilder = new JobInfo
+                .Builder(0, new ComponentName(this,DataBackgroundSync.class.getName()));
+        syncJob.schedule(jobBuilder.setPeriodic(300000)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .build());
 
         fragmentManager.beginTransaction().add(R.id.main_fragment_container, new CourseListFragment(),
                 "courses fragment").commit();
