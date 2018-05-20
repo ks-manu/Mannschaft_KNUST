@@ -4,6 +4,7 @@ import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardTitle, CardText} from 'material-ui/Card';
 import Paper from 'material-ui/Paper';
+import MenuBar from './MenuBar';
 
 
 
@@ -32,9 +33,10 @@ import Paper from 'material-ui/Paper';
 
  render() {
   return (
-     <div className="container">
+<div>
 
  <div>  
+   <MenuBar/>
            <Card>
              <CardTitle title="Change Class Time"  />
             

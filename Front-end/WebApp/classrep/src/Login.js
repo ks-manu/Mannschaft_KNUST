@@ -11,7 +11,7 @@ export default class Login extends Component{
     constructor(){
         super();
         this.state = {
-            email: '',
+            user_id: '',
             password: ''
         }
         this.onSubmit = this.onSubmit.bind(this);
@@ -30,7 +30,7 @@ export default class Login extends Component{
                     <h1>Class Rep</h1>
                     <TextField
                         floatingLabelText="Techmail" type="email" 
-                        onChange={e => this.setState({email: e.target.value})}
+                        onChange={e => this.setState({user_id: e.target.value})}
                     /><br />
                     
                     <TextField  floatingLabelText="Password" type="password" 

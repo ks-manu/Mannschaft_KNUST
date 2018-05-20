@@ -10,10 +10,15 @@ const Post = props =>
             <CardTitle/>
             
             <CardText>
-              {props.post}
+              {props.Message}
               <br/>
+
               <br/>
-              votable:{props.votable}     attachment:{props.attachment}
+              votable:{props.votable}    
+              <br/>
+              attachment:{props.attachment}
+              <br/>
+              time Sent:{props.Time_sent}
             </CardText>
           </Card>
   </div>
