@@ -1,7 +1,13 @@
-for api --> uniform variable names in url --> half done
+for api --> uniform variable names in url --> done
+
+for api --> logIn needs to whether user id has been assigned a token
 
 for api --> refactoring wrt database variables
 
 for api --> endpoint to accommodate various combinations of reschedulings
 
 for lecturer -->periods of time unavailable for scheduling
+
+for api --> sign up
+
+for api --> delete course session (only lecturers)

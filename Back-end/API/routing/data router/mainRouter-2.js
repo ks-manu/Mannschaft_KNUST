@@ -115,10 +115,10 @@ appRouter.post('/data/systlab/:Token/post/:course_table', function(request, resp
     
 });
 
-//store results of Vote on message
+//store results of Vote
 appRouter.post("/data/systlab/reqID=:Token/poll", function(request, response){
     //extract token from URL
-    if(!request.params.Token|!request.body.PostID|!request.body.IndexNumber|!request.body.Vote){
+    if(!request.params.Token||!request.body.PostID||!request.body.IndexNumber||!request.body.Vote){
 //        response.set();        //bad request
         response.send();
         fs.appendFileSync('serverlog', '\nFAILURE: POST request on Poll@ '+new Date);        //log activities
@@ -135,7 +135,7 @@ appRouter.post("/data/systlab/reqID=:Token/poll", function(request, response){
 //Special function only be used by lecturers
 appRouter.post("/data/systlab/course/session/reqID=:Token", function(request, response){
     //extract token from URL
-    if(!request.params.Token | !request.body.alter){
+    if(!request.params.Token || !request.body.alter){
         response.status("400");
         response.send("Either Token or alter or both params missing");
         fs.appendFileSync('serverlog', '\nFAILURE: Update on Course Sessions @ '+new Date+' #TokenOrAlter');
@@ -174,7 +174,7 @@ appRouter.get('/data/share/reqID=:Token/poll/:PostID', function(request, respons
     }
 });
 
-//serve course sessions
+//supply course sessions
 appRouter.get('/data/course/session/reqID=:Token/share/:UserType/:Query', function(request, response){
     if(!request.params.Token || !request.params.UserType || !request.params.Query){
         response.status("400");
