@@ -38,7 +38,7 @@ public class CoursePostsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         databaseViewModel = ViewModelProviders.of(getActivity()).get(DatabaseViewModel.class);
-        userType = databaseViewModel.getUser().userType;
+        userType = databaseViewModel.getUser().getValue().userType;
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_course_posts, container, false);
@@ -47,7 +47,7 @@ public class CoursePostsFragment extends Fragment {
 
         //configure floating send button
         FloatingActionButton sendPostActionButton = v.findViewById(R.id.send_post);
-        if(userType.equals("Instructor")){
+        if(userType.equals("Lecturer")){
             final FragmentManager fragmentManager = getChildFragmentManager();
             sendPostActionButton.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -152,8 +152,8 @@ public class CoursePostsFragment extends Fragment {
                                     ViewModelProviders.of(getActivity()).get(DatabaseViewModel.class);
 
                             String postID = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle().toString();
-                            String userLastName = databaseViewModel.getUser().lastName;
-                            String userTitle = ((UserInstructor)databaseViewModel.getUser()).title;
+                            String userLastName = databaseViewModel.getUser().getValue().lastName;
+                            String userTitle = databaseViewModel.getUser().getValue().title;
 
                             //insert post into database
                             databaseViewModel.insertPost(new CoursePost(postID+ LocalTime.now().toString(),

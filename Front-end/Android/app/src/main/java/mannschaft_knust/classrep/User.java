@@ -3,7 +3,14 @@ package mannschaft_knust.classrep;
 import com.google.gson.annotations.Expose;
 
 class User {
-    @Expose String firstName, lastName, token;
+    String token;
     String userType;
-    String password;
+    @Expose String firstName, lastName;
+
+    //lecturer
+    @Expose String techMail, title;
+
+    //student
+    @Expose int indexNumber;
+    @Expose String programmeAndYear, college;
 }

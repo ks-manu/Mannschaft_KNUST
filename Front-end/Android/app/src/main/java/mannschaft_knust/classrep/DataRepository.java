@@ -2,7 +2,11 @@ package mannschaft_knust.classrep;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.usb.UsbRequest;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
@@ -16,11 +20,13 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,14 +38,14 @@ import static android.content.Context.MODE_PRIVATE;
 
 class DataRepository {
 
-    private User user = new User();
+    private MutableLiveData<User> user = new MutableLiveData<>();
     private DatabaseDao databaseDao;
     private LiveData<List<Course>> courseList;
     private LiveData<List<CourseSession>> courseSessions;
     private LiveData<List<CoursePost>> coursePosts;
-    private Application application;
+    private Context context;
     private Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://classrep.com")
+            .baseUrl("http://10.42.0.1:5555/")
             .addConverterFactory(GsonConverterFactory
                     .create(new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
                             .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
@@ -74,42 +80,38 @@ class DataRepository {
     }
 
 
-    DataRepository(Application application){
-        Database database = Database.getDatabase(application);
-        databaseDao = database.databaseDao();
-        courseList = databaseDao.getCourseList();
-        coursePosts = databaseDao.getCoursePosts();
-        courseSessions = databaseDao.getCourseSessions();
-        this.application = application;
+    DataRepository(Context context){
+        if (context.getApplicationContext() != null){
+            Database database = Database.getDatabase(context.getApplicationContext());
+            databaseDao = database.databaseDao();
+            courseList = databaseDao.getCourseList();
+            coursePosts = databaseDao.getCoursePosts();
+            courseSessions = databaseDao.getCourseSessions();
+        }
+        this.context = context;
 
         //instantiating user object
-        SharedPreferences sharedPreferences = application
+        SharedPreferences sharedPreferences = context
                 .getSharedPreferences("mannschaft_knust.classrep.USER_PREF", MODE_PRIVATE);
-        if (sharedPreferences.getString("user type","").equals("Instructor")){
-            user = new UserInstructor();
-            user.userType = "Instructor";
-            ((UserInstructor) user)
-                    .techMail = sharedPreferences.getString("userID","");
-            ((UserInstructor) user)
-                    .title = sharedPreferences.getString("title", "");
+        User user = new User();
+        if (sharedPreferences.getString("user type","").equals("Lecturer")){
+            user.userType = "Lecturer";
+            user.techMail = sharedPreferences.getString("userID","");
+            user.title = sharedPreferences.getString("title", "");
         }
         else if (sharedPreferences.getString("user type","").equals("Student")){
-            user = new UserStudent();
             user.userType = "Student";
-            ((UserStudent) user)
-                    .indexNumber = Integer.parseInt(sharedPreferences.getString("userID","0"));
-            ((UserStudent) user)
-                    .programmeAndYear = sharedPreferences.getString("programme(year)", "");
+            user.indexNumber = Integer.parseInt(sharedPreferences.getString("userID","0"));
+            user.programmeAndYear = sharedPreferences.getString("programme(year)", "");
         }
-        user.password = sharedPreferences.getString("password", "");
         user.firstName = sharedPreferences.getString("first name", "");
         user.lastName = sharedPreferences.getString("last name", "");
         user.token = sharedPreferences.getString("token", "");
-
+        this.user.setValue(user);
     }
 
     //get user object
-    public User getUser(){return user;}
+    public MutableLiveData<User> getUser(){return user;}
 
     //course list operations
     public LiveData<List<Course>> getCourseList(){
@@ -144,15 +146,88 @@ class DataRepository {
     public void deleteAll(){new deleteAllAsyncTask(databaseDao);}
 
     //web services
+    public void signIn(final String userType, final String userID, String password){
+        Call<ResponseBody> call  = dataWebService.signIn(userType,userID,password);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    User nUser = new User();
+                    try{
+                        nUser.token = response.body().string();
+                    }
+                    catch (IOException e){
+                        Toast.makeText(context,"error IO", Toast.LENGTH_SHORT).show();
+                    }
+                    user.setValue(nUser);
+                    getBioData(nUser.token, userType, userID);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(context, "Server error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void getBioData(final String token,final String userType, final String userID){
+        Call<User> call  = dataWebService.getBioData(token,userType,userID);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response.isSuccessful()){
+                    User user = response.body();
+                    SharedPreferences userPref = context
+                            .getSharedPreferences("mannschaft_knust.classrep.USER_PREF"
+                                    , MODE_PRIVATE);
+
+                    if(userType.equals("Lecturer")){
+                        userPref.edit().putString("user type", userType)
+                                .putString("token", token)
+                                .putString("userID", userID)
+                                .putString("first name", user.firstName)
+                                .putString("last name", user.lastName)
+                                .putString("title", user.title)
+                                .apply();
+                    }
+                    else
+                        userPref.edit().putString("user type", userType)
+                                .putString("token", token)
+                                .putString("userID", userID)
+                                .putString("first name", user.firstName)
+                                .putString("last name", user.lastName)
+                                .putString("programme(year)", user.programmeAndYear)
+                                .putString("college", user.college)
+                                .apply();
+                    context.startActivity(new Intent(context,MainActivity.class));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(context, "Server error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public boolean signOut(String userType, String token){
+        try{
+            return dataWebService.signOut(userType,token,token).execute().isSuccessful();
+        }
+        catch(IOException e){
+            Toast.makeText(context,"Server error", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
     private void updateCourseSession(){
         //pulling course sessions
         Call<List<CourseSession>> call;
-        if (user.userType.equals("Student")){
+        if (user.getValue().userType.equals("Student")){
             call = dataWebService
-                    .getCourseSessions(user.token,((UserStudent)user).programmeAndYear);
+                    .getCourseSessions(user.getValue().token,user.getValue().programmeAndYear);
         }
         else call = dataWebService
-                .getCourseSessions(user.token, ((UserInstructor) user).techMail);
+                .getCourseSessions(user.getValue().token, user.getValue().techMail);
         call.enqueue(new Callback<List<CourseSession>>(){
 
             public void onResponse(@NonNull Call<List<CourseSession>> call,@NonNull Response<List<CourseSession>> response){
@@ -160,7 +235,7 @@ class DataRepository {
                     databaseDao.deleteAllCourseSessions();
                     for (CourseSession courseSession : response.body()){
 
-                        if(user.userType.equals("Instructor"))
+                        if(user.getValue().userType.equals("Lecturer"))
                             courseSession.participants = courseSession.programmeAndYear;
                         else courseSession.participants = courseSession.techMail;
 
@@ -170,14 +245,14 @@ class DataRepository {
             }
 
             public void onFailure(@NonNull Call<List<CourseSession>> call,@NonNull Throwable t){
-                Toast.makeText(application,"No Network", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"No Network", Toast.LENGTH_SHORT).show();
             }
         });
     }
     private void updateCoursePosts(){
         //pulling course post
         Call<List<CoursePost>> call = dataWebService
-                .getCoursePosts(user.token, "sf", null);
+                .getCoursePosts(user.getValue().token, "sf", null);
         call.enqueue(new Callback<List<CoursePost>>(){
 
             public void onResponse(@NonNull Call<List<CoursePost>> call,@NonNull Response<List<CoursePost>> response){
@@ -188,13 +263,13 @@ class DataRepository {
             }
 
             public void onFailure(@NonNull Call<List<CoursePost>> call,@NonNull Throwable t){
-                Toast.makeText(application,"No Network", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"No Network", Toast.LENGTH_SHORT).show();
             }
         });
     }
     private void sendCoursePost(CoursePost post){
         //push course post
-        Call<CoursePost> call = dataWebService.sendCoursePost(user.token,post);
+        Call<CoursePost> call = dataWebService.sendCoursePost(user.getValue().token,post);
         call.enqueue(new Callback<CoursePost>(){
 
             public void onResponse(@NonNull Call<CoursePost> call, @NonNull Response<CoursePost> response){
@@ -211,7 +286,7 @@ class DataRepository {
     }
     private void sendCourseSession(CourseSession courseSession){
         //push course sessions
-        Call<CourseSession> call = dataWebService.sendCourseSession(user.token,courseSession);
+        Call<CourseSession> call = dataWebService.sendCourseSession(user.getValue().token,courseSession);
         call.enqueue(new Callback<CourseSession>(){
 
             public void onResponse(@NonNull Call<CourseSession> call,@NonNull Response<CourseSession> response){
@@ -221,20 +296,20 @@ class DataRepository {
             }
 
             public void onFailure(@NonNull Call<CourseSession> call,@NonNull Throwable t){
-                Toast.makeText(application,"No Network", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"No Network", Toast.LENGTH_SHORT).show();
             }
         });
     }
     private void sendVote(final CoursePost post){
         UserVote userVote = new UserVote();
-        userVote.indexNumber = ((UserStudent) user).indexNumber;
+        userVote.indexNumber = user.getValue().indexNumber;
         userVote.postID = post.postID;
 
         if(post.userVote == CoursePost.UserVote.FOR)
             userVote.vote = "YES";
         else userVote.vote = "NO";
 
-        Call<UserVote> call = dataWebService.sendVote(user.token, userVote);
+        Call<UserVote> call = dataWebService.sendVote(user.getValue().token, userVote);
         call.enqueue(new Callback<UserVote>(){
 
             public void onResponse(@NonNull Call<UserVote> call, @NonNull Response<UserVote> response){
@@ -245,10 +320,11 @@ class DataRepository {
             }
 
             public void onFailure(@NonNull Call<UserVote> call,@NonNull Throwable t){
-                Toast.makeText(application,"No Network", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"No Network", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     //async task for database insertion and deletion
     private static class insertPostAsyncTask extends AsyncTask<CoursePost, Void, Void> {

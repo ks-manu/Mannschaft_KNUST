@@ -105,7 +105,7 @@ public class TimetableFragment extends Fragment {
         });
 
         //configuring on session(event) click
-        if(userType.equals("Instructor")){
+        if(userType.equals("Lecturer")){
             weekView.setLessonClickListener(new Function1<EventView, Unit>() {
                 @Override
                 public Unit invoke(EventView eventView) {
@@ -333,8 +333,7 @@ public class TimetableFragment extends Fragment {
                             CourseSession courseSession = new CourseSession();
 
                             courseSession.courseSessionID = getArguments().getInt("ID");
-                            courseSession.techMail = ((UserInstructor)databaseViewModel.getUser())
-                                    .techMail;
+                            courseSession.techMail = databaseViewModel.getUser().getValue().techMail;
                             courseSession.programmeAndYear = ((TextView) getDialog()
                                     .findViewById(R.id.participants)).getText().toString();
 
@@ -443,8 +442,7 @@ public class TimetableFragment extends Fragment {
 
                             CourseSession courseSession = new CourseSession();
 
-                            courseSession.techMail = ((UserInstructor)databaseViewModel.getUser())
-                                    .techMail;
+                            courseSession.techMail = databaseViewModel.getUser().getValue().techMail;
                             courseSession.programmeAndYear = ((AppCompatActivity) getActivity())
                                     .getSupportActionBar().getSubtitle().toString();
 

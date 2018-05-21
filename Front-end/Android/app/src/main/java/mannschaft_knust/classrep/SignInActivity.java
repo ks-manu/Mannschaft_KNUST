@@ -1,7 +1,11 @@
 package mannschaft_knust.classrep;
 
+import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.transition.AutoTransition;
 import android.support.transition.Scene;
 import android.support.transition.Transition;
@@ -15,6 +19,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Response;
+
 public class SignInActivity extends AppCompatActivity {
 
     private Scene scene1;
@@ -22,6 +31,7 @@ public class SignInActivity extends AppCompatActivity {
     private Transition autoTransition;
     private View clickedView;
     private Scene currentScene;
+    String userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +72,7 @@ public class SignInActivity extends AppCompatActivity {
     // called when user type(instructor or student) button is clicked
     public void onClickUserType(View button){
         clickedView = button;
-
-        //write user type to preference
-        SharedPreferences userPref =
-                getSharedPreferences("mannschaft_knust.classrep.USER_PREF", MODE_PRIVATE);
-        userPref.edit().putString("user type", ((TextView)button).getText().toString()).apply();
+        userType = ((TextView)button).getText().toString();
 
         //transition to sign in view
         TransitionManager.go(scene2, autoTransition);
@@ -90,36 +96,18 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void onClickSignInButton(View button){
+        DataRepository dataRepository = new DataRepository(this);
         EditText userIDInput = findViewById(R.id.userID);
         EditText passwordInput = findViewById(R.id.password);
-        SharedPreferences userPref =
-                getSharedPreferences("mannschaft_knust.classrep.USER_PREF", MODE_PRIVATE);
 
-        //mocking successful login
-        if(userIDInput.getText().toString().equals("yankee@techmail.com")
-                && userPref.getString("user type",null).equals("Instructor")){
-            userPref.edit().putString("userID", userIDInput.getText().toString())
-                    .putString("password", passwordInput.getText().toString())
-                    .putString("first name" , "Jeff")
-                    .putString("last name", "Yankee")
-                    .putString("title", "Mr.")
-                    .putString("token", "akdlsfdfdj")
-                    .apply();
+        String userID = userIDInput.getText().toString();
+        String password = passwordInput.getText().toString();
+        if(userID.equals("") || password.equals("")){
+            Toast.makeText(this, "You omitted id/password",Toast.LENGTH_SHORT).show();
+            return;
         }
-        else if (userIDInput.getText().toString().equals("4129415")
-                && userPref.getString("user type",null).equals("Student")){
-            userPref.edit().putString("userID", userIDInput.getText().toString())
-                    .putString("password", passwordInput.getText().toString())
-                    .putString("first name" , "Hassan")
-                    .putString("last name", "Maazu")
-                    .putString("programme(year)", "Computer(3)")
-                    .putString("college", "Engineering")
-                    .putString("token", "akdlsfdfdj")
-                    .apply();
-        }
-        else return;
 
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+        String userType = this.userType;
+        dataRepository.signIn(userType, userID, password);
     }
 }

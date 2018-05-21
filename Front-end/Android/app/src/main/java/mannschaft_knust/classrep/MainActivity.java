@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         //remove timetable icon in navigation if user is instructor
-        if(userPref.getString("user type", "").equals("Instructor"))
+        if(userPref.getString("user type", "").equals("Lecturer"))
             navigation.getMenu().removeItem(R.id.navigation_timetable);
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
 

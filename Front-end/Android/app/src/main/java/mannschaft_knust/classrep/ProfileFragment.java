@@ -1,11 +1,13 @@
 package mannschaft_knust.classrep;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -25,7 +27,9 @@ import java.util.Comparator;
 
 public class ProfileFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
-    private SharedPreferences userPref;
+    DatabaseViewModel databaseViewModel;
+    User user;
+    ProfileFragment thisProfileFragment = this;
 
     //string comparator for sorting array adapter(for both college and programme spinners)
     private Comparator<CharSequence> stringComparator = new Comparator<CharSequence>(){
@@ -38,18 +42,24 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        databaseViewModel = ViewModelProviders.of(getActivity()).get(DatabaseViewModel.class);
+        user = databaseViewModel.getUser().getValue();
+        databaseViewModel.getUser().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(@Nullable User nUser) {
+                user = nUser;
+                getFragmentManager().beginTransaction().detach(thisProfileFragment).attach(thisProfileFragment).commit();
+            }
+        });
+
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Profile");
         ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle("");
 
-        //get user details
-        userPref = getActivity()
-                .getSharedPreferences("mannschaft_knust.classrep.USER_PREF", Context.MODE_PRIVATE);
-
         //check user type for visibilty of user type specific views
-        if(userPref.getString("user type","").equals("Student")){
+        if(user.userType.equals("Student")){
             //remove title field
             ((View)v.findViewById(R.id.instructor_title)).setVisibility(View.GONE);
 
@@ -64,38 +74,39 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
 
             //spinner and adapter for programme options
 
-            String programmeAndYear = userPref.getString("programme(year)", "");
+            String programmeAndYear = user.programmeAndYear;
             String year = programmeAndYear.substring(programmeAndYear.indexOf('(')+1,
                     programmeAndYear.length()-1);
             //show student index programme and year
             ((EditText) v.findViewById(R.id.index_number_input))
-                    .setText(userPref.getString("userID", ""));
+                    .setText(user.indexNumber);
             ((EditText) v.findViewById(R.id.year_input))
                     .setText(year);
             //set spinner to students current college and programme
             collegesSpinner
-                    .setSelection(collegesAdapter.getPosition(userPref.getString("college", "")));
+                    .setSelection(collegesAdapter.getPosition(user.college));
         }
         else {//if user type is instructor set student fields to GONE
             ((View) v.findViewById(R.id.student_extra)).setVisibility(View.GONE);
 
             //show lecturer title
             ((EditText) v.findViewById(R.id.instructor_title))
-                    .setText(userPref.getString("title", ""));
+                    .setText(user.title);
         }
 
 
         //show non user type dependent details (i.e first name and last name)
         ((EditText) v.findViewById(R.id.first_name_input))
-                .setText(userPref.getString("first name", ""));
+                .setText(user.firstName);
         ((EditText) v.findViewById(R.id.last_name_input))
-                .setText(userPref.getString("last name", ""));
+                .setText(user.lastName);
 
         //config sign out button
         Button signOutButton = v.findViewById(R.id.sign_out_button);
         signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //clear all in user preference
                 getActivity().getSharedPreferences("mannschaft_knust.classrep.USER_PREF",
                         Context.MODE_PRIVATE).edit().clear().apply();
@@ -160,7 +171,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         programmeSpinner.setAdapter(programmesAdapter);
 
         //set users current programme
-        String programmeAndYear = userPref.getString("programme(year)", "");
+        String programmeAndYear = user.programmeAndYear;
         String programme = programmeAndYear.substring(0,programmeAndYear.indexOf('('));
         programmeSpinner
                 .setSelection(programmesAdapter
