@@ -1,5 +1,8 @@
 package mannschaft_knust.classrep;
 
+import android.app.Activity;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
@@ -7,6 +10,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationBuilderWithBuilderAccessor;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.widget.Toast;
 
 import com.google.gson.FieldNamingPolicy;
@@ -186,6 +193,7 @@ class DataRepository {
                                 .putString("programme(year)", user.programmeAndYear)
                                 .putString("college", user.college)
                                 .apply();
+                    ((Activity)context).finish();
                     context.startActivity(new Intent(context,MainActivity.class));
                 }
             }
@@ -245,38 +253,50 @@ class DataRepository {
         //pulling course post
         Call<List<CoursePost>> call = dataWebService
                 .getCoursePosts(user.getValue().token, "sf", null);
-        CustomCallback<List<CoursePost>> callback = new CustomCallback<List<CoursePost>>(){
-            boolean newData = false;
-            boolean calledBack = false;
-            List<CoursePost> newCoursePosts;
+        Callback<List<CoursePost>> callback = new Callback<List<CoursePost>>(){
 
             public void onResponse(@NonNull Call<List<CoursePost>> call,@NonNull Response<List<CoursePost>> response){
                 updateRequestCalled.setValue(Boolean.TRUE);
                 if(response.isSuccessful() && response.body() != null) {
-                    newData = true;
-                    calledBack = true;
+                    int notificationID = 0;
                     for (CoursePost coursePost : response.body()){
-                        newCoursePosts.add(coursePost);
+
                         databaseDao.insertCoursePost(coursePost);
+
+                        Intent resultIntent = new Intent(context, MainActivity.class);
+                        resultIntent.putExtra("PostID", coursePost.postID);
+                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+                        stackBuilder.addNextIntentWithParentStack(resultIntent);
+                        PendingIntent pendingIntent =
+                                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(context
+                                ,"post channel" )
+                                .setSmallIcon(R.drawable.ic_courses_black_24dp)
+                                .setContentTitle(coursePost.postID.substring(0
+                                        ,coursePost.postID.indexOf("_")))
+                                .setContentText(coursePost.message)
+                                .setStyle(new NotificationCompat.BigTextStyle()
+                                        .bigText(coursePost.message))
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                .setContentIntent(pendingIntent)
+                                .setAutoCancel(true);
+
+                        NotificationManagerCompat notificationManager = NotificationManagerCompat
+                                .from(context);
+                        notificationManager.notify(notificationID, builder.build());
+                        notificationID++;
                     }
                 }
             }
 
             public void onFailure(@NonNull Call<List<CoursePost>> call,@NonNull Throwable t){
                 updateRequestCalled.setValue(Boolean.TRUE);
-                calledBack = true;
                 Toast.makeText(context,"No Network", Toast.LENGTH_SHORT).show();
-            }
-
-            public boolean hasBeenCalled(){return calledBack;}
-            public boolean hasNewData(){return newData;}
-            public List<CoursePost> getNewData(){
-                return newCoursePosts;
             }
         };
         call.enqueue(callback);
 
-        new PostNotificationAsyncTask(callback).execute();
     }
     private void sendCoursePost(CoursePost post){
         //push course post
@@ -365,30 +385,6 @@ class DataRepository {
         protected Void doInBackground(Void... params) {
             databaseDao.deleteAllCoursePosts();
             databaseDao.deleteAllCourseSessions();
-            return null;
-        }
-    }
-
-    //async task for notifications
-    private static class PostNotificationAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        List<CoursePost> newCoursePosts;
-        CustomCallback<List<CoursePost>> customCallback;
-
-        PostNotificationAsyncTask(CustomCallback<List<CoursePost>> customCallback){
-            this.customCallback = customCallback;
-        }
-
-        @Override
-        protected Void doInBackground(final Void... params) {
-            if(customCallback.hasBeenCalled()){
-                if(customCallback.hasNewData()){
-                    newCoursePosts =  customCallback.getNewData();
-                }
-                else return null;
-            }
-            else
-                new PostNotificationAsyncTask(customCallback).execute();
             return null;
         }
     }
