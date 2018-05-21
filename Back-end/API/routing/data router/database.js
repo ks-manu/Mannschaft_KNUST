@@ -116,7 +116,7 @@ function getBioData(Token, UserType, UserID, response, dbConn, fs){
     var stdSessQuery = 'SELECT IndexNumber, First_Name, Last_Name, ProgrammeAndYear FROM Course_sessions WHERE IndexNumber="'+UserID+'";';
     
     switch(UserType){
-        case "lcr":
+        case "Lecturer":
             dbConn.query(lcrSessQuery, function(err, result, field){
                 if(err || result == 0 || result == undefined){
                     fs.appendFileSync('serverlog', '\nFAILURE: Get Data on Bio by '+Token+' for '+UserID+' @ '+new Date+' #BadParams');
@@ -131,7 +131,7 @@ function getBioData(Token, UserType, UserID, response, dbConn, fs){
                 }
             });
             break
-        case "std":
+        case "Student":
             dbConn.query(stdSessQuery, function(err, result, field){
                 if(err || result == 0 || result == undefined){
                     fs.appendFileSync('serverlog', '\nFAILURE: Get Data on Bio by '+Token+' for '+UserID+' @ '+new Date+' #BadParams');
@@ -149,11 +149,12 @@ function getBioData(Token, UserType, UserID, response, dbConn, fs){
         default:
             response.status("400");
             response.send("Invalid Details");
-            fs.appendFileSync('serverlog', 'FAILURE: GET Data on Bio by'+Token+' for '+UserID+' @ '+new Date+' #BadUsrParams');
+            fs.appendFileSync('serverlog', '\nFAILURE: GET Data on Bio by'+Token+' for '+UserID+' @ '+new Date+' #BadUsrParams');
     }
 }
 
-function getSessions(Token, UserType, Query, response, dbConn, fs){
+function getSessions(Tokenadmin@m0nt3r0:/home/workspace/Software Engineering/Mannschaft_KNUST$ git pull
+, UserType, Query, response, dbConn, fs){
     var stdSessQuery = 'SELECT * FROM CourseSession WHERE ProgrammeAndYear ="'+Query+'";';
     var lcrSessQuery = 'SELECT * FROM CourseSession WHERE Techmail="'+Query+'";';
     

@@ -105,11 +105,25 @@ CREATE TABLE IF NOT EXISTS `Student` (
 CREATE TABLE IF NOT EXISTS  `Vote` (
 
   `PostID` varchar(25) NOT NULL,
-  `IndexNumber` varcahr(10) NOT NULL,
+  `IndexNumber` varchar(10) NOT NULL,
   `Vote` char(3) NOT NULL,
   FOREIGN KEY (`PostID`) REFERENCES Posts(`PostID`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `token table`
+--
+
+CREATE TABLE IF NOT EXISTS `Token` (
+  `Token` varchar(32) NOT NULL,
+  `UserID` varchar(20) NOT NULL,
+  `TimeStamp` timestamp() NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
+  PRIMARY KEY (`Token`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 --## there is no table for files
 --## HOLD ON FOR NOW
 

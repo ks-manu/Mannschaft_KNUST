@@ -1,10 +1,10 @@
 //--------------------------------------------configuration-----------------------------------------------------------
 var express = require('express');
 var bodyParser = require('body-parser');
-var authenticator = require("../../authentication/authenticator-2.js");
 var fs = require('fs');
-
-var authoriser = require("../../authentication/authoriser.js");
+var database = require("./database");       //handles communication with ClassRep database
+var authenticator = require("../../authentication/authenticator-2.js");     //performs Sign in && Sign out && Sign up (Student ONLY);
+var authoriser = require("../../authentication/authoriser.js");     //checks validity of Token
 
 var appRouter = express();
 
@@ -31,8 +31,21 @@ dbConn.connect(function(err) {
 });
 
 //--------------------------------------------POST REQUESTS-----------------------------------------------------------
+//sign up (STUDENTS ONLY)
+appRouter.post('/users/authlib/Student/reqID=sign_up' function(request, response){
+    if(!request.body.IndexNumber || !request.body.FirstName || !request.body.LastName || !request.body.ProgrammeAndYear || !request.body.Password){
+        fs.appendFileSync('serverlog', '\nFAILURE: No request parameters on Sign Up @ '+new Date);
+        response.status('400');
+        response.end();
+    }
+    else{
+        authenticator.studentSignUp(request.body.IndexNumber, request.body.FirstName, request.body.LastName, request.body.ProgrammeAndYear, request.body.Password, response, dbConn, fs);
+    }
+});
+
 //sign in
 appRouter.post('/users/authlib/:UserType/reqID=sign_in', function(request, response){
+//	console.log("received login request" + request.params.UserType+ "\n"+request.body.UserID +"\n"+ request.body.Password);
     switch(request.params.UserType){
         case("Lecturer"):
             if(!request.body.UserID || !request.body.Password){
@@ -40,7 +53,7 @@ appRouter.post('/users/authlib/:UserType/reqID=sign_in', function(request, respo
                 fs.appendFileSync('serverlog', message);
 //ensure both UserID and password are not empty
                 response.status("400");      //bad request
-                response.send();
+                response.end();
             }
             else{
                 var TechMail = request.body.UserID;
@@ -57,7 +70,7 @@ appRouter.post('/users/authlib/:UserType/reqID=sign_in', function(request, respo
                 fs.appendFileSync('serverlog', message);
                 
                 response.status("400");      //bad request
-                response.send();
+                response.end();
             }
             else{
                 var IndexNumber = request.body.UserID;
@@ -74,16 +87,16 @@ appRouter.post('/users/authlib/:UserType/reqID=sign_in', function(request, respo
 //sign out
 appRouter.post('/users/deauthlib/:UserType/reqID=:Token', function(request, response){
     //extract token from URL
-    if(!request.params.Token){
+    if(!request.body.Token){
         var message = "\nFAILURE: No request parameters for Sign Out @ " + new Date;
         fs.appendFileSync('serverlog', message);
         
         response.status("400");     //bad request
-        response.send();
+        response.end();
     }
     else{
-        var Token = request.params.Token;
-        
+        var Token = request.body.Token;
+        authoriser.Authorise(Token, response, dbConn, fs);
         switch(request.params.UserType){
             case "Lecturer":
                 authenticator.lecturerLogout(Token, response, dbConn, fs);
@@ -92,6 +105,11 @@ appRouter.post('/users/deauthlib/:UserType/reqID=:Token', function(request, resp
             case "Student":
                 authenticator.studentLogout(Token, response, dbConn, fs);
                 break
+            default:
+                var message = "\nFAILURE: Bad request parameters for Sign Out @ " + new Date+" #BadUserType";
+                fs.appendFileSync('serverlog', message);
+                response.status("400");     //bad request
+                response.end();
         }
     }
 });
@@ -104,7 +122,7 @@ appRouter.post('/data/systlab/:Token/post/:course_table', function(request, resp
         fs.appendFileSync('serverlog', message);
         
         response.status("400");
-        response.send();
+        response.end();
     }
     else{
         authoriser.Authorise(request.params.Token, response, dbConn, fs);       //check session token validity
@@ -120,7 +138,7 @@ appRouter.post("/data/systlab/reqID=:Token/poll", function(request, response){
     //extract token from URL
     if(!request.params.Token||!request.body.PostID||!request.body.IndexNumber||!request.body.Vote){
 //        response.set();        //bad request
-        response.send();
+        response.end();
         fs.appendFileSync('serverlog', '\nFAILURE: POST request on Poll@ '+new Date);        //log activities
 //        console.log("Failed: POST request on Poll");
     }
@@ -131,29 +149,32 @@ appRouter.post("/data/systlab/reqID=:Token/poll", function(request, response){
     }
 });
 
-//Update course session data
-//Special function only be used by lecturers
-appRouter.post("/data/systlab/course/session/reqID=:Token", function(request, response){
+//
+//Special function. Only to be used by lecturers
+//
+//Update/Delete course session
+appRouter.post("/data/systlab/:Operation/session/reqID=:Token", function(request, response){
     //extract token from URL
-    if(!request.params.Token || !request.body.alter){
-        response.status("400");
-        response.send("Either Token or alter or both params missing");
-        fs.appendFileSync('serverlog', '\nFAILURE: Update on Course Sessions @ '+new Date+' #TokenOrAlter');
+    if(!request.body.CourseCode || !request.body.StartingTime || !request.body.EndingTime || !request.body.TechMail || !request.body.Venue || !request.body.ProgrammeAndYear || !request.body.Day){
+//        response.send("Either Token or alter or both params missing");
+        fs.appendFileSync('serverlog', '\nFAILURE: Update on Course Sessions @ '+new Date+' #UnavailableParams');
+        response.status('400');
+        response.end();
     }
     else{
         authoriser.Authorise(request.params.Token, response, dbConn, fs);       //check session token validity
-        database.updateCourse(request.params.Token, request.body.Alter, request.body.CourseCode, request.body.StartingTime, request.body.EndingTime, request.body.TechMail, request.body.Venue, request.body.ProgrammeAndYear, request.body.Day, dbConn, fs, response);
+        database.updateCourse(request.params.Token, request.params.Operation, request.body.CourseCode, request.body.StartingTime, request.body.EndingTime, request.body.TechMail, request.body.Venue, request.body.ProgrammeAndYear, request.body.Day, dbConn, fs, response);
     }
 });
 
 //---------------------------------------------GET REQUESTS--------------------------------------------------------
 
 //serve requested posts
-appRouter.get('/data/post/reqID=:Token/:CourseCode/:time', function(request, response){
+appRouter.get('/data/post/reqID=:Token/:CourseCode/:Time', function(request, response){
     if(!request.params.Token || !request.params.CourseCode || !request.params.Time){
         fs.appendFileSync('serverlog','\nFAILURE: Request on Get posts @ '+new Date+' #TokenOrCodeOrTime')
         response.status("400");
-        response.send('Invalid params');
+        response.end();
     }
     else{
         authoriser.Authorise(request.params.Token, response, dbConn, fs);       //check session token validity
@@ -165,7 +186,7 @@ appRouter.get('/data/post/reqID=:Token/:CourseCode/:time', function(request, res
 appRouter.get('/data/share/reqID=:Token/poll/:PostID', function(request, response){
     if(!request.params.Token || !request.params.PostID){
         response.status("400");     //bad request
-        response.send("Invalid Details");
+        response.end();
         fs.appendFileSync('serverlog', 'FAILURE: GET request on Poll Results @ '+new Date+' #BadParams');
     }
     else{
@@ -178,7 +199,7 @@ appRouter.get('/data/share/reqID=:Token/poll/:PostID', function(request, respons
 appRouter.get('/data/course/session/reqID=:Token/share/:UserType/:Query', function(request, response){
     if(!request.params.Token || !request.params.UserType || !request.params.Query){
         response.status("400");
-        response.send("Invalid Details");
+        response.end();
         fs.appendFileSync('serverlog', 'FAILURE: GET request on CCA @ '+new Date+' #BadParams');
     }
     else{
@@ -191,10 +212,14 @@ appRouter.get('/data/course/session/reqID=:Token/share/:UserType/:Query', functi
 appRouter.get('/data/users/share/reqID=:Token/:UserType/:UserID', function(request, response){
     if(!request.params.Token || !request.params.UserType|| !request.params.UserID){
         response.status("400");
-        response.send("Invalid Details");
+        response.end();
         fs.appendFileSync('serverlog', 'Failed: GET request on Bio Data');
     }
     else{
+    
+//        var fullUrl = request.protocol + '://' + request.get('host') + request.originalUrl;
+//        console.log("\n"+fullUrl);
+        
         authoriser.Authorise(request.params.Token, response, dbConn, fs);       //check session token validity
         database.getBioData(request.params.Token, request.params.UserType, request.params.UserID, response, dbConn, fs);
     }

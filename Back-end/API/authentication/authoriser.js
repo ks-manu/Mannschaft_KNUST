@@ -1,46 +1,21 @@
-/*var fs = require('fs');
-var mysql = require('mysql');
-var dbConn = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "classrep"
-});
-
-dbConn.connect(function(err) {
-  if (err){
-    console.log("Database Inaccessible! Is it up?"+"\n\n");
-    console.log(err);
-  }
-  else {
-    console.log("Connected to ClassRep Database!"+"\n\n"+"Listening"+"\n\n");
-  }
-});
-*/
-//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
-//Lecturer authoriser
-function Authorise(tokenString, response, dbConn, fs){
-    var tokenQuery = 'SELECT * FROM `token_table` WHERE token = "'+tokenString+'";';
+//this function checks whether a user has been authenticated or assigned a token
+function Authorise(Token, response, dbConn, fs){
+    var tokenQuery = 'SELECT * FROM `Token` WHERE Token = "'+Token+'";';
     
     // Verify token
     dbConn.query(tokenQuery, function(error, result, fields){
         if (error | result == 0 | result == undefined){       // invalid token returns empty set
-            fs.appendFileSync('\nserverlog', 'FAILURE: Access denied for '+tokenString+' @ '+new Date+' #InvalidToken');
+            fs.appendFileSync('serverlog', '\nFAILURE: Access denied for '+Token+' @ '+new Date+' #InvalidToken');
+            if (error) fs.appendFileSync('serverlog', error);
             response.set('400');        //bad request
-            response.send();
+            response.end();
         }
         else{
-            fs.appendFileSync('\nserverlog', 'SUCCESS: Access granted for '+tokenString+' @ '+new Date);
-            
+            fs.appendFileSync('serverlog', '\nSUCCESS: Access granted for '+Token+' @ '+new Date);
         }
     });
 }
 
-
 module.exports = {
     Authorise:Authorise
 }
-
-//var token="gDnqNYMlRy", response=0;
-//Authorise(token, response, dbConn, fs);
