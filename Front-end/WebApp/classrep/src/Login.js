@@ -28,7 +28,7 @@ export default class Login extends Component{
          }
 
          if(user.UserID&&user.Password){
-            axios.post(`https://jsonplaceholder.typicode.com/users`,{user})
+            axios.post(`localhost:5555/users/authlib/UserType/reqID=sign_in`,{user})
             .then(res=>{
                 console.log(res);
                 console.log(res.data);
@@ -67,7 +67,7 @@ export default class Login extends Component{
                     onChange={e => this.setState({password: e.target.value})}
                     />
                     <br />
-                    <Link to="/main"><FlatButton label="Login" onClick={this.onSubmit}/></Link>
+                    <Link to="./main"><FlatButton label="Login" onClick={this.onSubmit}/></Link>
                 </Paper>
          </div>       
         );

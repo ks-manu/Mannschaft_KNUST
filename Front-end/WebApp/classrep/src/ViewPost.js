@@ -31,6 +31,7 @@ export default class ViewPost extends Component{
   componentWillMount(){
     this.setState({
       Posts:PostDetails,
+      
     })
   }
   
@@ -39,36 +40,53 @@ export default class ViewPost extends Component{
   newPost=(e)=>{
     e.preventDefault();
    
-     
-    
-    
-    const Posts=this.state.Posts;
-     const newId=Posts[Posts.length-1].Post_ID+1;
-     this.setState({
-      Posts:Posts.concat({
-        Post_ID: newId,
-        Message:this.state.Message,
-        votable:this.state.votable,
-        attachment: this.state.attachment,
-        })
-
-        
-
-
-        
-        
-    });
+     if(document.getElementById('Message').value!='')
+     {
+      
+      var date = new Date();
+      const User="test@gmail.com";
+      var LocalDate=date.toDateString();
+      var LocalTime=date.toLocaleTimeString();
+      var timesent=LocalDate+" "+LocalTime;
+      
+      var error="";
+      
+      
+      const Posts=this.state.Posts;
+      const newId=Posts[Posts.length-1].PostID+1;
+       this.setState({
+        Posts:Posts.concat({
+          PostID: newId,
+          Message:this.state.Message,
+          Votable:document.getElementById('votable').value,
+          Attachment: document.getElementById('attachment').value,
+          TimeSent:timesent,
+          SentBy:User
+          })
   
-    document.getElementById('Message').value='';
+          
+  
+  
+                
+            
+       });
+  
+       
     
-    // document.getElementById('votable').value='off';
-    // document.getElementById('attachment').value='off'
+      document.getElementById('Message').value='';
+      
+      
+      
+  
+  //console.log(Posts);
+      
+     }
+     else{
+       error="Enter a message";
+       console.log(error);
+     }
     
-
-
-console.log(document.getElementById('Message').value);    
-console.log(document.getElementById('votable').value);
-console.log(document.getElementById('attachment').value);
+   
      
    
   }
@@ -77,8 +95,7 @@ console.log(document.getElementById('attachment').value);
   
   handleSubmit=(event)=>{
     event.preventDefault();
-    console.log('test');
-
+    
     console.log(document.getElementById('Message').value);
     console.log(document.getElementById('votable').value)
     
@@ -105,7 +122,7 @@ console.log(document.getElementById('attachment').value);
   
   render(){
   return(
-    <div>      
+    <div id="PostDiv">      
       <MenuBar/>
       <Paper style={paperStyle}>
         <h2>New Post</h2>
@@ -114,7 +131,8 @@ console.log(document.getElementById('attachment').value);
           
           <TextField multiLine={false} rows={6} 
           fullWidth="true" rowsMax={10} floatingLabelText="Message" 
-          id='Message' onChange={e => this.setState({Message: e.target.value})}/>
+          id='Message' onChange={e => this.setState({Message: e.target.value})}
+          onClick={this.ChangeAttachment}/>
           <br/>
            
           <div > 
@@ -123,7 +141,9 @@ console.log(document.getElementById('attachment').value);
               labelPosition="left"
               style={styles.checkbox}
               id="votable"
-              onChange={e => this.setState({attachment: e.target.value})}/>
+              onChange={e => this.setState({Votable: e.target.value})}
+              onClick={this.ChangeVotable} 
+              />
           </div>  
             
             
@@ -133,8 +153,8 @@ console.log(document.getElementById('attachment').value);
               labelPosition="left"
               style={styles.checkbox}
               id="attachment"
-              onChange={e => this.setState({attachment: e.target.value})}
-              onClick={this.ChangeAttachment}/>
+              onChange={e => this.setState({Attachment: e.target.value})}
+              />
             
           </div>
           
@@ -147,7 +167,7 @@ console.log(document.getElementById('attachment').value);
       </Paper> 
      
       {this.state.Posts.map(info=>
-         <Post key={info.Post_ID} {...info}/>
+         <Post key={info.PostID} {...info}/>
     
       )}
       

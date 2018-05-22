@@ -88,12 +88,12 @@ export default class Timetable extends Component {
         items={items}
         keys={keys}
         fullUpdate
-        sidebarContent={<div>Class</div>}
+        sidebarContent={<div className="sideBarContent">Class</div>}
         itemsSorted
         itemTouchSendsClick={false}
         stackItems
         itemHeightRatio={0.75}
-        showCursorLine={false}
+        showCursorLine={true}
         canMove={true}
         canResize={true}
         defaultTimeStart={defaultTimeStart}

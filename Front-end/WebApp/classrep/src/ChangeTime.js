@@ -18,7 +18,7 @@ import MenuBar from './MenuBar';
 
 
 
- export default class ChangeTime extends React.Component {
+ export default class ChangeTime extends Component {
 
   constructor(props) {
     super(props);
@@ -29,7 +29,11 @@ import MenuBar from './MenuBar';
     };
     this.handleChange=this.handleChange.bind(this);
   }
-  handleChange(event, index, value) {this.setState({value});}
+  handleChange(event, index, value) {
+    this.setState({value});
+    console.log(this.state.value1);
+    
+}
 
  render() {
   return (
@@ -89,7 +93,7 @@ import MenuBar from './MenuBar';
           <MenuItem value={10} primaryText="5:00" />
           <MenuItem value={11} primaryText="6:00" />
         </DropDownMenu>
-        <FlatButton label="Change Class Time"/>
+        <FlatButton label="Change Class Time" className="changeTime"/>
       </div>
     </Paper>
 

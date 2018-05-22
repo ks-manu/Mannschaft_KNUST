@@ -3,29 +3,20 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import paperStyle from './PaperStyle';
 
 
-const Post = props =>
+const Course = props =>
   <div>
     <Card style={paperStyle}>
       
             <CardTitle/>
             
             <CardText>
-              {props.Message}
+              Course Code:{props.CourseCode}
               <br/>
-
-              <br/>
-              Votable:{props.Votable}    
-              <br/>
-              Attachment:{props.Attachment}
-              <br/>
-              Time Sent:{props.TimeSent}
-              <br/>
-              Sent By: {props.SentBy}
-
+              CourseID:{props.CourseID}
             </CardText>
           </Card>
   </div>
 
 
 
-  export default Post;
+  export default Course;

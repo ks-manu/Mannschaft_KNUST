@@ -12,6 +12,7 @@ import Paper from 'material-ui/Paper';
 import { Router, Route, Link } from 'react-router-dom'
 import ViewPost from './ViewPost';
 import Timetable from "./Timetable";
+import viewCourse from './viewCourse';
 import './App.css';
 
 
@@ -60,8 +61,10 @@ class MenuBar extends Component{
         <AppBar title="Menu"/>
           <Link to="./viewTimeTable"><MenuItem >Timetable</MenuItem></Link>
           <Link to='./viewPost'><MenuItem>Posts</MenuItem></Link>
+          <Link to="./viewCourse"><MenuItem>Courses</MenuItem></Link>
           <MenuItem>Account</MenuItem>
           <Link to="./"><MenuItem>Logout</MenuItem></Link>
+          
           
         </Drawer>
         
