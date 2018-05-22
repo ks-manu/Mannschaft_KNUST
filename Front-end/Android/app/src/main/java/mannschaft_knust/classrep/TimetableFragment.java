@@ -54,6 +54,7 @@ public class TimetableFragment extends Fragment {
     List<CourseSession> courseSessions;
     TimetableFragment thisTimetableFragment = this;
     String userType;
+    String currentCourse, currentParticipant;
 
 
     @Override
@@ -62,6 +63,9 @@ public class TimetableFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_timetable, container, false);
 
         setHasOptionsMenu(true);
+
+        currentCourse = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle().toString();
+        currentParticipant = ((AppCompatActivity) getActivity()).getSupportActionBar().getSubtitle().toString();
 
         userType = getActivity()
                 .getSharedPreferences("mannschaft_knust.classrep.USER_PREF", Context.MODE_PRIVATE)
@@ -105,7 +109,7 @@ public class TimetableFragment extends Fragment {
         });
 
         //configuring on session(event) click
-        if(userType.equals("Instructor")){
+        if(userType.equals("Lecturer")){
             weekView.setLessonClickListener(new Function1<EventView, Unit>() {
                 @Override
                 public Unit invoke(EventView eventView) {
@@ -115,65 +119,12 @@ public class TimetableFragment extends Fragment {
                         //compare id of event and course session to be edited
                         if(courseSession.courseSessionID == eventView.getEvent().getId()){
 
-                            EditSessionFragment editSessionFragment = new EditSessionFragment();
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("ID", courseSession.courseSessionID);
-                            editSessionFragment.setArguments(bundle);
-                            editSessionFragment.showNow(getChildFragmentManager(),"update session");
+                            if(eventView.getEvent().getBackgroundColor() == Color.RED
+                                || eventView.getEvent().getBackgroundColor() == Color.GRAY){
+                                break;
+                            }
 
-                            //get reference to the dialog
-                            AlertDialog dialog =
-                                    ((AlertDialog) editSessionFragment.getDialog());
-
-                            //display information of selected course session(event)
-                            TextView courseName = dialog.findViewById(R.id.course_name);
-                            TextView participants = dialog.findViewById(R.id.participants);
-                            courseName.setText(courseSession.courseAndCode);
-                            participants.setText(courseSession.participants);
-
-                            //load day spinner
-                            Spinner daySpinner = dialog.findViewById(R.id.day_spinner);
-                            ArrayAdapter<CharSequence> dayAdapter = ArrayAdapter.createFromResource(getActivity(),
-                                    R.array.days_of_week, android.R.layout.simple_spinner_item);
-                            dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            daySpinner.setAdapter(dayAdapter);
-                            daySpinner.setSelection(dayAdapter.getPosition(courseSession.day));
-
-                            //config time input with time picker dialog
-                            EditText timeInput = dialog.findViewById(R.id.start_time_input);
-                            timeInput.setText(courseSession.startingTime.toString().substring(0,4));
-                            timeInput.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    //show time picker dialog
-                                    DialogFragment timePickerFragment = new TimePickerFragment();
-                                    timePickerFragment.show(getChildFragmentManager(), "time picker");
-                                }
-                            });
-                            timeInput.setOnTouchListener(new View.OnTouchListener() {
-                                @Override
-                                public boolean onTouch(View v, MotionEvent event) {
-                                    if(event.getAction() == MotionEvent.ACTION_DOWN)
-                                        v.performClick();
-                                    return true;
-                                }
-                            });
-
-                            //config duration
-                            EditText durationInput = dialog.findViewById(R.id.duration_input);
-                            String stringBuilder = (courseSession
-                                    .endingTime.getTime()-courseSession
-                                    .startingTime.getTime())/3.6e+6+"";
-                            durationInput.setText(stringBuilder);
-
-
-                            //load available venues(this would be dynamic base on time selected)
-                            Spinner venueSpinner = dialog.findViewById(R.id.venue_spinner);
-                            ArrayAdapter<CharSequence> venueAdapter = ArrayAdapter.createFromResource(getActivity(),
-                                    R.array.venues, android.R.layout.simple_spinner_item);
-                            venueAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            venueSpinner.setAdapter(venueAdapter);
-
+                            loadEditSessionDialogFragment(courseSession);
                             break;
                         }
                     }
@@ -211,8 +162,11 @@ public class TimetableFragment extends Fragment {
 
             int id = courseSession.get(i).courseSessionID;
             LocalDate date = LocalDate.now();
-            String title = courseSession.get(i).courseAndCode;
-            String shortTitle = title.substring(title.indexOf('_')+1);
+            String title = courseSession.get(i).courseAndCode.substring(
+                    courseSession.get(i).courseAndCode.indexOf('(')+1
+                    , courseSession.get(i).courseAndCode.indexOf(')')
+            );
+            String shortTitle = courseSession.get(i).courseAndCode.substring(0,4);
             String subtitle = courseSession.get(i).participants.substring(0,5);
 
             int day = 0;
@@ -244,6 +198,15 @@ public class TimetableFragment extends Fragment {
             //default colors
             int textColor = Color.WHITE;
             int backgroundColor = Color.GRAY;
+            if(userType.equals("Lecturer")){
+                if(courseSession.get(i).courseAndCode.equals(currentCourse)
+                        && courseSession.get(i).participants.equals(currentParticipant))
+                    backgroundColor = Color.BLUE;
+                else if(courseSession.get(i).participants.equals(currentParticipant))
+                    backgroundColor = Color.parseColor("navy");
+                else
+                    backgroundColor = Color.RED;
+            }
 
             events.add(new Event.Single(id,date ,title , shortTitle,subtitle ,day,startTime,
                     endTime,upperText , lowerText,textColor,backgroundColor));
@@ -265,6 +228,7 @@ public class TimetableFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 //refresh timetable on refresh button click
                 getFragmentManager().beginTransaction().detach(thisTimetableFragment).attach(thisTimetableFragment).commit();
+                databaseViewModel.getDataRepository().updateCourseSession();
                 return false;
             }
         });
@@ -277,42 +241,109 @@ public class TimetableFragment extends Fragment {
         addCourseSession.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                //show add session dialog
-                AddSessionFragment addSessionFragment = new AddSessionFragment();
-                addSessionFragment.showNow(getChildFragmentManager(),"add session");
-
-                //get dialog for customisation
-                Dialog dialog = addSessionFragment.getDialog();
-
-                //load course spinner(list to be filtered from database)
-                Spinner daySpinner = dialog.findViewById(R.id.day_spinner);
-                ArrayAdapter<CharSequence> dayAdapater = ArrayAdapter.createFromResource(getContext()
-                        , R.array.days_of_week, android.R.layout.simple_spinner_item);
-                dayAdapater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                daySpinner.setAdapter(dayAdapater);
-
-                //config time input with time picker dialog
-                EditText timeInput = dialog.findViewById(R.id.start_time_input);
-                timeInput.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //show time picker dialog
-                        DialogFragment timePickerFragment = new TimePickerFragment();
-                        timePickerFragment.show(getChildFragmentManager(), "time picker");
-                    }
-                });
-
-                //load available venues(this would be dynamic base on time selected)
-                Spinner venueSpinner = dialog.findViewById(R.id.venue_spinner);
-                ArrayAdapter<CharSequence> venueAdapter = ArrayAdapter.createFromResource(getActivity(),
-                        R.array.venues, android.R.layout.simple_spinner_item);
-                venueAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                venueSpinner.setAdapter(venueAdapter);
-
+                loadAddSessionFragment();
                 return false;
             }
         });
 
+    }
+
+    //todo: query sessions not taken by lecturer
+    public void eventfromOtherCourseSess(){}
+
+    private void loadEditSessionDialogFragment(CourseSession courseSession){
+        EditSessionFragment editSessionFragment = new EditSessionFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("ID", courseSession.courseSessionID);
+        editSessionFragment.setArguments(bundle);
+        editSessionFragment.showNow(getChildFragmentManager(),"update session");
+
+        //get reference to the dialog
+        AlertDialog dialog =
+                ((AlertDialog) editSessionFragment.getDialog());
+
+        //display information of selected course session(event)
+        TextView courseName = dialog.findViewById(R.id.course_name);
+        TextView participants = dialog.findViewById(R.id.participants);
+        courseName.setText(courseSession.courseAndCode);
+        participants.setText(courseSession.participants);
+
+        //load day spinner
+        Spinner daySpinner = dialog.findViewById(R.id.day_spinner);
+        ArrayAdapter<CharSequence> dayAdapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.days_of_week, android.R.layout.simple_spinner_item);
+        dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        daySpinner.setAdapter(dayAdapter);
+        daySpinner.setSelection(dayAdapter.getPosition(courseSession.day));
+
+        //config time input with time picker dialog
+        EditText timeInput = dialog.findViewById(R.id.start_time_input);
+        timeInput.setText(courseSession.startingTime.toString().substring(0,4));
+        timeInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //show time picker dialog
+                DialogFragment timePickerFragment = new TimePickerFragment();
+                timePickerFragment.show(getChildFragmentManager(), "time picker");
+            }
+        });
+        timeInput.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN)
+                    v.performClick();
+                return true;
+            }
+        });
+
+        //config duration
+        EditText durationInput = dialog.findViewById(R.id.duration_input);
+        String stringBuilder = (courseSession
+                .endingTime.getTime()-courseSession
+                .startingTime.getTime())/3.6e+6+"";
+        durationInput.setText(stringBuilder);
+
+
+        //load available venues(this would be dynamic base on time selected)
+        Spinner venueSpinner = dialog.findViewById(R.id.venue_spinner);
+        ArrayAdapter<CharSequence> venueAdapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.venues, android.R.layout.simple_spinner_item);
+        venueAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        venueSpinner.setAdapter(venueAdapter);
+    }
+
+    private void loadAddSessionFragment(){
+        //show add session dialog
+        AddSessionFragment addSessionFragment = new AddSessionFragment();
+        addSessionFragment.showNow(getChildFragmentManager(),"add session");
+
+        //get dialog for customisation
+        Dialog dialog = addSessionFragment.getDialog();
+
+        //load course spinner(list to be filtered from database)
+        Spinner daySpinner = dialog.findViewById(R.id.day_spinner);
+        ArrayAdapter<CharSequence> dayAdapater = ArrayAdapter.createFromResource(getContext()
+                , R.array.days_of_week, android.R.layout.simple_spinner_item);
+        dayAdapater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        daySpinner.setAdapter(dayAdapater);
+
+        //config time input with time picker dialog
+        EditText timeInput = dialog.findViewById(R.id.start_time_input);
+        timeInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //show time picker dialog
+                DialogFragment timePickerFragment = new TimePickerFragment();
+                timePickerFragment.show(getChildFragmentManager(), "time picker");
+            }
+        });
+
+        //load available venues(this would be dynamic base on time selected)
+        Spinner venueSpinner = dialog.findViewById(R.id.venue_spinner);
+        ArrayAdapter<CharSequence> venueAdapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.venues, android.R.layout.simple_spinner_item);
+        venueAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        venueSpinner.setAdapter(venueAdapter);
     }
 
     //update session dialog
@@ -333,8 +364,7 @@ public class TimetableFragment extends Fragment {
                             CourseSession courseSession = new CourseSession();
 
                             courseSession.courseSessionID = getArguments().getInt("ID");
-                            courseSession.techMail = ((UserInstructor)databaseViewModel.getUser())
-                                    .techMail;
+                            courseSession.techMail = databaseViewModel.getUser().getValue().techMail;
                             courseSession.programmeAndYear = ((TextView) getDialog()
                                     .findViewById(R.id.participants)).getText().toString();
 
@@ -376,7 +406,7 @@ public class TimetableFragment extends Fragment {
                     .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //delete api call
+                            //todo: delete api call
                         }
                     })
                     .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
@@ -443,8 +473,7 @@ public class TimetableFragment extends Fragment {
 
                             CourseSession courseSession = new CourseSession();
 
-                            courseSession.techMail = ((UserInstructor)databaseViewModel.getUser())
-                                    .techMail;
+                            courseSession.techMail = databaseViewModel.getUser().getValue().techMail;
                             courseSession.programmeAndYear = ((AppCompatActivity) getActivity())
                                     .getSupportActionBar().getSubtitle().toString();
 

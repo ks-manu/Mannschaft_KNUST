@@ -3,6 +3,7 @@ package mannschaft_knust.classrep;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class DatabaseViewModel extends AndroidViewModel {
     }
 
     //get user data
-    public User getUser(){return dataRepository.getUser();}
+    public MutableLiveData<User> getUser(){return dataRepository.getUser();}
 
     //course list operations
     public LiveData<List<Course>> getCourseList(){
@@ -39,6 +40,9 @@ public class DatabaseViewModel extends AndroidViewModel {
     }
 
     //on sign out delete all
-    public void deleteAll(){
-        dataRepository.deleteAll();}
+    public void deleteAll(){ dataRepository.deleteAll();}
+
+    public DataRepository getDataRepository() {
+        return dataRepository;
+    }
 }

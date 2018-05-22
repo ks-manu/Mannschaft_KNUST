@@ -10,6 +10,7 @@ import android.widget.Spinner;
 
 import java.util.Comparator;
 
+//todo: post bio api
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     //string comparator for sorting array adapter(for both college and programme spinners)
