@@ -2,7 +2,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var authenticator = require("../../authentication/authenticator-2.js");
-var database = require("./database.js");
 var fs = require('fs');
 
 //var authorise = require("../../authentication/authoriser.js");

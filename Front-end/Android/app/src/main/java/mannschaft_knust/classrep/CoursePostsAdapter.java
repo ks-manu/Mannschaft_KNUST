@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
@@ -38,23 +37,23 @@ implements Filterable{
             messageView = coursePostItemView.findViewById(R.id.meessage_view);
             attachmentIndicator = coursePostItemView.findViewById(R.id.attachment_indicator);
             voteButton = coursePostItemView.findViewById(R.id.vote_button);
-            totalVotes = coursePostItemView.findViewById(R.id.total_vote);
+            totalVotes = coursePostItemView.findViewById(R.id.total_votes);
         }
     }
 
-    private List<CoursePost> coursePosts;
     private List<CoursePost> courseFilteredPosts = new ArrayList<>();
     private List<CoursePost> filteredCoursePosts;
     private String currentCourse;
     private Context recyclerContext;
+    private DatabaseViewModel databaseViewModel;
 
-    public CoursePostsAdapter(Context recyclerContext, String currentCourse){
+    CoursePostsAdapter(Context recyclerContext, String currentCourse, DatabaseViewModel databaseViewModel){
         this.recyclerContext = recyclerContext;
         this.currentCourse = currentCourse;
+        this.databaseViewModel = databaseViewModel;
     }
 
     public void updateData(List<CoursePost> coursePosts){
-        this.coursePosts = coursePosts;
         //clear before re inserting data
         courseFilteredPosts.clear();
         for(int i =0;i<coursePosts.size();i++) {
@@ -78,8 +77,8 @@ implements Filterable{
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(@NonNull final CoursePostsAdapter.ViewHolder holder, int position) {
-        CoursePost currentPost = filteredCoursePosts.get(position);
+    public void onBindViewHolder(@NonNull final CoursePostsAdapter.ViewHolder holder, final int position) {
+        final CoursePost currentPost = filteredCoursePosts.get(position);
         long elapsedTime;
         String stringBuilder;
 
@@ -130,14 +129,14 @@ implements Filterable{
         }
 
 
-        //show or disable vote indicators
-        String userType = recyclerContext
-                .getSharedPreferences("mannschaft_knust.classrep.USER_PREF", Context.MODE_PRIVATE)
-                .getString("user type","");
-        if(filteredCoursePosts.get(position).voteable){
-            if (userType.equals("Student")){
-                if(!(currentPost.userVote == CoursePost.UserVote.UNDECIDED
-                        || currentPost.voteStatus) )
+        //show or disable vote button
+        String userType = databaseViewModel.getUser().userType;
+        if(currentPost.voteable){
+            if (userType.equals("Instructor")){
+                holder.voteButton.setVisibility(View.GONE);
+            }
+            else {
+                if(currentPost.userVote != CoursePost.UserVote.UNDECIDED)
                     holder.voteButton.setVisibility(View.GONE);
                 else{
                     holder.voteButton.setOnClickListener(new View.OnClickListener() {
@@ -152,12 +151,22 @@ implements Filterable{
                             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                                 @Override
                                 public boolean onMenuItemClick(MenuItem item) {
+                                    CoursePost votedPost = new CoursePost(currentPost.postID
+                                            ,currentPost.message,currentPost.timeSent,currentPost.sentBy
+                                            ,currentPost.hasAttachment,currentPost.voteable,currentPost.userVote
+                                            ,currentPost.totalVotes);
                                     switch (item.getItemId()) {
                                         case R.id.vote_up:
-                                            //handle menu1 click
+                                            databaseViewModel
+                                                    .voteOnPost(votedPost
+                                                            , CoursePost.UserVote.FOR);
+                                            notifyDataSetChanged();
                                             break;
                                         case R.id.vote_down:
-                                            //handle menu2 click
+                                            databaseViewModel
+                                                    .voteOnPost(votedPost
+                                                            , CoursePost.UserVote.AGAINST);
+                                            notifyDataSetChanged();
                                             break;
                                     }
                                     return false;
@@ -169,11 +178,17 @@ implements Filterable{
                     });
                 }
             }
-            else holder.voteButton.setVisibility(View.GONE);
+        }
+        else holder.voteButton.setVisibility(View.GONE);
+
+
+        //show totalvotes
+        if (currentPost.totalVotes == 0){
+            holder.totalVotes.setVisibility(View.GONE);
         }
         else {
-            holder.voteButton.setVisibility(View.GONE);
-            holder.totalVotes.setVisibility(View.GONE);
+            stringBuilder = currentPost.totalVotes+"";
+            holder.totalVotes.setText(stringBuilder);
         }
 
     }

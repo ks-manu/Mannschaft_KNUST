@@ -103,6 +103,7 @@ public class SignInActivity extends AppCompatActivity {
                     .putString("first name" , "Jeff")
                     .putString("last name", "Yankee")
                     .putString("title", "Mr.")
+                    .putString("token", "akdlsfdfdj")
                     .apply();
         }
         else if (userIDInput.getText().toString().equals("4129415")
@@ -113,8 +114,10 @@ public class SignInActivity extends AppCompatActivity {
                     .putString("last name", "Maazu")
                     .putString("programme(year)", "Computer(3)")
                     .putString("college", "Engineering")
+                    .putString("token", "akdlsfdfdj")
                     .apply();
         }
+        else return;
 
         startActivity(new Intent(this, MainActivity.class));
         finish();

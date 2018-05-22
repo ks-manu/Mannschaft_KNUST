@@ -162,7 +162,7 @@ function getPolls(session_token, message_id, response, dbConn, fs){
 
 function getPosts(token, session, time, response, dbConn, fs){
     var nPostsQuery = 'SELECT * FROM '+session+' WHERE Time_sent > '+time+';';
-    var allPostsQuery = 'SELECT * FROM '+course_code+';';
+    var allPostsQuery = 'SELECT * FROM '+session+';';
     
     switch(time){
         case "all":

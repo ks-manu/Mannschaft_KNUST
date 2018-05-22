@@ -3,7 +3,7 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom'
 import Login from './Login';
 import Main from './Main'
 import ViewPost from './ViewPost';
-import AddPost from './AddPost';
+//import AddPost from './AddPost';
 import ChangeTime from './ChangeTime';
 import ChangeVenue from './ChangeVenue';
 import Timetable from './Timetable';
@@ -15,7 +15,7 @@ export default class PageRouter extends Component{
     render(){
         return(
                 
-                <BrowserRouter>
+                <BrowserRouter>    
                     <Switch>
                         <Route exact path="/" component={Login} />
                         <Route exact path="/main" component={Main} />

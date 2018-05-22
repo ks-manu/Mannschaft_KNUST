@@ -93,7 +93,7 @@ export default class Timetable extends Component {
         itemTouchSendsClick={false}
         stackItems
         itemHeightRatio={0.75}
-        showCursorLine
+        showCursorLine={false}
         canMove={true}
         canResize={true}
         defaultTimeStart={defaultTimeStart}

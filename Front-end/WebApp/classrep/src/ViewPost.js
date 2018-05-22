@@ -30,7 +30,7 @@ const styles = {
 export default class ViewPost extends Component{
   componentWillMount(){
     this.setState({
-      posts:PostDetails,
+      Posts:PostDetails,
     })
   }
   
@@ -39,14 +39,17 @@ export default class ViewPost extends Component{
   newPost=(e)=>{
     e.preventDefault();
    
-     const posts=this.state.posts;
-     const newId=posts[posts.length-1].Post_ID+1;
+     
+    
+    
+    const Posts=this.state.Posts;
+     const newId=Posts[Posts.length-1].Post_ID+1;
      this.setState({
-      posts:posts.concat({
+      Posts:Posts.concat({
         Post_ID: newId,
-        Message:document.getElementById('Message').value,
-        votable:document.getElementById('votable').value,
-        attachment: document.getElementById('attachment').value,
+        Message:this.state.Message,
+        votable:this.state.votable,
+        attachment: this.state.attachment,
         })
 
         
@@ -55,8 +58,9 @@ export default class ViewPost extends Component{
         
         
     });
-
+  
     document.getElementById('Message').value='';
+    
     // document.getElementById('votable').value='off';
     // document.getElementById('attachment').value='off'
     
@@ -68,22 +72,37 @@ console.log(document.getElementById('attachment').value);
      
    
   }
+
+  
   
   handleSubmit=(event)=>{
     event.preventDefault();
     console.log('test');
 
     console.log(document.getElementById('Message').value);
+    console.log(document.getElementById('votable').value)
+    
 
   }
  
+  
+  //Change votable checkbox from on or off to Y or N
   ChangeVotable=(event)=>{
     document.getElementById('votable').value==="on"?document.getElementById('votable').value='Y':document.getElementById('votable').value='N';
   }
   
+
+
+  //Change attachment checkbox from on or off to Y or N
   ChangeAttachment=(event)=>{
     document.getElementById('attachment').value==="on"?document.getElementById('attachment').value='Y':document.getElementById('attachment').value='N';
   }
+
+  
+
+
+
+  
   render(){
   return(
     <div>      
@@ -95,9 +114,7 @@ console.log(document.getElementById('attachment').value);
           
           <TextField multiLine={false} rows={6} 
           fullWidth="true" rowsMax={10} floatingLabelText="Message" 
-          id='Message'
-          ref='message'
-          />
+          id='Message' onChange={e => this.setState({Message: e.target.value})}/>
           <br/>
            
           <div > 
@@ -106,8 +123,7 @@ console.log(document.getElementById('attachment').value);
               labelPosition="left"
               style={styles.checkbox}
               id="votable"
-              onClick={this.ChangeVotable}
-            />
+              onChange={e => this.setState({attachment: e.target.value})}/>
           </div>  
             
             
@@ -117,8 +133,8 @@ console.log(document.getElementById('attachment').value);
               labelPosition="left"
               style={styles.checkbox}
               id="attachment"
-              onClick={this.ChangeAttachment}
-            />
+              onChange={e => this.setState({attachment: e.target.value})}
+              onClick={this.ChangeAttachment}/>
             
           </div>
           
@@ -130,7 +146,7 @@ console.log(document.getElementById('attachment').value);
         </form>  
       </Paper> 
      
-      {this.state.posts.map(info=>
+      {this.state.Posts.map(info=>
          <Post key={info.Post_ID} {...info}/>
     
       )}

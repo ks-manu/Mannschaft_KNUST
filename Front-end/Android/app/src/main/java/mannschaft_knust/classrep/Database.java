@@ -68,10 +68,10 @@ public abstract class Database extends RoomDatabase {
             //load course posts
             databaseDao.insertCoursePost(new CoursePost("Autotronics(COE265)","a message in autotronics",
                    null,"Mr. Yankee",
-                            true,true,true, CoursePost.UserVote.UNDECIDED,15));
+                            true,true, CoursePost.UserVote.UNDECIDED,15));
             databaseDao.insertCoursePost(new CoursePost("Software(COE265)","a message in software",
                     null,"Mr. Yankee",
-                    true,true,true, CoursePost.UserVote.UNDECIDED,15));
+                    true,true, CoursePost.UserVote.UNDECIDED,15));
             return null;
         }
     }
