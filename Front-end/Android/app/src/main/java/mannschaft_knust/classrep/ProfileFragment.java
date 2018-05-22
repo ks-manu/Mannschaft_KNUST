@@ -1,13 +1,10 @@
 package mannschaft_knust.classrep;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -25,11 +22,11 @@ import android.widget.Toast;
 
 import java.util.Comparator;
 
+//todo: update bio
 public class ProfileFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
     DatabaseViewModel databaseViewModel;
     User user;
-    ProfileFragment thisProfileFragment = this;
 
     //string comparator for sorting array adapter(for both college and programme spinners)
     private Comparator<CharSequence> stringComparator = new Comparator<CharSequence>(){
@@ -99,20 +96,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //clear all in user preference
-                getActivity().getSharedPreferences("mannschaft_knust.classrep.USER_PREF",
-                        Context.MODE_PRIVATE).edit().clear().apply();
-
-                //delete all in database
-                DatabaseViewModel databaseViewModel = ViewModelProviders.of(getActivity())
-                        .get(DatabaseViewModel.class);
-                databaseViewModel.deleteAll();
-
-                //load sign in activity and finish main activity
-                Intent signInIntent = new Intent(getActivity(), SignInActivity.class);
-                startActivity(signInIntent);
-                getActivity().finish();
+                signOut();
             }
         });
 
@@ -173,5 +157,21 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
 
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
+    }
+
+    public void signOut(){
+        //clear all in user preference
+        getActivity().getSharedPreferences("mannschaft_knust.classrep.USER_PREF",
+                Context.MODE_PRIVATE).edit().clear().apply();
+
+        //delete all in database
+        DatabaseViewModel databaseViewModel = ViewModelProviders.of(getActivity())
+                .get(DatabaseViewModel.class);
+        databaseViewModel.deleteAll();
+
+        //load sign in activity and finish main activity
+        Intent signInIntent = new Intent(getActivity(), SignInActivity.class);
+        startActivity(signInIntent);
+        getActivity().finish();
     }
 }

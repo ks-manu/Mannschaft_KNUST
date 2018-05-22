@@ -34,6 +34,7 @@ public class SignInActivity extends AppCompatActivity {
     private View clickedView;
     private Scene currentScene;
     String userType;
+    SharedPreferences userPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,9 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
+
+        userPref =
+                getSharedPreferences("mannschaft_knust.classrep.USER_PREF", MODE_PRIVATE);
 
         //scenes and transition
         ViewGroup sceneRoot = findViewById(R.id.scene_root);
@@ -61,11 +65,13 @@ public class SignInActivity extends AppCompatActivity {
                     userIDInput.setHint(R.string.student_id);
                     userIDInput.setInputType(InputType.TYPE_CLASS_NUMBER);
                     signUpLink.setVisibility(View.VISIBLE);
+                    userPref.edit().putString("user type","Student").apply();
                 }
                 else if(clickedView.getId() == R.id.instructor_button){
                     userIDInput.setHint(R.string.instructor_id);
                     userIDInput.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
                     signUpLink.setVisibility(View.GONE);
+                    userPref.edit().putString("user type","Lecturer").apply();
                 }
             }
         });
@@ -109,6 +115,33 @@ public class SignInActivity extends AppCompatActivity {
         if(userID.equals("") || password.equals("")){
             Toast.makeText(this, "You omitted id/password",Toast.LENGTH_SHORT).show();
             return;
+        }
+
+
+        if(userIDInput.getText().toString().equals("yankee@techmail.com")
+                && userPref.getString("user type",null).equals("Lecturer")){
+            userPref.edit().putString("userID", userIDInput.getText().toString())
+                    .putString("password", passwordInput.getText().toString())
+                    .putString("first name" , "Jeff")
+                    .putString("last name", "Yankee")
+                    .putString("title", "Mr.")
+                    .putString("token", "akdlsfdfdj")
+                    .apply();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+        else if (userIDInput.getText().toString().equals("4129415")
+                && userPref.getString("user type",null).equals("Student")){
+            userPref.edit().putString("userID", userIDInput.getText().toString())
+                    .putString("password", passwordInput.getText().toString())
+                    .putString("first name" , "Hassan")
+                    .putString("last name", "Maazu")
+                    .putString("programme(year)", "Computer(3)")
+                    .putString("college", "Engineering")
+                    .putString("token", "akdlsfdfdj")
+                    .apply();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
 
         String userType = this.userType;

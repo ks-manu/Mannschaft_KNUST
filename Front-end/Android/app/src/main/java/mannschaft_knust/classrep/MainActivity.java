@@ -27,7 +27,6 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import java.util.List;
 
-//todo: make app force portrait mode
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView navigation;
