@@ -15,6 +15,10 @@ class Timetable extends Component {
              
              cellWidth = {100}
              eventHeight = {100}
+                 businessBeginsHour = {8}
+             businessEndsHour = {18}
+             showNonBusiness = {false}
+
                     resources = {[
                     {name: "Monday", id: "A"},
                     {name: "Tuesday", id: "B"},
