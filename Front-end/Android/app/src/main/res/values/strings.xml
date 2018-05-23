@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ClassRep</string>
     <string name="student">Student</string>
-    <string name="instructor">Instructor</string>
+    <string name="lecturer">Lecturer</string>
     <string name="profile">Profile</string>
     <string name="or">or</string>
     <string name="sign_in">Sign In</string>

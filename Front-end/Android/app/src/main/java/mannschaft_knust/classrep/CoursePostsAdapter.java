@@ -130,9 +130,9 @@ implements Filterable{
 
 
         //show or disable vote button
-        String userType = databaseViewModel.getUser().userType;
+        String userType = databaseViewModel.getUser().getValue().userType;
         if(currentPost.voteable){
-            if (userType.equals("Instructor")){
+            if (userType.equals("Lecturer")){
                 holder.voteButton.setVisibility(View.GONE);
             }
             else {

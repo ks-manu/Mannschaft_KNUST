@@ -5,6 +5,8 @@ const paperStyle={
     textAlign:'center',
     backgroundColor:'#E0F7FA'
   }
+  export default paperStyle;
 
-export default paperStyle;
+  
+
 

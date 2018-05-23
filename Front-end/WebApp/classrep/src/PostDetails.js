@@ -1,9 +1,10 @@
 const PostDetails=[
     
 
-    { id:1,post:'First Post',upvotes:2,downvotes:13},
-    {id:2, post:'Second Post',upvotes:15,downvotes:1},
-    {id:3, post:'Third Post',upvotes:8,downvotes:5},
+    { Post_ID:1,Message:'First Post',Votable:"N",Attachment:"N", SentBy:"name",TimeSent:"" },
+    {Post_ID:2, Message:'Second Post',Votable:"N",Attachment:"N", SentBy:"name",TimeSent:""},
+    {Post_ID:3, Message:'Third Post',Votable:"N",Attachment:"N", SentBy:"name",TimeSent:""},
+    {Post_ID:4,Message:'Hello My people',Votable:"N",Attachment:"N", SentBy:"name",TimeSent:""}
     ];
 
 

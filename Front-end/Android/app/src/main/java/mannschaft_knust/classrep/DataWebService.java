@@ -2,20 +2,26 @@ package mannschaft_knust.classrep;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface DataWebService {
    //SignIn
+    @FormUrlEncoded
     @POST("users/authlib/{userType}/reqID=sign_in")
-    Call<User> signIn(@Path("token") String userType, @Body User user);
+    Call<ResponseBody> signIn(@Path("userType") String userType
+            , @Field("UserID") String userID, @Field("Password") String password);
 
     //SignOut
     @POST("users/deauthlib/{userType}/reqID={token}")
-    Call<User> signOut(@Path("token") String userType, @Path("token") String token, @Body User user);
+    Call<User> signOut(@Path("userType") String userType, @Path("token") String token, @Body String bodyToken);
 
     //signUp
     @POST("user/{userType}/reqID=sign_up")
@@ -23,7 +29,7 @@ public interface DataWebService {
 
     // Post Requests
     // Sending a post
-    @POST("data/systlab/post/reqID={token}")
+    @POST("data/systlab/Post/reqID={token}")
     Call<CoursePost> sendCoursePost(@Path("token") String token, @Body CoursePost coursePost);
     // Send courseSession
     @POST("data/systlab/course/session/reqID={token}")
@@ -43,7 +49,7 @@ public interface DataWebService {
     @GET("data/share/reqID={token}/poll/{messageID}")
     Call<List<UserVote>> getPollResult(@Path("token") String token, @Path("token") String messageID);
     //get BioData
-    @GET("data/users/{userType}/share/reqID={token}")
-    Call<User> getBioData(@Path("token") String userType, @Path("token") String token);
-
+    @GET("data/users/share/reqID={token}/{userType}/{userID}")
+    Call<User> getBioData(@Path("token") String token
+            , @Path("userType") String userType,@Path("userID") String userID);
 }

@@ -3,11 +3,12 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom'
 import Login from './Login';
 import Main from './Main'
 import ViewPost from './ViewPost';
-import AddPost from './AddPost';
+//import AddPost from './AddPost';
 import ChangeTime from './ChangeTime';
 import ChangeVenue from './ChangeVenue';
 import Timetable from './Timetable';
-import viewTimetable from './viewTimetable';
+import viewTimetable from './ViewTimetable';
+import viewCourse from './viewCourse';
 
 
 
@@ -15,7 +16,7 @@ export default class PageRouter extends Component{
     render(){
         return(
                 
-                <BrowserRouter>
+                <BrowserRouter>    
                     <Switch>
                         <Route exact path="/" component={Login} />
                         <Route exact path="/main" component={Main} />
@@ -23,6 +24,7 @@ export default class PageRouter extends Component{
                         <Route exact path="/ViewPost" component={ViewPost}/>
                         <Route exact path="/changeTime" component={ChangeTime}/>
                         <Route exact path="/changeVenue" component={ChangeVenue}/>
+                        <Route exact path="/viewCourse" component={viewCourse}/>
                     </Switch>
                 </BrowserRouter>
                 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -25,6 +26,7 @@ public class CourseListFragment extends Fragment {
     RecyclerView courseListRecyclerView;
     DatabaseViewModel databaseViewModel;
     CourseListAdapter courseListAdapter;
+    CourseListFragment thisFragment = this;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +46,22 @@ public class CourseListFragment extends Fragment {
             @Override
             public void onChanged(@Nullable List<Course> courseList) {
                 courseListAdapter.updateData(courseList);
+            }
+        });
+
+        final SwipeRefreshLayout swipeRefreshLayout = v.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                databaseViewModel.getDataRepository().updateRequestCalled.observe(thisFragment, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        if(aBoolean){
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                });
+                databaseViewModel.getDataRepository().updateCourseSession();
             }
         });
 

@@ -15,10 +15,22 @@ left:0%;
 right:100%;
 bottom: 0%;
 }
+.changeTime{
+  position: absolute;
+  right:0;
+  bottom:0;
+}
+
 
 .AppBar{
-  position:fixed;
+  position: fixed!important;
+  
+  right: 0;
+  top:0;
+  float: top;
 }
+
+
 
 
 body{
@@ -29,4 +41,7 @@ body{
   background-repeat: no-repeat;
   background-size: 100%, 100%;
  background-blend-mode: lighten;
+ background-attachment:fixed;
 }
+
+

@@ -18,10 +18,4 @@ Address for timetable
 https://www.npmjs.com/package/react-calendar-timeline
 
 
-npm codes for new modules
---------------------------
-randomcolor- npm i randomcolor
-moment- npm i moment
-faker- npm i faker
-interact.js- npm i interactjs
-ReactCalendarTimeline- npm i react-calendar-timeline
+
