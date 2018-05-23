@@ -115,7 +115,7 @@ appRouter.post('/users/deauthlib/:UserType/reqID=:Token', function(request, resp
 });
 
 ///process posted messages
-appRouter.post('/data/systlab/:Token/post/:course_table', function(request, response){
+appRouter.post('/data/systlab/:Token/post/message', function(request, response){
     //extract token from URL
     if(!request.params.Token){
         var message = "\nFAILURE: No session token on Post-Store @ "+ new Date;
@@ -155,15 +155,14 @@ appRouter.post("/data/systlab/reqID=:Token/poll", function(request, response){
 //Update/Delete course session
 appRouter.post("/data/systlab/:Operation/session/reqID=:Token", function(request, response){
     //extract token from URL
-    if(!request.body.CourseCode || !request.body.StartingTime || !request.body.EndingTime || !request.body.TechMail || !request.body.Venue || !request.body.ProgrammeAndYear || !request.body.Day){
-//        response.send("Either Token or alter or both params missing");
+    if(!request.body.CourseCode || !request.body.StartingTime || !request.body.EndingTime || !request.body.Techmail || !request.body.Venue || !request.body.ProgrammeAndYear || !request.body.Day){
         fs.appendFileSync('serverlog', '\nFAILURE: Update on Course Sessions @ '+new Date+' #UnavailableParams');
         response.status('400');
         response.end();
     }
     else{
         authoriser.Authorise(request.params.Token, response, dbConn, fs);       //check session token validity
-        database.updateCourse(request.params.Token, request.params.Operation, request.body.CourseCode, request.body.StartingTime, request.body.EndingTime, request.body.TechMail, request.body.Venue, request.body.ProgrammeAndYear, request.body.Day, dbConn, fs, response);
+        database.updateCourse(request.params.Token, request.params.Operation, request.body.CourseCode, request.body.StartingTime, request.body.EndingTime, request.body.Techmail, request.body.Venue, request.body.ProgrammeAndYear, request.body.Day, request.body.OldDay, dbConn, fs, response);
     }
 });
 
