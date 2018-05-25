@@ -72,12 +72,13 @@ CREATE TABLE IF NOT EXISTS `Lecturer` (
 
 CREATE TABLE IF NOT EXISTS `Post` (
 
-  `PostID` varchar(100) NOT NULL AUTO_INCREMENT,
+  `PostID` varchar(100) NOT NULL,
   `Message` varchar(140) NOT NULL,
   `Attachment` char(1) NOT NULL,
   `Votable`  char(2) NOT NULL,
   `SentBy` text NOT NULL,
-  `TimeSent` timestamp() NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
+  `TimeSent` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY(PostID)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -107,7 +108,8 @@ CREATE TABLE IF NOT EXISTS  `Vote` (
   `PostID` varchar(25) NOT NULL,
   `IndexNumber` varchar(10) NOT NULL,
   `Vote` char(3) NOT NULL,
-  FOREIGN KEY (`PostID`) REFERENCES Posts(`PostID`)  
+  PRIMARY KEY(PostID),
+  FOREIGN KEY (`PostID`) REFERENCES Post(`PostID`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -119,7 +121,8 @@ CREATE TABLE IF NOT EXISTS  `Vote` (
 CREATE TABLE IF NOT EXISTS `Token` (
   `Token` varchar(32) NOT NULL,
   `UserID` varchar(20) NOT NULL,
-  `TimeStamp` timestamp() NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
+  `TimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `Expiry` timestamp NOT NULL,
   PRIMARY KEY (`Token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
