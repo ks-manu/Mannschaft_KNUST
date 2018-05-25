@@ -40,16 +40,14 @@ public interface DataWebService {
     //Get Requests
     //Get CoursePost
     @GET("data/post/reqID={token}/post/{messageID}/{time}")
-    Call<List<CoursePost>> getCoursePosts(@Path("token") String token,@Path("messageID") String messageID, @Path("time") String time);
+    Call<List<CoursePost>> getCoursePosts(@Path("token") String token, @Path("messageID") String messageID, @Path("time") String time);
     //Get CourseSessions
     @GET("data/course/session/reqID={token}/share/{techmailOrProgrammeAndYear}")
-    Call<List<CourseSession>> getCourseSessions(@Path("token") String token
-            ,@Path("techmailOrProgrammeAndYear") String techMailOrProgramme);
+    Call<List<CourseSession>> getCourseSessions(@Path("token") String token, @Path("techmailOrProgrammeAndYear") String techMailOrProgramme);
     //Get PollResults
     @GET("data/share/reqID={token}/poll/{messageID}")
     Call<List<UserVote>> getPollResult(@Path("token") String token, @Path("token") String messageID);
     //get BioData
     @GET("data/users/share/reqID={token}/{userType}/{userID}")
-    Call<User> getBioData(@Path("token") String token
-            , @Path("userType") String userType,@Path("userID") String userID);
+    Call<User> getBioData(@Path("token") String token, @Path("userType") String userType,@Path("userID") String userID);
 }
